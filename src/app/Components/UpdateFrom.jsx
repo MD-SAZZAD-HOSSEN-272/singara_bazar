@@ -2,9 +2,7 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 
 const cigarettePrices = {
-  Marlboro: 20,
-  GoldLeaf: 15,
-  Benson: 25,
+  Singara: 12,
 };
 
 export default function UpdateForm({ singleData, refetch, setModal }) {

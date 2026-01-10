@@ -6,9 +6,7 @@ import { useRouter } from "next/navigation";
 
 export default function OrderForm() {
   const cigarettePrices = {
-    Marlboro: 20,
-    GoldLeaf: 15,
-    Benson: 25,
+    Singara: 12,
   };
   const route = useRouter()
 
