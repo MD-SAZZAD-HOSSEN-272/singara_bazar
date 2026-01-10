@@ -77,7 +77,7 @@ export default function OrderForm() {
           {/* Cigarette Name */}
           <div className="mb-5">
             <label className="text-white text-sm mb-1 block">
-              Cigarette Name
+              Singara Name
             </label>
             <select
               className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
@@ -88,7 +88,7 @@ export default function OrderForm() {
                 setAmount(0);
               }}
             >
-              <option value="">Select cigarette</option>
+              <option value="">Select Singara</option>
               {Object.keys(cigarettePrices).map((item) => (
                 <option key={item} value={item}>
                   {item}
