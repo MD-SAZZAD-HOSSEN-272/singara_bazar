@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { oreders } from "../action/orders/Order";
 import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
 export default function OrderForm() {
   const cigarettePrices = {
@@ -9,11 +10,13 @@ export default function OrderForm() {
     GoldLeaf: 15,
     Benson: 25,
   };
+  const route = useRouter()
 
   const [employeeName, setEmployeeName] = useState("");
   const [cigaretteName, setCigaretteName] = useState("");
   const [quantity, setQuantity] = useState(""); // string
   const [amount, setAmount] = useState(0);
+  const [orderTaking, setOrderTaking] = useState(false)
 
   const handleQuantityChange = (value) => {
     // Remove leading zeros
@@ -26,6 +29,7 @@ export default function OrderForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Form reload বন্ধ করে
+    setOrderTaking(true)
 
     // সব data object এ নিয়ে আসা
     const orderData = {
@@ -46,14 +50,16 @@ export default function OrderForm() {
         showConfirmButton: false,
         timer: 1500
       });
+      route.push('order')
+      setOrderTaking(false)
     }
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+    <div className="min-h-screen flex w-full items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
       <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl p-8">
         <h2 className="text-3xl font-bold text-center text-white mb-8">
-          Cigarette Order
+          singara Order
         </h2>
         <form onSubmit={handleSubmit}>
           {/* Employee Name */}
@@ -117,7 +123,7 @@ export default function OrderForm() {
           )}
 
           <button type="submit" className="w-full py-3 rounded-xl bg-black/80 text-white font-semibold hover:bg-black transition">
-            Submit Order
+            {orderTaking ? 'Taking Order.....' : 'Submit Order'}
           </button>
         </form>
       </div>

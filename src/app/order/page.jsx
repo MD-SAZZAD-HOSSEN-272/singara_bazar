@@ -288,7 +288,7 @@ export default function OrdersPage() {
               </div>
             }
             {
-              buttonValue === 'update' && <UpdateForm singleData={singleData} refetch={refetch}></UpdateForm>
+              buttonValue === 'update' && <UpdateForm singleData={singleData} setModal={setModal} refetch={refetch}></UpdateForm>
             }
           </div>
         </div>

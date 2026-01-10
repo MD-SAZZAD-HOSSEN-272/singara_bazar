@@ -7,6 +7,8 @@ export async function PUT(req, { params }) {
     const { id } = await params;
     const body = await req.json();
 
+    console.log(id, body)
+
     const ordersCollection = await dbConnect("orders");
 
     const result = await ordersCollection.updateOne(

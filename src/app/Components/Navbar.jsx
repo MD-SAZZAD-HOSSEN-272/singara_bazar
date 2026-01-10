@@ -11,7 +11,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0 text-white font-bold text-2xl">
-            CigOrder
+            SingaraOrder
           </div>
 
           {/* Desktop Menu */}
@@ -19,7 +19,7 @@ export default function Navbar() {
             <Link href="/" className="hover:text-yellow-300 transition">
               Home
             </Link>
-            <Link href="sazzad" className="hover:text-yellow-300 transition">
+            <Link href="order" className="hover:text-yellow-300 transition">
               Orders
             </Link>
             <Link href="#" className="hover:text-yellow-300 transition">

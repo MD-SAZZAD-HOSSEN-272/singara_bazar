@@ -7,7 +7,7 @@ const cigarettePrices = {
   Benson: 25,
 };
 
-export default function UpdateForm({ singleData, refetch, onClose }) {
+export default function UpdateForm({ singleData, refetch, setModal }) {
   const [employeeName, setEmployeeName] = useState("");
   const [cigaretteName, setCigaretteName] = useState("");
   const [quantity, setQuantity] = useState("");
@@ -31,7 +31,8 @@ export default function UpdateForm({ singleData, refetch, onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`/api/updateOrder/${singleData._id}`, {
+        console.log(singleData)
+      const res = await fetch(`/api/updatedOrder/${singleData._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -46,7 +47,7 @@ export default function UpdateForm({ singleData, refetch, onClose }) {
       if (data.modifiedCount === 1) {
         Swal.fire("Updated!", "Order updated successfully", "success");
         refetch();
-        onClose();
+        setModal(false)
       }
     } catch (err) {
       Swal.fire("Error", err.message, "error");
