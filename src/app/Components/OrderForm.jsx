@@ -30,6 +30,27 @@ export default function OrderForm() {
     setOrderTaking(true)
 
     // সব data object এ নিয়ে আসা
+    if (quantity < 1 || quantity > 5) {
+      setOrderTaking(false)
+      return Swal.fire({
+        title: "Quantity must be between 1 and 5",
+        showClass: {
+          popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+      `
+        },
+        hideClass: {
+          popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+      `
+        }
+      });
+    }
+
     const orderData = {
       employeeName,
       cigaretteName,
