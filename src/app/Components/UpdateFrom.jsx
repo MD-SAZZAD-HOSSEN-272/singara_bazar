@@ -86,7 +86,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
         {/* Cigarette */}
         <div>
           <label className="text-sm font-semibold text-white/90">
-            Cigarette
+            Singara
           </label>
           <select
             value={cigaretteName}
@@ -100,7 +100,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
               text-white focus:outline-none focus:ring-2 focus:ring-white/60"
             required
           >
-            <option value="" className="text-black">Select cigarette</option>
+            <option value="" className="text-black">Select Singara</option>
             {Object.keys(cigarettePrices).map((item) => (
               <option key={item} value={item} className="text-black">
                 {item} (৳ {cigarettePrices[item]})
