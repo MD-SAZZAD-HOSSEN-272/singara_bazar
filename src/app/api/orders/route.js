@@ -7,7 +7,6 @@ export async function GET() {
   try {
     const ordersCollection = await dbConnect("orders");
     const orders = await ordersCollection.find({}).toArray();
-
     return NextResponse.json(orders);
   } catch (error) {
     return NextResponse.json(

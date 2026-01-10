@@ -2,15 +2,27 @@
 
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
+import Swal from "sweetalert2";
+import UpdateForm from "../Components/UpdateFrom";
 
 async function fetchOrders() {
   const res = await fetch("/api/orders");
+  console.log(res)
   if (!res.ok) throw new Error("Failed to fetch orders");
-  return res.json();
+  return await res.json();
 }
 
+
+
 export default function OrdersPage() {
-  const { data, isLoading, error } = useQuery({
+
+  const [modal, setModal] = useState(null)
+
+  const [singleData, setSinglData] = useState({})
+  const [buttonValue, setButtonValue] = useState('')
+
+
+  const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["orders"],
     queryFn: fetchOrders,
   });
@@ -22,17 +34,26 @@ export default function OrdersPage() {
   const [filteredOrders, setFilteredOrders] = useState([]);
 
   // Filter orders by selected date
+
+
   useEffect(() => {
-    if (data?.length > 0) {
-      const filtered = data.filter(order => {
-        const orderDay = new Date(order.date).toISOString().split("T")[0];
-        return orderDay === selectedDate;
-      });
-      setFilteredOrders(filtered);
-    } else {
+    if (!Array.isArray(data)) {
       setFilteredOrders([]);
+      return;
     }
-  }, [selectedDate, data]);
+
+    const filtered = data.filter((order) => {
+      if (!order?.date) return false;
+
+      const d = new Date(order.date);
+      if (isNaN(d.getTime())) return false;
+
+      const orderDay = d.toISOString().split("T")[0];
+      return orderDay === selectedDate;
+    });
+
+    setFilteredOrders(filtered);
+  }, [data, selectedDate]);
 
   // Today button handler
   const handleTodayClick = () => {
@@ -41,16 +62,71 @@ export default function OrdersPage() {
   };
 
   // Dummy handlers for buttons (replace with actual functions)
-  const handleDetails = (order) => console.log("Details:", order);
-  const handleUpdate = (order) => console.log("Update:", order);
-  const handleDelete = (id) => console.log("Delete:", id);
+  const handleDetails = (order, buttonValue) => {
+    setSinglData({})
+    setModal(true)
+    setButtonValue(buttonValue)
+    setSinglData(order)
+  };
+
+
+  const handleUpdate = (order, buttonValue) => {
+    setButtonValue('')
+    setSinglData({})
+    setModal(true)
+    setButtonValue(buttonValue)
+    setSinglData(order)
+  };
+
+  const handleDelete = async (id) => {
+    const swalResult = await Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    });
+
+    if (!swalResult.isConfirmed) return;
+
+    try {
+      const res = await fetch(`/api/${id}`, {
+        method: "DELETE",
+      });
+
+      if (!res.ok) {
+        throw new Error("Delete request failed");
+      }
+
+      const data = await res.json(); // ✅ এখানেই deletedCount আছে
+
+      if (data.deletedCount !== 1) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "Order has been deleted.",
+          icon: "success",
+        });
+      }
+
+      refetch(); // react-query refetch
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: error.message,
+        icon: "error",
+      });
+    }
+  };
+
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-[#9b5cff] via-[#c84bdc] to-[#ff4fa3]">
-      
+    <div className="min-h-screen bg-gradient-to-r from-[#9b5cff] via-[#c84bdc] to-[#ff4fa3] relative">
+
       {/* Page Container */}
       <div className="max-w-7xl mx-auto px-4 pt-20 pb-16">
-        
+
         {/* Header */}
         <div className="mb-8 text-center text-white">
           <h1 className="text-4xl font-extrabold tracking-tight">📦 Orders</h1>
@@ -120,7 +196,7 @@ export default function OrdersPage() {
                 {/* Content */}
                 <div className="relative z-10 p-6 transition-colors duration-500
                                 group-hover:text-white flex flex-col h-full">
-                  
+
                   {/* Top */}
                   <div className="flex justify-between items-center mb-4">
                     <h2 className="text-lg font-semibold">
@@ -153,7 +229,7 @@ export default function OrdersPage() {
                       className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-white/90 text-gray-800
                                  hover:bg-white hover:scale-105 cursor-pointer transition"
-                      onClick={() => handleDetails(order)}
+                      onClick={() => handleDetails(order, 'details')}
                     >
                       Details
                     </button>
@@ -162,7 +238,7 @@ export default function OrdersPage() {
                       className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-yellow-400 text-black
                                  hover:bg-yellow-300 hover:scale-105 cursor-pointer transition"
-                      onClick={() => handleUpdate(order)}
+                      onClick={() => handleUpdate(order, 'update')}
                     >
                       Update
                     </button>
@@ -171,7 +247,7 @@ export default function OrdersPage() {
                       className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-red-500 text-white
                                  hover:bg-red-600 hover:scale-105 cursor-pointer transition"
-                      onClick={() => handleDelete(order._id)}
+                      onClick={() => handleDelete(order._id, 'delete')}
                     >
                       Delete
                     </button>
@@ -192,6 +268,31 @@ export default function OrdersPage() {
         )}
 
       </div>
+      {
+        modal && <div className="w-[50%] z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 rounded-xl" style={{
+        background: "linear-gradient(135deg, #f050b3, #a05bfc)",
+      }}>
+          <div className="w-full h-full relative">
+            <button onClick={() => setModal(false)} className="absolute to-1 z-10 right-1 text-white cursor-pointer">
+              Close
+            </button>
+            {
+              buttonValue === 'details' && <div>
+                <h2 className="text-2xl font-bold mb-4">Order Details</h2>
+                <p>👤 Employee: {singleData.employeeName}</p>
+                <p>🚬 Cigarette: {singleData.cigaretteName}</p>
+                <p>📦 Quantity: {singleData.quantity}</p>
+                <p>💵 Amount: ৳ {singleData.amount}</p>
+                <p>📅 Date: {new Date(singleData.date).toLocaleString()}</p>
+                <p>🆔 Order ID: {singleData._id}</p>
+              </div>
+            }
+            {
+              buttonValue === 'update' && <UpdateForm singleData={singleData} refetch={refetch}></UpdateForm>
+            }
+          </div>
+        </div>
+      }
     </div>
   );
 }
