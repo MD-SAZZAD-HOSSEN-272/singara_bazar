@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { users } from "../api/auth/route";
 
 
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../Components/firebase";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 
 
@@ -16,6 +17,7 @@ export default function LoginForm({ onLogin }) {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const route = useRouter()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,12 +29,26 @@ export default function LoginForm({ onLogin }) {
 
         const userData = { name, email, password };
 
-        
+
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 // Signed up 
                 const user = userCredential.user;
-                console.log(user)
+
+
+                updateProfile(auth.currentUser, {
+                    displayName: name,
+                }).then(() => {
+                    route.push('/')
+                    console.log(user)
+                }).catch((error) => {
+                    // An error occurred
+                    // ...
+                });
+
+
+
+
                 // ...
             })
             .catch((error) => {
@@ -45,7 +61,7 @@ export default function LoginForm({ onLogin }) {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#f050b3] to-[#a05bfc]">
             <div className="w-full max-w-md bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-10 shadow-xl">
-                <h1 className="text-3xl font-bold text-white mb-6 text-center">🔐 Login</h1>
+                <h1 className="text-3xl font-bold text-white mb-6 text-center">🔐 Register Now</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
                     {/* Name */}
@@ -89,13 +105,13 @@ export default function LoginForm({ onLogin }) {
                         type="submit"
                         className="w-full py-3 mt-3 rounded-2xl bg-gradient-to-r from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform"
                     >
-                        Login
+                        Sign up
                     </button>
                 </form>
 
-                <p className="mt-6 text-white/70 text-center text-sm">
-                    Don't have an account? <span className="underline cursor-pointer">Sign up</span>
-                </p>
+                <Link href='login' className="mt-8 text-white/70 text-center text-sm">
+                    Already have an account? <span className="underline cursor-pointer">Login</span>
+                </Link>
             </div>
         </div>
     );

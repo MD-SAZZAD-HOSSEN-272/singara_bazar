@@ -1,9 +1,40 @@
 "use client";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import Link from "next/link";
 import { useState } from "react";
+import { auth } from "./firebase";
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null)
+  const route = useRouter()
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      setCurrentUser(user)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+
+  const handleLogout = () => {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      console.log('logout successfully')
+      route.push('login')
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+
+  console.log(currentUser)
+
 
   return (
     <nav className="w-full fixed top-0 left-0 bg-white/20 backdrop-blur-lg border-b border-white/30 z-50">
@@ -13,22 +44,31 @@ export default function Navbar() {
           <div className="flex-shrink-0 text-white font-bold text-2xl">
             SingaraOrder
           </div>
-
           {/* Desktop Menu */}
-          <div className="hidden md:flex space-x-6 text-white font-semibold">
-            <Link href="/" className="hover:text-yellow-300 transition">
-              Home
-            </Link>
-            <Link href="order" className="hover:text-yellow-300 transition">
-              Orders
-            </Link>
-            <Link href="#" className="hover:text-yellow-300 transition">
-              Employees
-            </Link>
-            <Link href="#" className="hover:text-yellow-300 transition">
-              Reports
-            </Link>
-          </div>
+          {
+            currentUser ? (<div className="hidden md:flex space-x-6 text-white font-semibold">
+              <Link href="/" className="hover:text-yellow-300 transition">
+                Home
+              </Link>
+              <Link href="order" className="hover:text-yellow-300 transition">
+                Orders
+              </Link>
+              <Link href="#" className="hover:text-yellow-300 transition">
+                Employees
+              </Link>
+              <Link href="#" className="hover:text-yellow-300 transition">
+                Reports
+              </Link>
+              <Link onClick={handleLogout} href="#" className="hover:text-yellow-300 transition">
+                Logout
+              </Link>
+
+            </div>) : (
+              <div className="hidden md:flex space-x-6 text-white font-semibold">
+                <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
+              </div>
+            )
+          }
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
@@ -74,30 +114,30 @@ export default function Navbar() {
         {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden mt-2 space-y-2 px-2 pb-4 text-white font-semibold">
-            <Link
-              href="#"
-              className="block py-2 px-3 rounded hover:bg-white/20 transition"
-            >
-              Home
-            </Link>
-            <Link
-              href="#"
-              className="block py-2 px-3 rounded hover:bg-white/20 transition"
-            >
-              Orders
-            </Link>
-            <Link
-              href="#"
-              className="block py-2 px-3 rounded hover:bg-white/20 transition"
-            >
-              Employees
-            </Link>
-            <Link
-              href="#"
-              className="block py-2 px-3 rounded hover:bg-white/20 transition"
-            >
-              Reports
-            </Link>
+            {
+              currentUser ? (<div className="hidden md:flex space-x-6 text-white font-semibold">
+                <Link href="/" className="hover:text-yellow-300 transition">
+                  Home
+                </Link>
+                <Link href="order" className="hover:text-yellow-300 transition">
+                  Orders
+                </Link>
+                <Link href="#" className="hover:text-yellow-300 transition">
+                  Employees
+                </Link>
+                <Link href="#" className="hover:text-yellow-300 transition">
+                  Reports
+                </Link>
+                <Link href="#" className="hover:text-yellow-300 transition">
+                  Logout
+                </Link>
+
+              </div>) : (
+                <div className="hidden md:flex space-x-6 text-white font-semibold">
+                  <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
+                </div>
+              )
+            }
           </div>
         )}
       </div>

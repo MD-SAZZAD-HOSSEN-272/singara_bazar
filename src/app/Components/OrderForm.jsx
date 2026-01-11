@@ -3,18 +3,39 @@ import { useState } from "react";
 import { oreders } from "../action/orders/Order";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase";
 
 export default function OrderForm() {
+
   const cigarettePrices = {
     Singara: 12,
   };
   const route = useRouter()
 
-  const [employeeName, setEmployeeName] = useState("");
+ 
+
   const [cigaretteName, setCigaretteName] = useState("");
   const [quantity, setQuantity] = useState(""); // string
   const [amount, setAmount] = useState(0);
   const [orderTaking, setOrderTaking] = useState(false)
+  const [currentUser, setCurrentUser] = useState(null)
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      setCurrentUser(user)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+
+  console.log(currentUser)
 
   const handleQuantityChange = (value) => {
     // Remove leading zeros
@@ -52,7 +73,8 @@ export default function OrderForm() {
     }
 
     const orderData = {
-      employeeName,
+      employeeName: currentUser?.displayName,
+      employeeEmail: currentUser?.email,
       cigaretteName,
       quantity: Number(quantity || 0),
       amount,
@@ -80,7 +102,8 @@ export default function OrderForm() {
         <h2 className="text-3xl font-bold text-center text-white mb-8">
           singara Order
         </h2>
-        <form onSubmit={handleSubmit}>
+        <h1 className="text-3xl font-bold">Hello {currentUser?.displayName}</h1>
+        <form onSubmit={handleSubmit} className="mt-5">
           {/* Employee Name */}
           <div className="mb-5">
             <label className="text-white text-sm mb-1 block">
@@ -90,8 +113,8 @@ export default function OrderForm() {
               type="text"
               placeholder="Enter employee name"
               className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
-              value={employeeName}
-              onChange={(e) => setEmployeeName(e.target.value)}
+              value={currentUser?.displayName}
+
             />
           </div>
 

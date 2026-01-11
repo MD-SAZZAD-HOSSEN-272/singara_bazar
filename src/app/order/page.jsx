@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import UpdateForm from "../Components/UpdateFrom";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Components/firebase";
 
 async function fetchOrders() {
   const res = await fetch("/api/orders");
@@ -32,8 +34,25 @@ export default function OrdersPage() {
     new Date().toISOString().split("T")[0] // yyyy-mm-dd
   );
   const [filteredOrders, setFilteredOrders] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null)
 
   // Filter orders by selected date
+
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      setCurrentUser(user)
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
+
+  console.log(currentUser)
 
 
   useEffect(() => {
@@ -222,36 +241,53 @@ export default function OrdersPage() {
                   </div>
 
                   {/* Action Buttons */}
-                  <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+
+                  {
+                    currentUser.email === order.employeeEmail ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
                                   group-hover:opacity-100 group-hover:translate-y-0
                                   transition-all duration-500">
-                    <button
-                      className="flex-1 py-2 rounded-lg text-sm font-medium
+                      <button
+                        className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-white/90 text-gray-800
                                  hover:bg-white hover:scale-105 cursor-pointer transition"
-                      onClick={() => handleDetails(order, 'details')}
-                    >
-                      Details
-                    </button>
+                        onClick={() => handleDetails(order, 'details')}
+                      >
+                        Details
+                      </button>
 
-                    <button
-                      className="flex-1 py-2 rounded-lg text-sm font-medium
+
+
+                      <button
+                        className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-yellow-400 text-black
                                  hover:bg-yellow-300 hover:scale-105 cursor-pointer transition"
-                      onClick={() => handleUpdate(order, 'update')}
-                    >
-                      Update
-                    </button>
+                        onClick={() => handleUpdate(order, 'update')}
+                      >
+                        Update
+                      </button>
 
-                    <button
-                      className="flex-1 py-2 rounded-lg text-sm font-medium
+                      <button
+                        className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-red-500 text-white
                                  hover:bg-red-600 hover:scale-105 cursor-pointer transition"
-                      onClick={() => handleDelete(order._id, 'delete')}
-                    >
-                      Delete
-                    </button>
-                  </div>
+                        onClick={() => handleDelete(order._id, 'delete')}
+                      >
+                        Delete
+                      </button>
+                    </div> : <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                                  group-hover:opacity-100 group-hover:translate-y-0
+                                  transition-all duration-500">
+                      <button
+                        className="flex-1 py-2 rounded-lg text-sm font-medium
+                                 bg-white/90 text-gray-800
+                                 hover:bg-white hover:scale-105 cursor-pointer transition"
+                        onClick={() => handleDetails(order, 'details')}
+                      >
+                        Details
+                      </button>
+                    </div>
+                  }
+
 
                   {/* Footer */}
                   <div className="mt-4 flex justify-between text-xs opacity-70">
@@ -270,8 +306,8 @@ export default function OrdersPage() {
       </div>
       {
         modal && <div className="w-[50%] z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 rounded-xl" style={{
-        background: "linear-gradient(135deg, #f050b3, #a05bfc)",
-      }}>
+          background: "linear-gradient(135deg, #f050b3, #a05bfc)",
+        }}>
           <div className="w-full h-full relative">
             <button onClick={() => setModal(false)} className="absolute to-1 z-10 right-1 text-white cursor-pointer">
               Close

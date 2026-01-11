@@ -1,44 +1,38 @@
 "use client";
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+import Link from "next/link";
 import { useState } from "react";
 import Swal from "sweetalert2";
-import { users } from "../api/auth/route";
+import { auth } from "../Components/firebase";
+import { useRouter } from "next/navigation";
 
-
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "./firebase";
-
-
-
-
-
-export default function LoginForm({ onLogin }) {
-    const [name, setName] = useState("");
+export default function SignInForm({ onLogin }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const route = useRouter()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !email || !password) {
+
+        if (!email || !password) {
             Swal.fire("Error", "Please fill in all fields", "error");
             return;
         }
 
-        const userData = { name, email, password };
-
-        
-        createUserWithEmailAndPassword(auth, email, password)
+        signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
-                // Signed up 
+                // Signed in 
                 const user = userCredential.user;
                 console.log(user)
+                route.push('/')
                 // ...
             })
             .catch((error) => {
                 const errorCode = error.code;
                 const errorMessage = error.message;
-                // ..
+                console.log(errorCode, errorMessage)
             });
     };
 
@@ -48,17 +42,6 @@ export default function LoginForm({ onLogin }) {
                 <h1 className="text-3xl font-bold text-white mb-6 text-center">🔐 Login</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-5">
-                    {/* Name */}
-                    <div>
-                        <label className="block text-white font-semibold mb-2">Name</label>
-                        <input
-                            type="text"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="w-full px-5 py-3 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-pink-400 backdrop-blur-sm"
-                            placeholder="Type your name"
-                        />
-                    </div>
 
                     {/* Email */}
                     <div>
@@ -93,9 +76,9 @@ export default function LoginForm({ onLogin }) {
                     </button>
                 </form>
 
-                <p className="mt-6 text-white/70 text-center text-sm">
+                <Link href='register' className="mt-6 text-white/70 text-center text-sm">
                     Don't have an account? <span className="underline cursor-pointer">Sign up</span>
-                </p>
+                </Link>
             </div>
         </div>
     );
