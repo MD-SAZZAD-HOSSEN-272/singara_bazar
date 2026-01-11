@@ -167,7 +167,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
               font-semibold cursor-pointer"
         >
           {
-            updating ? 'updating.....' : 'Update'
+            updating ? 'updating.....' : 'Updated'
           }
         </button>
       </form>

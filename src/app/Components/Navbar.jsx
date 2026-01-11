@@ -39,32 +39,32 @@ export default function Navbar() {
           {/* Desktop Menu */}
           {
             currentUser ? (
-            <div className="hidden md:flex space-x-6 text-white font-semibold">
-              <Link href="/" className="hover:text-yellow-300 transition">
-                Home
-              </Link>
-              <Link href="/create_order" className="hover:text-yellow-300 transition">
-                Create A Order
-              </Link>
-              <Link href="order" className="hover:text-yellow-300 transition">
-                Orders
-              </Link>
-              <Link href="/users" className="hover:text-yellow-300 transition">
-                Employees
-              </Link>
-              <Link href="#" className="hover:text-yellow-300 transition">
-                Reports
-              </Link>
-              <Link onClick={handleLogout} href="#" className="hover:text-yellow-300 transition">
-                Logout
-              </Link>
+              <div className="hidden md:flex space-x-6 text-white font-semibold">
+                <Link href="/" className="hover:text-yellow-300 transition">
+                  Home
+                </Link>
+                <Link href="/create_order" className="hover:text-yellow-300 transition">
+                  Create A Order
+                </Link>
+                <Link href="order" className="hover:text-yellow-300 transition">
+                  Orders
+                </Link>
+                <Link href="/users" className="hover:text-yellow-300 transition">
+                  Employees
+                </Link>
+                <Link href="#" className="hover:text-yellow-300 transition">
+                  Reports
+                </Link>
+                <Link onClick={handleLogout} href="#" className="hover:text-yellow-300 transition">
+                  Logout
+                </Link>
 
-            </div>
+              </div>
             ) : (
               <div className="hidden md:flex space-x-6 text-white font-semibold">
                 <Link href="/" className="hover:text-yellow-300 transition">
-                Home
-              </Link>
+                  Home
+                </Link>
                 <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
                 <Link href="register" className="hover:text-yellow-300 transition">Register</Link>
               </div>
@@ -113,41 +113,43 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu */}
+        {/* Mobile Menu */}
         {menuOpen && (
           <div className="md:hidden mt-2 space-y-2 px-2 pb-4 text-white font-semibold">
-            {
-              currentUser ? (<div className="hidden md:flex space-x-6 text-white font-semibold">
-                <Link href="/" className="hover:text-yellow-300 transition">
+            {currentUser ? (
+              <>
+                <Link href="/" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Home
                 </Link>
-                <Link href="/create_order" className="hover:text-yellow-300 transition">
-                Create A Order
-              </Link>
-                <Link href="order" className="hover:text-yellow-300 transition">
+                <Link href="/create_order" className="block px-2 py-1 hover:text-yellow-300 transition">
+                  Create A Order
+                </Link>
+                <Link href="/order" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Orders
                 </Link>
-                <Link href="/users" className="hover:text-yellow-300 transition">
+                <Link href="/users" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Employees
                 </Link>
-                <Link href="#" className="hover:text-yellow-300 transition">
-                  Reports
-                </Link>
-                <Link href="#" className="hover:text-yellow-300 transition">
+                <Link href="#" onClick={handleLogout} className="block px-2 py-1 hover:text-yellow-300 transition">
                   Logout
                 </Link>
-
-              </div>) : (
-                <div className="hidden md:flex space-x-6 text-white font-semibold">
-                  <Link href="/" className="hover:text-yellow-300 transition">
+              </>
+            ) : (
+              <>
+                <Link href="/" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Home
                 </Link>
-                  <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
-                  <Link href="register" className="hover:text-yellow-300 transition">Register</Link>
-                </div>
-              )
-            }
+                <Link href="/login" className="block px-2 py-1 hover:text-yellow-300 transition">
+                  Login
+                </Link>
+                <Link href="/register" className="block px-2 py-1 hover:text-yellow-300 transition">
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         )}
+
       </div>
     </nav>
   );

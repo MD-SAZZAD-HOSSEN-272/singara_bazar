@@ -241,49 +241,50 @@ export default function OrdersPage() {
                   {/* Action Buttons */}
 
                   {
-                    currentUser?.email === order?.employeeEmail || currentUser?.email === 'mdsazzadhosen472@gmail.com' ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
-                                  group-hover:opacity-100 group-hover:translate-y-0
+                    currentUser?.email === order?.employeeEmail || currentUser?.email === 'mdsazzadhosen472@gmail.com' ?
+                      <div className="mt-6 flex gap-3 md:opacity-0 translate-y-4
+                                  md:group-hover:opacity-100 md:group-hover:translate-y-0
                                   transition-all duration-500">
-                      <button
-                        className="flex-1 py-2 rounded-lg text-sm font-medium
+                        <button
+                          className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-white/90 text-gray-800
                                  hover:bg-white hover:scale-105 cursor-pointer transition"
-                        onClick={() => handleDetails(order, 'details')}
-                      >
-                        Details
-                      </button>
+                          onClick={() => handleDetails(order, 'details')}
+                        >
+                          Details
+                        </button>
 
 
 
-                      <button
-                        className="flex-1 py-2 rounded-lg text-sm font-medium
+                        <button
+                          className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-yellow-400 text-black
                                  hover:bg-yellow-300 hover:scale-105 cursor-pointer transition"
-                        onClick={() => handleUpdate(order, 'update')}
-                      >
-                        Update
-                      </button>
+                          onClick={() => handleUpdate(order, 'update')}
+                        >
+                          Update
+                        </button>
 
-                      <button
-                        className="flex-1 py-2 rounded-lg text-sm font-medium
+                        <button
+                          className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-red-500 text-white
                                  hover:bg-red-600 hover:scale-105 cursor-pointer transition"
-                        onClick={() => handleDelete(order._id, 'delete')}
-                      >
-                        Delete
-                      </button>
-                    </div> : <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                          onClick={() => handleDelete(order._id, 'delete')}
+                        >
+                          Delete
+                        </button>
+                      </div> : <div className="mt-6 flex gap-3 opacity-0 translate-y-4
                                   group-hover:opacity-100 group-hover:translate-y-0
                                   transition-all duration-500">
-                      <button
-                        className="flex-1 py-2 rounded-lg text-sm font-medium
+                        <button
+                          className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-white/90 text-gray-800
                                  hover:bg-white hover:scale-105 cursor-pointer transition"
-                        onClick={() => handleDetails(order, 'details')}
-                      >
-                        Details
-                      </button>
-                    </div>
+                          onClick={() => handleDetails(order, 'details')}
+                        >
+                          Details
+                        </button>
+                      </div>
                   }
 
 
@@ -303,12 +304,19 @@ export default function OrdersPage() {
 
       </div>
       {
-        modal && <div className="w-[50%] z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 p-10 rounded-xl" style={{
+        modal && <div className="md:w-[50%] w-[80%] z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:p-10 p-4 rounded-xl" style={{
           background: "linear-gradient(135deg, #f050b3, #a05bfc)",
         }}>
           <div className="w-full h-full relative">
-            <button onClick={() => setModal(false)} className="absolute to-1 z-10 right-1 text-white cursor-pointer">
-              Close
+            <button
+              onClick={() => setModal(false)}
+              className="absolute md:top-3 top-1 md:right-3 right-1 cursor-pointer z-20 flex items-center justify-center w-10 h-10
+             bg-white/20 backdrop-blur-md text-white rounded-full
+             hover:bg-white/30 hover:text-black transition-all duration-300
+             shadow-lg hover:scale-110 focus:outline-none"
+              aria-label="Close Modal"
+            >
+              ✖
             </button>
             {
               buttonValue === 'details' && <div>
