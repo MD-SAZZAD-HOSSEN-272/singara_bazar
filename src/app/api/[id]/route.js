@@ -7,7 +7,6 @@ import { NextResponse } from "next/server";
 export async function DELETE(req, { params }) {
   try {
     const { id } = await params;
-    console.log(id)
     if (!id) {
       return NextResponse.json({ message: "Order ID is required" }, { status: 400 });
     }
@@ -21,7 +20,6 @@ export async function DELETE(req, { params }) {
 
     return NextResponse.json({ message: "Order deleted successfully" });
   } catch (error) {
-    console.error(error);
     return NextResponse.json({ message: "Failed to delete order" }, { status: 500 });
   }
 }

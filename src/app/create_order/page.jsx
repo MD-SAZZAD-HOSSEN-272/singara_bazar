@@ -35,8 +35,6 @@ export default function OrderForm() {
     }
   });
 
-  console.log(currentUser)
-
   const handleQuantityChange = (value) => {
     // Remove leading zeros
     const cleanValue = value.replace(/^0+/, "");
@@ -82,7 +80,6 @@ export default function OrderForm() {
     };
 
     const res = await oreders(orderData);
-    console.log(res)
     if (res.insertedId) {
       Swal.fire({
         position: "top-end",

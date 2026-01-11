@@ -9,7 +9,6 @@ import { auth } from "../Components/firebase";
 
 async function fetchOrders() {
   const res = await fetch("/api/orders");
-  console.log(res)
   if (!res.ok) throw new Error("Failed to fetch orders");
   return await res.json();
 }
@@ -51,8 +50,6 @@ export default function OrdersPage() {
       // ...
     }
   });
-
-  console.log(currentUser)
 
 
   useEffect(() => {

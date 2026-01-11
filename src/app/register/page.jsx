@@ -40,7 +40,6 @@ export default function LoginForm({ onLogin }) {
                     displayName: name,
                 }).then(() => {
                     route.push('/')
-                    console.log(user)
                 }).catch((error) => {
                     // An error occurred
                     // ...

@@ -29,7 +29,6 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(singleData)
       if (quantity < 1 || quantity > 5) {
         return Swal.fire({
           title: "Quantity must be between 1 and 5",

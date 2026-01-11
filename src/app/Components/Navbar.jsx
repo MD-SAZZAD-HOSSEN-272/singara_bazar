@@ -26,14 +26,11 @@ export default function Navbar() {
   const handleLogout = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
-      console.log('logout successfully')
       route.push('login')
     }).catch((error) => {
       // An error happened.
     });
   }
-
-  console.log(currentUser)
 
 
   return (
