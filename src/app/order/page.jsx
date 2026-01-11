@@ -246,7 +246,7 @@ export default function OrdersPage() {
                   {/* Action Buttons */}
 
                   {
-                    currentUser.email === order.employeeEmail || 'mdsazzadhosen472@gmai.com' ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                    currentUser.email === order.employeeEmail || currentUser.email === 'mdsazzadhosen472@gmai.com' ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
                                   group-hover:opacity-100 group-hover:translate-y-0
                                   transition-all duration-500">
                       <button
