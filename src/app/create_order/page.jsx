@@ -117,34 +117,59 @@ export default function OrderForm() {
     }
 
     return (
-        <div className="min-h-screen flex w-full items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
-            <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl p-8">
-                <h2 className="text-3xl font-bold text-center text-white mb-8">
-                    singara Order
+        <div className="relative min-h-screen flex w-full items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4 overflow-hidden">
+            {/* Floating Singara Animation */}
+            {Array.from({ length: 8 }).map((_, i) => (
+                <div
+                    key={i}
+                    className={`absolute w-16 h-16 bg-yellow-300 rounded-full shadow-lg animate-float`}
+                    style={{
+                        top: `${Math.random() * 100}%`,
+                        left: `${Math.random() * 100}%`,
+                        animationDelay: `${Math.random() * 5}s`,
+                        animationDuration: `${5 + Math.random() * 5}s`,
+                    }}
+                >
+                    <img
+                        src="https://i.ibb.co/YTd1sKk/singara.png" // ekhane singara image URL use korte paro
+                        alt="singara"
+                        className="w-full h-full object-contain"
+                    />
+                </div>
+            ))}
+
+            {/* Form Container */}
+            <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl p-8 relative z-10">
+                <h2 className="text-4xl font-extrabold text-center text-white mb-6 tracking-wide">
+                    Singara Order
                 </h2>
-                <h1 className="text-3xl font-bold">Hello {currentUser?.displayName}</h1>
-                <form onSubmit={handleSubmit} className="mt-5">
+
+                <h1 className="text-2xl font-semibold text-white mb-8 text-center">
+                    Hello, {currentUser?.displayName}
+                </h1>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
                     {/* Employee Name */}
-                    <div className="mb-5">
-                        <label className="text-white text-sm mb-1 block">
+                    <div>
+                        <label className="text-white text-sm mb-2 block font-medium">
                             Employee Name (can't change your name)
                         </label>
                         <input
                             type="text"
                             placeholder="Enter employee name"
-                            className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
+                            className="w-full rounded-2xl px-4 py-3 bg-white/90 text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-indigo-400 outline-none transition"
                             value={currentUser?.displayName}
-
+                            readOnly
                         />
                     </div>
 
-                    {/* Cigarette Name */}
-                    <div className="mb-5">
-                        <label className="text-white text-sm mb-1 block">
+                    {/* Singara Name */}
+                    <div>
+                        <label className="text-white text-sm mb-2 block font-medium">
                             Singara Name
                         </label>
                         <select
-                            className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
+                            className="w-full rounded-2xl px-4 py-3 bg-white/90 text-gray-900 font-medium focus:ring-2 focus:ring-indigo-400 outline-none transition"
                             value={cigaretteName}
                             onChange={(e) => {
                                 setCigaretteName(e.target.value);
@@ -152,7 +177,7 @@ export default function OrderForm() {
                                 setAmount(0);
                             }}
                         >
-                            <option value="" required>Select Item</option>
+                            <option value="">Select Item</option>
                             {Object.keys(cigarettePrices).map((item) => (
                                 <option key={item} value={item}>
                                     {item}
@@ -162,14 +187,16 @@ export default function OrderForm() {
                     </div>
 
                     {/* Quantity */}
-                    <div className="mb-5">
-                        <label className="text-white text-sm mb-1 block">Quantity</label>
+                    <div>
+                        <label className="text-white text-sm mb-2 block font-medium">
+                            Quantity
+                        </label>
                         <input
                             required
-                            type="text"
+                            type="number"
                             inputMode="numeric"
                             placeholder="Enter quantity"
-                            className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
+                            className="w-full rounded-2xl px-4 py-3 bg-white/90 text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-indigo-400 outline-none transition"
                             value={quantity}
                             onChange={(e) => handleQuantityChange(e.target.value)}
                         />
@@ -177,19 +204,40 @@ export default function OrderForm() {
 
                     {/* Amount */}
                     {quantity && Number(quantity) > 0 && (
-                        <div className="mb-7">
-                            <label className="text-white text-sm mb-1 block">Total Amount</label>
-                            <div className="w-full rounded-xl px-4 py-3 bg-amber-300 font-bold text-gray-900 text-lg">
+                        <div>
+                            <label className="text-white text-sm mb-2 block font-medium">
+                                Total Amount
+                            </label>
+                            <div className="w-full rounded-2xl px-4 py-3 bg-amber-400 font-bold text-gray-900 text-lg text-center shadow-md">
                                 ৳ {amount}
                             </div>
                         </div>
                     )}
 
-                    <button type="submit" className="w-full py-3 rounded-xl bg-black/80 text-white font-semibold hover:bg-black transition">
-                        {orderTaking ? 'Taking Order.....' : 'Submit Order'}
+                    <button
+                        type="submit"
+                        className="w-full py-3 rounded-2xl bg-black/80 text-white font-semibold hover:bg-black transition-all duration-300 shadow-lg"
+                    >
+                        {orderTaking ? 'Taking Order...' : 'Submit Order'}
                     </button>
                 </form>
             </div>
+
+            {/* CSS Animation */}
+            <style jsx>{`
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(10deg); }
+      100% { transform: translateY(0) rotate(-10deg); }
+    }
+    .animate-float {
+      animation-name: float;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+    }
+  `}</style>
         </div>
+
+
     );
 }
