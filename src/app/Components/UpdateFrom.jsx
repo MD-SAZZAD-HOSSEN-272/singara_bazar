@@ -73,7 +73,6 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
           </label>
           <input
             value={employeeName}
-            onChange={(e) => setEmployeeName(e.target.value)}
             className="w-full mt-1 px-4 py-2 rounded-xl
               bg-white/20 border border-white/30
               text-white placeholder-white/70
