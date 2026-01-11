@@ -154,7 +154,7 @@ export default function OrdersPage() {
           <label className="text-white font-semibold">Select Date:</label>
           <input
             type="date"
-            className="px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-white"
+            className="px-4 py-2 rounded-lg focus:outline-none border border-white focus:ring-2 focus:ring-white"
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.target.value)}
           />
@@ -246,7 +246,7 @@ export default function OrdersPage() {
                   {/* Action Buttons */}
 
                   {
-                    currentUser.email === order.employeeEmail ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                    currentUser.email === order.employeeEmail || 'mdsazzadhosen472@gmai.com' ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
                                   group-hover:opacity-100 group-hover:translate-y-0
                                   transition-all duration-500">
                       <button
