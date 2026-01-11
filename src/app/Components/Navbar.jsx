@@ -43,7 +43,8 @@ export default function Navbar() {
           </Link>
           {/* Desktop Menu */}
           {
-            currentUser ? (<div className="hidden md:flex space-x-6 text-white font-semibold">
+            currentUser ? (
+            <div className="hidden md:flex space-x-6 text-white font-semibold">
               <Link href="/" className="hover:text-yellow-300 transition">
                 Home
               </Link>
@@ -63,8 +64,12 @@ export default function Navbar() {
                 Logout
               </Link>
 
-            </div>) : (
+            </div>
+            ) : (
               <div className="hidden md:flex space-x-6 text-white font-semibold">
+                <Link href="/" className="hover:text-yellow-300 transition">
+                Home
+              </Link>
                 <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
               </div>
             )
@@ -137,6 +142,9 @@ export default function Navbar() {
 
               </div>) : (
                 <div className="hidden md:flex space-x-6 text-white font-semibold">
+                  <Link href="/" className="hover:text-yellow-300 transition">
+                  Home
+                </Link>
                   <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
                 </div>
               )
