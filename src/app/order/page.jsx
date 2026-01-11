@@ -201,7 +201,8 @@ export default function OrdersPage() {
             {filteredOrders.map((order) => (
               <div
                 key={order._id}
-                className="group relative overflow-hidden rounded-2xl bg-black/80 
+                className="group relative overflow-hidden rounded-2xl bg-gradient-to-r 
+                             from-indigo-500 to-pink-400 
                            shadow-md hover:shadow-xl transition"
               >
                 {/* Hover Overlay */}
@@ -233,7 +234,7 @@ export default function OrdersPage() {
                   {/* Info */}
                   <div className="space-y-2 text-sm flex-1">
                     <p>
-                      🚬 Sigara: <span className="ml-1 font-medium">{order.cigaretteName}</span>
+                      🥟 Singara: <span className="ml-1 font-medium">{order.cigaretteName}</span>
                     </p>
                     <p>
                       💵 Amount: <span className="ml-1 font-semibold">৳ {order.amount}</span>
