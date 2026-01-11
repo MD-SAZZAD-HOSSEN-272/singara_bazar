@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-
-
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../Components/firebase";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { users } from "../api/auth/route";
 
 
+const fetchUserDataFromMongodb = async () => {
+    const res = await fetch('/api/get_user')
+    const result = await res.json()
+    return result
+}
 
 
 
@@ -22,50 +26,58 @@ export default function LoginForm({ onLogin }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!name || !email || !password) {
-            Swal.fire("Error", "Please fill in all fields", "error");
-            return;
+        if (!name?.trim() || !email?.trim() || !password?.trim()) {
+            return Swal.fire("Error", "Please fill in all fields", "error");
         }
 
-        const userData = { name, email, password };
+        const userData = await fetchUserDataFromMongodb()
+        console.log(userData)
 
 
-        createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed up 
-                const user = userCredential.user;
+        const existingUser = userData.find(user => user.email === email);
 
-
-                updateProfile(auth.currentUser, {
-                    displayName: name,
-                }).then(() => {
-                    Swal.fire({
-                        position: "top-end",
-                        icon: "success",
-                        title: "Your work has been saved",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                    route.push('/')
-                }).catch((error) => {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Please register first",
-                    });
-                });
-
-
-
-
-                // ...
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                // ..
+        if (existingUser) {
+            return Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "The user is already registered please Login",
             });
+        }
+
+        const fieldData = { name, email, password };
+
+        try {
+            // 1️⃣ Call your backend API
+            const res = await users(fieldData);
+            console.log(res);
+
+            // 2️⃣ Firebase Signup
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            const user = userCredential.user;
+
+            // 3️⃣ Update displayName
+            await updateProfile(user, { displayName: name });
+
+            // 4️⃣ Success
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Registration successful!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+
+            route.push("/");
+
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.message || "Something went wrong",
+            });
+        }
     };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#f050b3] to-[#a05bfc]">

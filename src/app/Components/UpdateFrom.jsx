@@ -10,6 +10,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
   const [cigaretteName, setCigaretteName] = useState("");
   const [quantity, setQuantity] = useState("");
   const [amount, setAmount] = useState(0);
+  const [updating, setUpdading] = useState(false)
 
   useEffect(() => {
     if (singleData) {
@@ -28,6 +29,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setUpdading(true)
     try {
       if (quantity < 1 || quantity > 5) {
         return Swal.fire({
@@ -62,6 +64,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
       const data = await res.json();
       if (data.modifiedCount === 1) {
         Swal.fire("Updated!", "Order updated successfully", "success");
+        setUpdading(false)
         refetch();
         setModal(false)
       }
@@ -163,7 +166,9 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
               bg-black/50 hover:bg-black/50
               font-semibold cursor-pointer"
         >
-          Update
+          {
+            updating ? 'updating.....' : 'Update'
+          }
         </button>
       </form>
     </div>

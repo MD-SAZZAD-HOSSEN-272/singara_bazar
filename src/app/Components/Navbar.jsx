@@ -1,7 +1,7 @@
 "use client";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 import { useRouter } from "next/navigation";
 
@@ -10,23 +10,18 @@ export default function Navbar() {
   const [currentUser, setCurrentUser] = useState(null)
   const route = useRouter()
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-      setCurrentUser(user)
-      // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user); // user থাকুক বা null
+    });
+
+    return () => unsubscribe(); // cleanup
+  }, []);
 
   const handleLogout = () => {
     signOut(auth).then(() => {
       // Sign-out successful.
-      route.push('login')
+      route.push('/login')
     }).catch((error) => {
       // An error happened.
     });
@@ -71,6 +66,7 @@ export default function Navbar() {
                 Home
               </Link>
                 <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
+                <Link href="register" className="hover:text-yellow-300 transition">Register</Link>
               </div>
             )
           }
@@ -146,6 +142,7 @@ export default function Navbar() {
                   Home
                 </Link>
                   <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
+                  <Link href="register" className="hover:text-yellow-300 transition">Register</Link>
                 </div>
               )
             }

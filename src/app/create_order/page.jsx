@@ -8,164 +8,188 @@ import { auth } from "../Components/firebase";
 
 export default function OrderForm() {
 
-  const cigarettePrices = {
-    Singara: 12,
-  };
-  const route = useRouter()
-
- 
-
-  const [cigaretteName, setCigaretteName] = useState("");
-  const [quantity, setQuantity] = useState(""); // string
-  const [amount, setAmount] = useState(0);
-  const [orderTaking, setOrderTaking] = useState(false)
-  const [currentUser, setCurrentUser] = useState(null)
+    const cigarettePrices = {
+        Singara: 12,
+    };
+    const route = useRouter()
 
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-      setCurrentUser(user)
-      // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
 
-  const handleQuantityChange = (value) => {
-    // Remove leading zeros
-    const cleanValue = value.replace(/^0+/, "");
-    setQuantity(cleanValue);
+    const [cigaretteName, setCigaretteName] = useState("");
+    const [quantity, setQuantity] = useState(""); // string
+    const [amount, setAmount] = useState(0);
+    const [orderTaking, setOrderTaking] = useState(false)
+    const [currentUser, setCurrentUser] = useState(null)
 
-    const price = cigarettePrices[cigaretteName] || 0;
-    setAmount(price * Number(cleanValue || 0));
-  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault(); // Form reload বন্ধ করে
-    setOrderTaking(true)
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/auth.user
+            const uid = user.uid;
+            setCurrentUser(user)
+            // ...
+        } else {
+            // User is signed out
+            // ...
+        }
+    });
 
-    // সব data object এ নিয়ে আসা
-    if (quantity < 1 || quantity > 5) {
-      setOrderTaking(false)
-      return Swal.fire({
-        title: "Quantity must be between 1 and 5",
-        showClass: {
-          popup: `
+    const handleQuantityChange = (value) => {
+        // Remove leading zeros
+        const cleanValue = value.replace(/^0+/, "");
+        setQuantity(cleanValue);
+
+        const price = cigarettePrices[cigaretteName] || 0;
+        setAmount(price * Number(cleanValue || 0));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); // Form reload বন্ধ করে
+        setOrderTaking(true)
+
+        if (!cigaretteName || !quantity) {
+            setOrderTaking(false)
+            return Swal.fire({
+                icon: "error",
+                title: "Must fill all fields",
+                showClass: {
+                    popup: `
         animate__animated
         animate__fadeInUp
         animate__faster
       `
-        },
-        hideClass: {
-          popup: `
+                },
+                hideClass: {
+                    popup: `
         animate__animated
         animate__fadeOutDown
         animate__faster
       `
+                }
+            });
         }
-      });
+
+
+        // সব data object এ নিয়ে আসা
+        if (quantity < 1 || quantity > 5) {
+            setOrderTaking(false)
+            return Swal.fire({
+                title: "Quantity must be between 1 and 5",
+                showClass: {
+                    popup: `
+        animate__animated
+        animate__fadeInUp
+        animate__faster
+      `
+                },
+                hideClass: {
+                    popup: `
+        animate__animated
+        animate__fadeOutDown
+        animate__faster
+      `
+                }
+            });
+        }
+
+        const orderData = {
+            employeeName: currentUser?.displayName,
+            employeeEmail: currentUser?.email,
+            cigaretteName,
+            quantity: Number(quantity || 0),
+            amount,
+            date: new Date()
+        };
+
+        const res = await oreders(orderData);
+        if (res.insertedId) {
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
+            route.push('order')
+            setOrderTaking(false)
+        }
     }
 
-    const orderData = {
-      employeeName: currentUser?.displayName,
-      employeeEmail: currentUser?.email,
-      cigaretteName,
-      quantity: Number(quantity || 0),
-      amount,
-      date: new Date()
-    };
+    return (
+        <div className="min-h-screen flex w-full items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
+            <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl p-8">
+                <h2 className="text-3xl font-bold text-center text-white mb-8">
+                    singara Order
+                </h2>
+                <h1 className="text-3xl font-bold">Hello {currentUser?.displayName}</h1>
+                <form onSubmit={handleSubmit} className="mt-5">
+                    {/* Employee Name */}
+                    <div className="mb-5">
+                        <label className="text-white text-sm mb-1 block">
+                            Employee Name (can't change your name)
+                        </label>
+                        <input
+                            type="text"
+                            placeholder="Enter employee name"
+                            className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
+                            value={currentUser?.displayName}
 
-    const res = await oreders(orderData);
-    if (res.insertedId) {
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Your work has been saved",
-        showConfirmButton: false,
-        timer: 1500
-      });
-      route.push('order')
-      setOrderTaking(false)
-    }
-  }
+                        />
+                    </div>
 
-  return (
-    <div className="min-h-screen flex w-full items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 p-4">
-      <div className="w-full max-w-md bg-white/20 backdrop-blur-lg border border-white/30 rounded-3xl shadow-2xl p-8">
-        <h2 className="text-3xl font-bold text-center text-white mb-8">
-          singara Order
-        </h2>
-        <h1 className="text-3xl font-bold">Hello {currentUser?.displayName}</h1>
-        <form onSubmit={handleSubmit} className="mt-5">
-          {/* Employee Name */}
-          <div className="mb-5">
-            <label className="text-white text-sm mb-1 block">
-              Employee Name (can't change your name)
-            </label>
-            <input
-              type="text"
-              placeholder="Enter employee name"
-              className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
-              value={currentUser?.displayName}
+                    {/* Cigarette Name */}
+                    <div className="mb-5">
+                        <label className="text-white text-sm mb-1 block">
+                            Singara Name
+                        </label>
+                        <select
+                            className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
+                            value={cigaretteName}
+                            onChange={(e) => {
+                                setCigaretteName(e.target.value);
+                                setQuantity("");
+                                setAmount(0);
+                            }}
+                        >
+                            <option value="" required>Select Item</option>
+                            {Object.keys(cigarettePrices).map((item) => (
+                                <option key={item} value={item}>
+                                    {item}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
 
-            />
-          </div>
+                    {/* Quantity */}
+                    <div className="mb-5">
+                        <label className="text-white text-sm mb-1 block">Quantity</label>
+                        <input
+                            required
+                            type="text"
+                            inputMode="numeric"
+                            placeholder="Enter quantity"
+                            className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
+                            value={quantity}
+                            onChange={(e) => handleQuantityChange(e.target.value)}
+                        />
+                    </div>
 
-          {/* Cigarette Name */}
-          <div className="mb-5">
-            <label className="text-white text-sm mb-1 block">
-              Singara Name
-            </label>
-            <select
-              className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
-              value={cigaretteName}
-              onChange={(e) => {
-                setCigaretteName(e.target.value);
-                setQuantity("");
-                setAmount(0);
-              }}
-            >
-              <option value="">Select Item</option>
-              {Object.keys(cigarettePrices).map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </div>
+                    {/* Amount */}
+                    {quantity && Number(quantity) > 0 && (
+                        <div className="mb-7">
+                            <label className="text-white text-sm mb-1 block">Total Amount</label>
+                            <div className="w-full rounded-xl px-4 py-3 bg-amber-300 font-bold text-gray-900 text-lg">
+                                ৳ {amount}
+                            </div>
+                        </div>
+                    )}
 
-          {/* Quantity */}
-          <div className="mb-5">
-            <label className="text-white text-sm mb-1 block">Quantity</label>
-            <input
-              type="text"
-              inputMode="numeric"
-              placeholder="Enter quantity"
-              className="w-full rounded-xl px-4 py-3 bg-white/80 text-gray-900 focus:bg-white outline-none"
-              value={quantity}
-              onChange={(e) => handleQuantityChange(e.target.value)}
-            />
-          </div>
-
-          {/* Amount */}
-          {quantity && Number(quantity) > 0 && (
-            <div className="mb-7">
-              <label className="text-white text-sm mb-1 block">Total Amount</label>
-              <div className="w-full rounded-xl px-4 py-3 bg-amber-300 font-bold text-gray-900 text-lg">
-                ৳ {amount}
-              </div>
+                    <button type="submit" className="w-full py-3 rounded-xl bg-black/80 text-white font-semibold hover:bg-black transition">
+                        {orderTaking ? 'Taking Order.....' : 'Submit Order'}
+                    </button>
+                </form>
             </div>
-          )}
-
-          <button type="submit" className="w-full py-3 rounded-xl bg-black/80 text-white font-semibold hover:bg-black transition">
-            {orderTaking ? 'Taking Order.....' : 'Submit Order'}
-          </button>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 }

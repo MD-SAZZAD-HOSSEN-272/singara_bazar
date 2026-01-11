@@ -35,21 +35,16 @@ export default function OrdersPage() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentUser, setCurrentUser] = useState(null)
 
-  // Filter orders by selected date
 
+  useEffect(() => {
+    // listener only after component mounts
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user); // safe now
+    });
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/auth.user
-      const uid = user.uid;
-      setCurrentUser(user)
-      // ...
-    } else {
-      // User is signed out
-      // ...
-    }
-  });
+    // cleanup when component unmounts
+    return () => unsubscribe();
+  }, []);
 
 
   useEffect(() => {
@@ -234,7 +229,7 @@ export default function OrdersPage() {
                       🥟 Singara: <span className="ml-1 font-medium">{order.cigaretteName}</span>
                     </p>
                     {
-                      currentUser.email === order.employeeEmail && <p className="px-3 py-1 rounded-full text-xs font-medium
+                      currentUser?.email === order?.employeeEmail && <p className="px-3 py-1 rounded-full text-xs font-medium
                                  bg-[#9b5cff] text-white
                                  group-hover:bg-white/20 group-hover:text-white">My Order</p>
                     }
@@ -246,7 +241,7 @@ export default function OrdersPage() {
                   {/* Action Buttons */}
 
                   {
-                    currentUser.email === order.employeeEmail || currentUser.email === 'mdsazzadhosen472@gmai.com' ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                    currentUser?.email === order?.employeeEmail || currentUser?.email === 'mdsazzadhosen472@gmail.com' ? <div className="mt-6 flex gap-3 opacity-0 translate-y-4
                                   group-hover:opacity-100 group-hover:translate-y-0
                                   transition-all duration-500">
                       <button
