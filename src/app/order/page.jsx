@@ -229,14 +229,19 @@ export default function OrdersPage() {
                   </div>
 
                   {/* Info */}
-                  <div className="space-y-2 text-sm flex-1">
+                  <div className="flex justify-between text-sm ">
                     <p>
                       🥟 Singara: <span className="ml-1 font-medium">{order.cigaretteName}</span>
                     </p>
-                    <p>
-                      💵 Amount: <span className="ml-1 font-semibold">৳ {order.amount}</span>
-                    </p>
+                    {
+                      currentUser.email === order.employeeEmail && <p className="px-3 py-1 rounded-full text-xs font-medium
+                                 bg-[#9b5cff] text-white
+                                 group-hover:bg-white/20 group-hover:text-white">My Order</p>
+                    }
                   </div>
+                  <p className="mt-2">
+                    💵 Amount: <span className="ml-1 font-semibold">৳ {order.amount}</span>
+                  </p>
 
                   {/* Action Buttons */}
 
@@ -314,7 +319,7 @@ export default function OrdersPage() {
               buttonValue === 'details' && <div>
                 <h2 className="text-2xl font-bold mb-4">Order Details</h2>
                 <p>👤 Employee: {singleData.employeeName}</p>
-                <p>🚬 Singara Name: {singleData.cigaretteName}</p>
+                <p>🥟 Singara Name: {singleData.cigaretteName}</p>
                 <p>📦 Quantity: {singleData.quantity}</p>
                 <p>💵 Amount: ৳ {singleData.amount}</p>
                 <p>📅 Date: {new Date(singleData.date).toLocaleString()}</p>
