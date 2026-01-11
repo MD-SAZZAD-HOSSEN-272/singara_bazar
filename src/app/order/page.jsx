@@ -316,7 +316,7 @@ export default function OrdersPage() {
               buttonValue === 'details' && <div>
                 <h2 className="text-2xl font-bold mb-4">Order Details</h2>
                 <p>👤 Employee: {singleData.employeeName}</p>
-                <p>🚬 Cigarette: {singleData.cigaretteName}</p>
+                <p>🚬 Singara Name: {singleData.cigaretteName}</p>
                 <p>📦 Quantity: {singleData.quantity}</p>
                 <p>💵 Amount: ৳ {singleData.amount}</p>
                 <p>📅 Date: {new Date(singleData.date).toLocaleString()}</p>

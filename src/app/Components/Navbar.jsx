@@ -41,9 +41,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 text-white font-bold text-2xl">
+          <Link href='/' className="flex-shrink-0 text-white font-bold text-2xl">
             SingaraOrder
-          </div>
+          </Link>
           {/* Desktop Menu */}
           {
             currentUser ? (<div className="hidden md:flex space-x-6 text-white font-semibold">
@@ -122,6 +122,9 @@ export default function Navbar() {
                 <Link href="/" className="hover:text-yellow-300 transition">
                   Home
                 </Link>
+                <Link href="/create_order" className="hover:text-yellow-300 transition">
+                Create A Order
+              </Link>
                 <Link href="order" className="hover:text-yellow-300 transition">
                   Orders
                 </Link>

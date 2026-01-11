@@ -29,7 +29,27 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-        console.log(singleData)
+      console.log(singleData)
+      if (quantity < 1 || quantity > 5) {
+        setOrderTaking(false)
+        return Swal.fire({
+          title: "Quantity must be between 1 and 5",
+          showClass: {
+            popup: `
+                animate__animated
+                animate__fadeInUp
+                animate__faster
+              `
+          },
+          hideClass: {
+            popup: `
+                animate__animated
+                animate__fadeOutDown
+                animate__faster
+              `
+          }
+        });
+      }
       const res = await fetch(`/api/updatedOrder/${singleData._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -55,7 +75,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
   return (
     <div className="w-full max-w-lg mx-auto rounded-3xl backdrop-blur-xl
       text-white overflow-hidden"
-      
+
     >
       {/* Header */}
       <div className="flex justify-between items-center px-6 py-4 border-b border-white/30">
@@ -139,14 +159,14 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
 
         {/* Buttons */}
 
-          <button
-            type="submit"
-            className="w-full py-3 mt-6 rounded-2xl
+        <button
+          type="submit"
+          className="w-full py-3 mt-6 rounded-2xl
               bg-black/50 hover:bg-black/50
               font-semibold cursor-pointer"
-          >
-            Update
-          </button>
+        >
+          Update
+        </button>
       </form>
     </div>
   );
