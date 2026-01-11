@@ -31,7 +31,6 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
     try {
       console.log(singleData)
       if (quantity < 1 || quantity > 5) {
-        setOrderTaking(false)
         return Swal.fire({
           title: "Quantity must be between 1 and 5",
           showClass: {
