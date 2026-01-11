@@ -6,11 +6,13 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { auth } from "../Components/firebase";
 import { useRouter } from "next/navigation";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function SignInForm({ onLogin }) {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const route = useRouter()
+    const [showPassword, setShowPassword] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -70,13 +72,25 @@ export default function SignInForm({ onLogin }) {
                     {/* Password */}
                     <div>
                         <label className="block text-white font-semibold mb-2">Password</label>
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="w-full px-5 py-3 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 backdrop-blur-sm"
-                            placeholder="Your password"
-                        />
+
+                        <div className="relative">
+
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="w-full px-5 py-3 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 backdrop-blur-sm"
+                                placeholder="Your password"
+                            />
+                                                    
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-white/80 hover:text-white cursor-pointer"
+                            >
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            </button>
+                        </div>
                     </div>
 
                     {/* Submit */}
