@@ -85,11 +85,6 @@ export default function HomePage() {
                 </button>
             </section>
 
-            {/* Footer */}
-            <footer className="text-center py-6 text-sm opacity-80">
-                © {new Date().getFullYear()} SingaraBazar — Made with ❤️
-            </footer>
-
         </main>
     )
 }
