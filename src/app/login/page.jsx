@@ -25,10 +25,24 @@ export default function SignInForm({ onLogin }) {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Your work has been saved",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
                 route.push('/')
                 // ...
             })
             .catch((error) => {
+                console.log('wrong', error)
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Please register first",
+                    footer: '<a href="register">Register Now</a>'
+                });
                 const errorCode = error.code;
                 const errorMessage = error.message;
             });

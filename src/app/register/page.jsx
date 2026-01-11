@@ -39,10 +39,20 @@ export default function LoginForm({ onLogin }) {
                 updateProfile(auth.currentUser, {
                     displayName: name,
                 }).then(() => {
+                    Swal.fire({
+                        position: "top-end",
+                        icon: "success",
+                        title: "Your work has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                     route.push('/')
                 }).catch((error) => {
-                    // An error occurred
-                    // ...
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Please register first",
+                    });
                 });
 
 
