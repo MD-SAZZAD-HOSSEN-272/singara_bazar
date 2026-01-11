@@ -3,12 +3,15 @@
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import UserCardSkeleton from "../Components/Skeleton/UserCardSkeleton";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Components/firebase";
 
 const ADMIN_EMAIL = 'mdsazzadhosen472@gmail.com';
 
 export default function UsersPage() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [currentUser, setCurrentUser] = useState(null)
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -25,6 +28,16 @@ export default function UsersPage() {
 
         fetchUsers();
     }, []);
+
+    useEffect(() => {
+        // listener only after component mounts
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+          setCurrentUser(user); // safe now
+        });
+    
+        // cleanup when component unmounts
+        return () => unsubscribe();
+      }, []);
 
     const handleDelete = async (id) => {
         const confirm = await Swal.fire({
@@ -96,7 +109,7 @@ export default function UsersPage() {
                         </div>
 
                         {/* 🔐 Admin Controls */}
-                        {user.email === ADMIN_EMAIL && (
+                        {currentUser.email === ADMIN_EMAIL && (
                             <div className="mt-6 flex gap-4">
                                 <button
                                     onClick={() => handleUpdate(user)}

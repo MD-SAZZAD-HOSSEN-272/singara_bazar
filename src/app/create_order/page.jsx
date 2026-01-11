@@ -131,7 +131,7 @@ export default function OrderForm() {
                     }}
                 >
                     <img
-                        src="https://i.ibb.co/YTd1sKk/singara.png" // ekhane singara image URL use korte paro
+                        src='https://ibb.co.com/Gfzvn2Kg' // ekhane singara image URL use korte paro
                         alt="singara"
                         className="w-full h-full object-contain"
                     />
@@ -222,20 +222,6 @@ export default function OrderForm() {
                     </button>
                 </form>
             </div>
-
-            {/* CSS Animation */}
-            <style jsx>{`
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-20px) rotate(10deg); }
-      100% { transform: translateY(0) rotate(-10deg); }
-    }
-    .animate-float {
-      animation-name: float;
-      animation-timing-function: ease-in-out;
-      animation-iteration-count: infinite;
-    }
-  `}</style>
         </div>
 
 
