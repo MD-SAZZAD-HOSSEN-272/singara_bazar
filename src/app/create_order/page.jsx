@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
-import { oreders } from "../action/orders/Order";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./firebase";
+import { oreders } from "../action/orders/Order";
+import { auth } from "../Components/firebase";
 
 export default function OrderForm() {
 

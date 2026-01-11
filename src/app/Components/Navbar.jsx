@@ -50,6 +50,9 @@ export default function Navbar() {
               <Link href="/" className="hover:text-yellow-300 transition">
                 Home
               </Link>
+              <Link href="/create_order" className="hover:text-yellow-300 transition">
+                Create A Order
+              </Link>
               <Link href="order" className="hover:text-yellow-300 transition">
                 Orders
               </Link>
