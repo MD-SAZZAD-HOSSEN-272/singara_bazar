@@ -104,7 +104,7 @@ export default function OrderForm() {
           {/* Employee Name */}
           <div className="mb-5">
             <label className="text-white text-sm mb-1 block">
-              Employee Name
+              Employee Name (can't change your name)
             </label>
             <input
               type="text"

@@ -87,7 +87,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
         {/* Employee */}
         <div>
           <label className="text-sm font-semibold text-white/90">
-            Employee Name
+            Employee Name (can't change your name)
           </label>
           <input
             value={employeeName}
