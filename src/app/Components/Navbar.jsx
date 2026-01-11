@@ -49,7 +49,7 @@ export default function Navbar() {
               <Link href="order" className="hover:text-yellow-300 transition">
                 Orders
               </Link>
-              <Link href="#" className="hover:text-yellow-300 transition">
+              <Link href="/users" className="hover:text-yellow-300 transition">
                 Employees
               </Link>
               <Link href="#" className="hover:text-yellow-300 transition">
@@ -126,7 +126,7 @@ export default function Navbar() {
                 <Link href="order" className="hover:text-yellow-300 transition">
                   Orders
                 </Link>
-                <Link href="#" className="hover:text-yellow-300 transition">
+                <Link href="/users" className="hover:text-yellow-300 transition">
                   Employees
                 </Link>
                 <Link href="#" className="hover:text-yellow-300 transition">
