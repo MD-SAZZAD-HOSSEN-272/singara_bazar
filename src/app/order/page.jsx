@@ -233,7 +233,7 @@ export default function OrdersPage() {
                   {/* Info */}
                   <div className="space-y-2 text-sm flex-1">
                     <p>
-                      🚬 Cigarette: <span className="ml-1 font-medium">{order.cigaretteName}</span>
+                      🚬 Sigara: <span className="ml-1 font-medium">{order.cigaretteName}</span>
                     </p>
                     <p>
                       💵 Amount: <span className="ml-1 font-semibold">৳ {order.amount}</span>

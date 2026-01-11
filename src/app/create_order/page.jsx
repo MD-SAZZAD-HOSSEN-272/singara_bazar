@@ -132,7 +132,7 @@ export default function OrderForm() {
                 setAmount(0);
               }}
             >
-              <option value="">Select Singara</option>
+              <option value="">Select Item</option>
               {Object.keys(cigarettePrices).map((item) => (
                 <option key={item} value={item}>
                   {item}

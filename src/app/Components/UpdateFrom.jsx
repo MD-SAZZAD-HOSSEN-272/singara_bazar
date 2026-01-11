@@ -118,7 +118,7 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
               text-white focus:outline-none focus:ring-2 focus:ring-white/60"
             required
           >
-            <option value="" className="text-black">Select Singara</option>
+            <option value="" className="text-black">Select Item</option>
             {Object.keys(cigarettePrices).map((item) => (
               <option key={item} value={item} className="text-black">
                 {item} (৳ {cigarettePrices[item]})
