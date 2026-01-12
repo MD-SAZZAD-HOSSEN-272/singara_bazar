@@ -45,10 +45,10 @@ export default function HomePage() {
                         Order Now
                     </Link>
 
-                    <button className="px-10 py-4 rounded-full border border-white/50 
+                    {/* <button className="px-10 py-4 rounded-full border border-white/50 
             hover:bg-white/20 hover:scale-105 transition-all duration-300">
                         Explore Menu
-                    </button>
+                    </button> */}
                 </div>
             </section>
 
@@ -79,10 +79,10 @@ export default function HomePage() {
                 <h2 className="text-4xl font-extrabold mb-6">
                     Ready for your first bite? 😋
                 </h2>
-                <button className="px-14 py-5 rounded-full bg-yellow-300 text-purple-700 font-bold
+                <Link href='order' className="px-14 py-5 rounded-full bg-yellow-300 text-purple-700 font-bold
           hover:bg-white hover:scale-110 transition-all duration-300 shadow-2xl">
                     Get Started
-                </button>
+                </Link>
             </section>
 
         </main>
