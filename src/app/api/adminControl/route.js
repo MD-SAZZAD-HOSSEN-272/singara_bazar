@@ -14,7 +14,7 @@ export const adminControl = async (isAdmin) => {
     const collection = await dbConnect('adminControl');
 
     const result = await collection.updateOne(
-      { _id: new ObjectId("696492fb7a9b669967bfcbc6") },            // fixed id for single admin doc
+      { _id: new ObjectId("6964bb68813640b7e9335cdc") },            // fixed id for single admin doc
       { $set: { isAdmin } },       // update admin state
       { upsert: false }             // create if not exists
     );
