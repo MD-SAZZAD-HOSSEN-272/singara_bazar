@@ -14,6 +14,13 @@ async function fetchOrders() {
 }
 
 
+async function fetchSummary(date) {
+  const res = await fetch(`/api/orders/summary?date=${date}`);
+  if (!res.ok) throw new Error("Failed to fetch summary");
+  return res.json();
+}
+
+
 
 export default function OrdersPage() {
 
@@ -21,12 +28,33 @@ export default function OrdersPage() {
 
   const [singleData, setSinglData] = useState({})
   const [buttonValue, setButtonValue] = useState('')
+  const [admin, setAdmin] = useState(false)
+
+
+  console.log(admin)
+
 
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["orders"],
     queryFn: fetchOrders,
   });
+
+
+
+  const handleAdmin = () => {
+    const newAdmin = !admin; // toggle value
+    setAdmin(newAdmin);      // state update
+    localStorage.setItem('sazzad', newAdmin); // localStorage এ সঠিক value
+    refetch();
+  };
+
+  useEffect(() => {
+    const adminData = localStorage.getItem('sazzad');
+    if (adminData !== null) {
+      setAdmin(adminData === 'true'); // string কে boolean এ convert
+    }
+  }, []);
 
   // State for date filtering
   const [selectedDate, setSelectedDate] = useState(
@@ -35,7 +63,7 @@ export default function OrdersPage() {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentUser, setCurrentUser] = useState(null)
 
-
+  console.log(selectedDate)
   useEffect(() => {
     // listener only after component mounts
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -45,6 +73,15 @@ export default function OrdersPage() {
     // cleanup when component unmounts
     return () => unsubscribe();
   }, []);
+
+
+  const { data: summary, isLoading: summaryLoading } = useQuery({
+    queryKey: ["summary", selectedDate],
+    queryFn: () => fetchSummary(selectedDate),
+    enabled: !!selectedDate, // 👈 important
+  });
+
+  console.log(summary)
 
 
   useEffect(() => {
@@ -135,6 +172,9 @@ export default function OrdersPage() {
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#9b5cff] via-[#c84bdc] to-[#ff4fa3] relative">
 
+
+
+
       {/* Page Container */}
       <div className="max-w-7xl mx-auto px-4 pt-20 pb-16">
 
@@ -160,6 +200,19 @@ export default function OrdersPage() {
             Today
           </button>
         </div>
+
+        {summary && (
+          <div className="flex justify-left mb-6 mt-8">
+            <div className="bg-white/20 backdrop-blur-lg rounded-xl px-10 py-5 text-white text-left shadow-lg">
+              <p className="text-xl font-bold">
+                📦 Total Quantity: {summary.totalQuantity}
+              </p>
+              <p className="text-xl font-bold mt-2">
+                💰 Total Amount: ৳ {summary.totalAmount}
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Loading */}
         {isLoading && (
@@ -241,39 +294,52 @@ export default function OrdersPage() {
                   {/* Action Buttons */}
 
                   {
-                    currentUser?.email === order?.employeeEmail || currentUser?.email === 'mdsazzadhosen472@gmail.com' ?
-                      <div className="mt-6 flex gap-3 md:opacity-0 translate-y-4
+                    admin || currentUser?.email === 'mdsazzadhosen472@gmail.com' ?
+                      currentUser?.email === order?.employeeEmail || currentUser?.email === 'mdsazzadhosen472@gmail.com' ?
+                        <div className="mt-6 flex gap-3 md:opacity-0 translate-y-4
                                   md:group-hover:opacity-100 md:group-hover:translate-y-0
                                   transition-all duration-500">
-                        <button
-                          className="flex-1 py-2 rounded-lg text-sm font-medium
+                          <button
+                            className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-white/90 text-gray-800
                                  hover:bg-white hover:scale-105 cursor-pointer transition"
-                          onClick={() => handleDetails(order, 'details')}
-                        >
-                          Details
-                        </button>
+                            onClick={() => handleDetails(order, 'details')}
+                          >
+                            Details
+                          </button>
 
 
 
-                        <button
-                          className="flex-1 py-2 rounded-lg text-sm font-medium
+                          <button
+                            className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-yellow-400 text-black
                                  hover:bg-yellow-300 hover:scale-105 cursor-pointer transition"
-                          onClick={() => handleUpdate(order, 'update')}
-                        >
-                          Update
-                        </button>
+                            onClick={() => handleUpdate(order, 'update')}
+                          >
+                            Update
+                          </button>
 
-                        <button
-                          className="flex-1 py-2 rounded-lg text-sm font-medium
+                          <button
+                            className="flex-1 py-2 rounded-lg text-sm font-medium
                                  bg-red-500 text-white
                                  hover:bg-red-600 hover:scale-105 cursor-pointer transition"
-                          onClick={() => handleDelete(order._id, 'delete')}
-                        >
-                          Delete
-                        </button>
-                      </div> : <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                            onClick={() => handleDelete(order._id, 'delete')}
+                          >
+                            Delete
+                          </button>
+                        </div> : <div className="mt-6 flex gap-3 opacity-0 translate-y-4
+                                  group-hover:opacity-100 group-hover:translate-y-0
+                                  transition-all duration-500">
+                          <button
+                            className="flex-1 py-2 rounded-lg text-sm font-medium
+                                 bg-white/90 text-gray-800
+                                 hover:bg-white hover:scale-105 cursor-pointer transition"
+                            onClick={() => handleDetails(order, 'details')}
+                          >
+                            Details
+                          </button>
+                        </div>
+                      : <div className="mt-6 flex gap-3 opacity-0 translate-y-4
                                   group-hover:opacity-100 group-hover:translate-y-0
                                   transition-all duration-500">
                         <button
@@ -286,6 +352,8 @@ export default function OrdersPage() {
                         </button>
                       </div>
                   }
+
+
 
 
                   {/* Footer */}
@@ -302,7 +370,22 @@ export default function OrdersPage() {
           </div>
         )}
 
+        {
+          currentUser?.email === 'mdsazzadhosen472@gmail.com' && <button
+            onClick={handleAdmin}
+            className={`
+                      px-4 py-2 rounded-lg font-semibold transition-colors duration-300
+                      ${admin ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-green-500 text-white hover:bg-green-600'}
+                      shadow-md hover:shadow-lg mt-5 cursor-pointer
+                      focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-400
+                    `}
+          >
+            {admin ? 'Admin Mode: ON' : 'Admin Mode: OFF'}
+          </button>
+        }
+
       </div>
+
       {
         modal && <div className="md:w-[50%] w-[80%] z-10 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 md:p-10 p-4 rounded-xl" style={{
           background: "linear-gradient(135deg, #f050b3, #a05bfc)",
@@ -333,8 +416,11 @@ export default function OrdersPage() {
               buttonValue === 'update' && <UpdateForm singleData={singleData} setModal={setModal} refetch={refetch}></UpdateForm>
             }
           </div>
+
         </div>
       }
+
+
     </div>
   );
 }
