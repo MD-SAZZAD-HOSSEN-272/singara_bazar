@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import UpdateForm from "../Components/UpdateFrom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../Components/firebase";
+import { adminControl } from "../api/adminControl/route";
 
 async function fetchOrders() {
   const res = await fetch("/api/orders");
@@ -21,6 +22,13 @@ async function fetchSummary(date) {
 }
 
 
+async function fetchAdminControl(date) {
+  const res = await fetch(`/api/getAdminControl`);
+  if (!res.ok) throw new Error("Failed to fetch summary");
+  return res.json();
+}
+
+
 
 export default function OrdersPage() {
 
@@ -28,7 +36,7 @@ export default function OrdersPage() {
 
   const [singleData, setSinglData] = useState({})
   const [buttonValue, setButtonValue] = useState('')
-  const [admin, setAdmin] = useState(false)
+  const [admin, setAdmin] = useState(null)
 
 
   console.log(admin)
@@ -42,19 +50,35 @@ export default function OrdersPage() {
 
 
 
-  const handleAdmin = () => {
+  const handleAdmin = async () => {
     const newAdmin = !admin; // toggle value
-    setAdmin(newAdmin);      // state update
-    localStorage.setItem('sazzad', newAdmin); // localStorage এ সঠিক value
-    refetch();
+    setAdmin(newAdmin);      // update state immediately
+
+    try {
+      const res = await adminControl(newAdmin); // ✅ send NEW value
+      refetch(); // refetch orders or adminControl
+    } catch (error) {
+      console.error("Admin toggle failed:", error);
+    }
   };
 
+  const { data: adminControlData } = useQuery({
+    queryKey: ["adminControl"],
+    queryFn: fetchAdminControl,
+    refetchInterval: 5000, // প্রতি 5 সেকেন্ডে fetch করবে
+  });
+
+  console.log(adminControlData)
+
   useEffect(() => {
-    const adminData = localStorage.getItem('sazzad');
-    if (adminData !== null) {
-      setAdmin(adminData === 'true'); // string কে boolean এ convert
+    if (Array.isArray(adminControlData) && adminControlData.length > 0) {
+      if (adminControlData[0]?.isAdmin !== undefined) {
+        setAdmin(adminControlData[0].isAdmin);
+      }
     }
-  }, []);
+  }, [adminControlData]);
+
+  console.log(adminControlData)
 
   // State for date filtering
   const [selectedDate, setSelectedDate] = useState(
