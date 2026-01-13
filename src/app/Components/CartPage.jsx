@@ -6,12 +6,12 @@ import { auth } from "./firebase";
 import { ClientPageRoot } from "next/dist/client/components/client-page";
 import { placeOrders } from "../api/purchases_items/route";
 
-export default function CartPage({cardPageHaldeler, realtimeParchasesData, cartData, updateCart}) {
-  
-const [currentUser, setCurrentUser] = useState(null)
+export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cartData, updateCart }) {
+
+  const [currentUser, setCurrentUser] = useState(null)
 
 
- useEffect(() => {
+  useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user); // user থাকুক বা null
     });
@@ -67,8 +67,13 @@ const [currentUser, setCurrentUser] = useState(null)
     }
 
     const res = await placeOrders(orderDataStructure)
-    const result = await res.json()
-    console.log(result)
+    if (res.insertedId) {
+      Swal.fire({
+        title: "Order Placed",
+        icon: "success",
+        draggable: true
+      });
+    }
   }
 
   return (
