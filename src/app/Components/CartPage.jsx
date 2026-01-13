@@ -2,26 +2,12 @@
 
 import { useEffect, useState } from "react";
 
-export default function CartPage({cardPageHaldeler, realtimeParchasesData}) {
-  const [cart, setCart] = useState([]);
-
-  // 🔄 Load cart from localStorage on refresh
-  useEffect(() => {
-    const storedItems = localStorage.getItem("items");
-    if (storedItems) {
-      setCart(JSON.parse(storedItems));
-    }
-  }, []);
-
-  // 💾 Update cart (state + localStorage)
-  const updateCart = (updatedCart) => {
-    setCart(updatedCart);
-    localStorage.setItem("items", JSON.stringify(updatedCart));
-  };
+export default function CartPage({cardPageHaldeler, realtimeParchasesData, cartData, updateCart}) {
+  
 
   // ➕ Increase quantity
   const increaseQuantity = (id) => {
-    const updated = cart.map((item) =>
+    const updated = cartData.map((item) =>
       item.id === id
         ? { ...item, quantity: item.quantity + 1, quantityPrice: (item.quantity + 1) * item.price }
         : item
@@ -32,7 +18,7 @@ export default function CartPage({cardPageHaldeler, realtimeParchasesData}) {
 
   // ➖ Decrease quantity (min 1)
   const decreaseQuantity = (id) => {
-    const updated = cart.map((item) =>
+    const updated = cartData.map((item) =>
       item.id === id && item.quantity > 1
         ? { ...item, quantity: item.quantity - 1, quantityPrice: (item.quantity - 1) * item.price }
         : item
@@ -43,18 +29,16 @@ export default function CartPage({cardPageHaldeler, realtimeParchasesData}) {
 
   // ❌ Delete item
   const deleteItem = (id) => {
-    const updated = cart.filter((item) => item.id !== id);
+    const updated = cartData.filter((item) => item.id !== id);
     updateCart(updated);
     realtimeParchasesData()
   };
 
   // 💰 Total price
-  const totalPrice = cart.reduce(
+  const totalPrice = cartData.reduce(
     (total, item) => total + item.price * item.quantity,
     0
   );
-
-  console.log(cart)
 
   return (
     <main className={` fixed  z-10 ${cardPageHaldeler ? 'right-0' : '-right-96'}
@@ -63,13 +47,13 @@ export default function CartPage({cardPageHaldeler, realtimeParchasesData}) {
         View Purchases
       </h1>
 
-      {cart.length === 0 ? (
+      {cartData.length === 0 ? (
         <p className="text-white text-center text-xl">
           Your cart is empty
         </p>
       ) : (
         <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
-          {cart.map((item, index) => (
+          {cartData.map((item, index) => (
             <div
               key={index}
               className="flex gap-10 items-center justify-between border-b py-4"
@@ -100,7 +84,7 @@ export default function CartPage({cardPageHaldeler, realtimeParchasesData}) {
                   −
                 </button>
 
-                <span className="font-semibold">
+                <span className="font-semibold text-black">
                   {item.quantity}
                 </span>
 

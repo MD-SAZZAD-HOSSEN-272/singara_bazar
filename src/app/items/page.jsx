@@ -56,6 +56,22 @@ export default function Home() {
     const [cardPage, setCardPage] = useState(false)
 
     const [cart, setCart] = useState([]);
+    const [cartData, setCartData] = useState([]);
+
+
+  const getPurchasesDataFromLocalStorage = () => {
+ const storedItems = localStorage.getItem("items");
+    if (storedItems) {
+      setCartData(JSON.parse(storedItems));
+    }
+  }
+
+  // 💾 Update cart (state + localStorage)
+  const updateCart = (updatedCart) => {
+    setCartData(updatedCart);
+    localStorage.setItem("items", JSON.stringify(updatedCart));
+  };
+    
 
 
     const realtimeParchasesData = () => {
@@ -69,6 +85,7 @@ export default function Home() {
     // Restore on refresh
     useEffect(() => {
         realtimeParchasesData()
+        getPurchasesDataFromLocalStorage()
     }, []);
 
 
@@ -101,6 +118,7 @@ export default function Home() {
 
             // Save to localStorage
             localStorage.setItem("items", JSON.stringify(updated));
+            getPurchasesDataFromLocalStorage()
             return updated;
         });
     };
@@ -120,7 +138,7 @@ export default function Home() {
 
             <Cart cart={cart} handleCardPage={handleCardPage}></Cart>
 
-            <CartPage cardPageHaldeler={cardPage} realtimeParchasesData={realtimeParchasesData}></CartPage>
+            <CartPage cartData={cartData} updateCart={updateCart}  cardPageHaldeler={cardPage} realtimeParchasesData={realtimeParchasesData}></CartPage>
             <h1 className="text-4xl z-20 font-bold text-white text-center mb-10">
                 Our Products
             </h1>
