@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import UserCardSkeleton from "../Components/Skeleton/UserCardSkeleton";
+import UserCardSkeleton from "../../Components/Skeleton/UserCardSkeleton";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../Components/firebase";
+import { auth } from "../../Components/firebase";
 
 const ADMIN_EMAIL = 'mdsazzadhosen472@gmail.com';
 

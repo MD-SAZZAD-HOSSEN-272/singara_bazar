@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Cart from "../Components/Cart";
-import ProductCard from "../Components/ProductCard";
-import ProductModal from "../Components/ProductModal";
-import CartPage from "../Components/CartPage";
+import Cart from "../../Components/Cart";
+import ProductCard from "../../Components/ProductCard";
+import ProductModal from "../../Components/ProductModal";
+import CartPage from "../../Components/CartPage";
 
 const products = [
     {

@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Swal from "sweetalert2";
-import UpdateForm from "../Components/UpdateFrom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../Components/firebase";
-import { adminControl } from "../api/adminControl/route";
+import UpdateForm from "@/app/Components/UpdateFrom";
+import { auth } from "@/app/Components/firebase";
+import { adminControl } from "@/app/api/adminControl/route";
 
 async function fetchOrders() {
   const res = await fetch("/api/orders");

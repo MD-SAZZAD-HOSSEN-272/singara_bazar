@@ -3,8 +3,8 @@ import { useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
-import { oreders } from "../action/orders/Order";
-import { auth } from "../Components/firebase";
+import { auth } from "@/app/Components/firebase";
+import { oreders } from "@/app/action/orders/Order";
 
 export default function OrderForm() {
 
