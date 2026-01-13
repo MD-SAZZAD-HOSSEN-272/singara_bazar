@@ -33,7 +33,6 @@ export default function LoginForm({ onLogin }) {
         }
 
         const userData = await fetchUserDataFromMongodb()
-        console.log(userData)
 
 
         const existingUser = userData.find(user => user.email === email);
@@ -50,26 +49,33 @@ export default function LoginForm({ onLogin }) {
 
         try {
             // 1️⃣ Call your backend API
-            const res = await users(fieldData);
-            console.log(res);
+
 
             // 2️⃣ Firebase Signup
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
 
+            console.log(user)
+            if (user.email) {
+                const res = await users(fieldData);
+                console.log(res);
+                await updateProfile(user, { displayName: name });
+
+                // 4️⃣ Success
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "Registration successful!",
+                    showConfirmButton: false,
+                    timer: 1500,
+                });
+
+                route.push("/");
+
+            }
+
             // 3️⃣ Update displayName
-            await updateProfile(user, { displayName: name });
 
-            // 4️⃣ Success
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "Registration successful!",
-                showConfirmButton: false,
-                timer: 1500,
-            });
-
-            route.push("/");
 
         } catch (error) {
             Swal.fire({
