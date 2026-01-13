@@ -122,7 +122,7 @@ export default function OrderForm() {
             {Array.from({ length: 8 }).map((_, i) => (
                 <div
                     key={i}
-                    className={`absolute w-16 h-16 bg-yellow-300 rounded-full shadow-lg animate-float`}
+                    className={`absolute w-20 h-20 bg-yellow-300 rounded-full shadow-lg animate-float`}
                     style={{
                         top: `${Math.random() * 100}%`,
                         left: `${Math.random() * 100}%`,
@@ -131,9 +131,9 @@ export default function OrderForm() {
                     }}
                 >
                     <img
-                        src='https://ibb.co.com/Gfzvn2Kg' // ekhane singara image URL use korte paro
+                        src='https://i.ytimg.com/vi/eOD-jC5MzEE/maxresdefault.jpg' // ekhane singara image URL use korte paro
                         alt="singara"
-                        className="w-full h-full object-contain"
+                        className="w-full h-full object-cover rounded-full"
                     />
                 </div>
             ))}

@@ -1,4 +1,5 @@
 
+import CartPage from "./Components/CartPage";
 import HomePage from "./Components/HomePage";
 
 export default function Home() {

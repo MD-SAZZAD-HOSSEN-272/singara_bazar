@@ -1,0 +1,138 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+export default function CartPage({cardPageHaldeler}) {
+  const [cart, setCart] = useState([]);
+
+  // 🔄 Load cart from localStorage on refresh
+  useEffect(() => {
+    const storedItems = localStorage.getItem("items");
+    if (storedItems) {
+      setCart(JSON.parse(storedItems));
+    }
+  }, []);
+
+  // 💾 Update cart (state + localStorage)
+  const updateCart = (updatedCart) => {
+    setCart(updatedCart);
+    localStorage.setItem("items", JSON.stringify(updatedCart));
+  };
+
+  // ➕ Increase quantity
+  const increaseQuantity = (id) => {
+    const updated = cart.map((item) =>
+      item.id === id
+        ? { ...item, quantity: item.quantity + 1 }
+        : item
+    );
+    updateCart(updated);
+  };
+
+  // ➖ Decrease quantity (min 1)
+  const decreaseQuantity = (id) => {
+    const updated = cart.map((item) =>
+      item.id === id && item.quantity > 1
+        ? { ...item, quantity: item.quantity - 1 }
+        : item
+    );
+    updateCart(updated);
+  };
+
+  // ❌ Delete item
+  const deleteItem = (id) => {
+    const updated = cart.filter((item) => item.id !== id);
+    updateCart(updated);
+  };
+
+  // 💰 Total price
+  const totalPrice = cart.reduce(
+    (total, item) => total + item.price * item.quantity,
+    0
+  );
+
+  console.log(cardPageHaldeler)
+
+  return (
+    <main className={` fixed  z-10 ${cardPageHaldeler ? 'right-0' : '-right-96'}
+     bg-gradient-to-br from-[#a855f7] via-[#c084fc] to-[#ec4899] rounded-xl h-fit p-8 transition-all duration-500 ease-in-out`}>
+      <h1 className="text-4xl font-bold text-white text-center mb-10 ">
+        View Purchases
+      </h1>
+
+      {cart.length === 0 ? (
+        <p className="text-white text-center text-xl">
+          Your cart is empty
+        </p>
+      ) : (
+        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-6">
+          {cart.map((item, index) => (
+            <div
+              key={index}
+              className="flex items-center justify-between border-b py-4"
+            >
+              {/* Item Info */}
+              <div className="flex items-center gap-4">
+                <img
+                  src={item.image}
+                  alt={item.name}
+                  className="w-20 h-20 rounded object-cover"
+                />
+                <div>
+                  <h2 className="text-lg font-semibold">
+                    {item.name}
+                  </h2>
+                  <p className="text-gray-600">
+                    ৳{item.price}
+                  </p>
+                </div>
+              </div>
+
+              {/* Quantity + Delete */}
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={() => decreaseQuantity(item.id)}
+                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  −
+                </button>
+
+                <span className="font-semibold">
+                  {item.quantity}
+                </span>
+
+                <button
+                  onClick={() => increaseQuantity(item.id)}
+                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  +
+                </button>
+
+                <button
+                  onClick={() => deleteItem(item.id)}
+                  className="text-red-500 hover:text-red-700 text-lg"
+                >
+                  ❌
+                </button>
+              </div>
+            </div>
+          ))}
+
+          {/* Footer */}
+          <div className="flex justify-between items-center mt-6">
+            <h2 className="text-2xl font-bold">
+              Total: ৳{totalPrice}
+            </h2>
+
+            <button
+              onClick={() => alert("Order Placed Successfully!")}
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition"
+            >
+              Place Order
+            </button>
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}

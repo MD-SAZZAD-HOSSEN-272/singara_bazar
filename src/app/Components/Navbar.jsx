@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 import { useRouter } from "next/navigation";
+import Cart from "./Cart";
 
-export default function Navbar() {
+export default function Navbar({cart}) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null)
   const route = useRouter()
@@ -45,6 +46,9 @@ export default function Navbar() {
                 </Link>
                 <Link href="/create_order" className="hover:text-yellow-300 transition">
                   Create A Order
+                </Link>
+                <Link href="/items" className="hover:text-yellow-300 transition">
+                  Items
                 </Link>
                 <Link href="order" className="hover:text-yellow-300 transition">
                   Orders

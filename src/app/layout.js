@@ -25,8 +25,9 @@ export default function RootLayout({ children }) {
 
   const queryClient = new QueryClient()
 
+ 
   return (
-    <html lang="en"  data-theme="light">
+    <html lang="en" data-theme="light">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
