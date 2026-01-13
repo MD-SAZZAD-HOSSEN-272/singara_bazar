@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export default function CartPage({cardPageHaldeler}) {
+export default function CartPage({cardPageHaldeler, realtimeParchasesData}) {
   const [cart, setCart] = useState([]);
 
   // 🔄 Load cart from localStorage on refresh
@@ -23,26 +23,29 @@ export default function CartPage({cardPageHaldeler}) {
   const increaseQuantity = (id) => {
     const updated = cart.map((item) =>
       item.id === id
-        ? { ...item, quantity: item.quantity + 1 }
+        ? { ...item, quantity: item.quantity + 1, quantityPrice: (item.quantity + 1) * item.price }
         : item
     );
     updateCart(updated);
+    realtimeParchasesData()
   };
 
   // ➖ Decrease quantity (min 1)
   const decreaseQuantity = (id) => {
     const updated = cart.map((item) =>
       item.id === id && item.quantity > 1
-        ? { ...item, quantity: item.quantity - 1 }
+        ? { ...item, quantity: item.quantity - 1, quantityPrice: (item.quantity - 1) * item.price }
         : item
     );
     updateCart(updated);
+    realtimeParchasesData()
   };
 
   // ❌ Delete item
   const deleteItem = (id) => {
     const updated = cart.filter((item) => item.id !== id);
     updateCart(updated);
+    realtimeParchasesData()
   };
 
   // 💰 Total price
@@ -51,7 +54,7 @@ export default function CartPage({cardPageHaldeler}) {
     0
   );
 
-  console.log(cardPageHaldeler)
+  console.log(cart)
 
   return (
     <main className={` fixed  z-10 ${cardPageHaldeler ? 'right-0' : '-right-96'}
@@ -69,7 +72,7 @@ export default function CartPage({cardPageHaldeler}) {
           {cart.map((item, index) => (
             <div
               key={index}
-              className="flex items-center justify-between border-b py-4"
+              className="flex gap-10 items-center justify-between border-b py-4"
             >
               {/* Item Info */}
               <div className="flex items-center gap-4">
@@ -79,10 +82,10 @@ export default function CartPage({cardPageHaldeler}) {
                   className="w-20 h-20 rounded object-cover"
                 />
                 <div>
-                  <h2 className="text-lg font-semibold">
+                  <h2 className="text-lg font-semibold text-black">
                     {item.name}
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-900">
                     ৳{item.price}
                   </p>
                 </div>
@@ -92,7 +95,7 @@ export default function CartPage({cardPageHaldeler}) {
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => decreaseQuantity(item.id)}
-                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-300"
                 >
                   −
                 </button>
@@ -103,7 +106,7 @@ export default function CartPage({cardPageHaldeler}) {
 
                 <button
                   onClick={() => increaseQuantity(item.id)}
-                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-300"
                 >
                   +
                 </button>
@@ -119,7 +122,7 @@ export default function CartPage({cardPageHaldeler}) {
           ))}
 
           {/* Footer */}
-          <div className="flex justify-between items-center mt-6">
+          <div className="flex justify-between text-black items-center mt-6">
             <h2 className="text-2xl font-bold">
               Total: ৳{totalPrice}
             </h2>

@@ -11,42 +11,42 @@ const products = [
         id: 1,
         name: "Singara",
         price: 10,
-        image: "/images/singara.png",
+        image: "/assets/1.jpg",
         description: "Crispy fried singara with spicy filling",
     },
     {
         id: 2,
         name: "Paratha",
         price: 15,
-        image: "/images/paratha.png",
+        image: "/assets/2.jpg",
         description: "Soft layered paratha",
     },
     {
         id: 3,
         name: "Piyaju",
         price: 10,
-        image: "/images/piyaju.png",
+        image: "/assets/6.jpg",
         description: "Lentil fritters with onion",
     },
     {
         id: 4,
         name: "Puri",
         price: 12,
-        image: "/images/puri.png",
+        image: "/assets/4.jpg",
         description: "Deep fried fluffy puri",
     },
     {
         id: 5,
         name: "Gilapi",
         price: 20,
-        image: "/images/gilapi.png",
+        image: "/assets/5.jpg",
         description: "Sweet syrup soaked jilapi",
     },
     {
         id: 6,
         name: "Nan Roti",
         price: 30,
-        image: "/images/nan.png",
+        image: "/assets/3.jpg",
         description: "Soft tandoori naan",
     },
 ];
@@ -55,28 +55,56 @@ export default function Home() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [cardPage, setCardPage] = useState(false)
 
-     const [cart, setCart] = useState([]);
-    
-    
-    
-    
-      // Restore on refresh
-      useEffect(() => {
+    const [cart, setCart] = useState([]);
+
+
+    const realtimeParchasesData = () => {
         const stored = localStorage.getItem("items");
         if (stored) {
-          setCart(JSON.parse(stored));
+            setCart(JSON.parse(stored));
         }
-      }, []);
-    
+    }
+
+
+    // Restore on refresh
+    useEffect(() => {
+        realtimeParchasesData()
+    }, []);
+
 
     // Purchase
     const handlePurchasesButton = (item) => {
         setCart((prev) => {
-            const updated = [...prev, item];
+            // Check if item already exists in cart
+            const exist = prev.find(i => i.id === item.id);
+
+            let updated;
+            if (exist) {
+                // If exists, just increase quantity and quantityPrice
+                updated = prev.map(i =>
+                    i.id === item.id
+                        ? {
+                            ...i,
+                            quantity: i.quantity + 1,
+                            quantityPrice: (i.quantity + 1) * i.price
+                        }
+                        : i
+                );
+            } else {
+                // If not exists, add new with quantity 1
+                updated = [...prev, {
+                    ...item,
+                    quantity: 1,
+                    quantityPrice: item.price
+                }];
+            }
+
+            // Save to localStorage
             localStorage.setItem("items", JSON.stringify(updated));
             return updated;
         });
     };
+
 
 
     const handleCardPage = () => {
@@ -89,10 +117,10 @@ export default function Home() {
 
     return (
         <main className="min-h-screen bg-gradient-to-br pt-40 from-[#a855f7] via-[#c084fc] to-[#ec4899] p-10">
-           
+
             <Cart cart={cart} handleCardPage={handleCardPage}></Cart>
 
-            <CartPage cardPageHaldeler={cardPage}></CartPage>
+            <CartPage cardPageHaldeler={cardPage} realtimeParchasesData={realtimeParchasesData}></CartPage>
             <h1 className="text-4xl z-20 font-bold text-white text-center mb-10">
                 Our Products
             </h1>

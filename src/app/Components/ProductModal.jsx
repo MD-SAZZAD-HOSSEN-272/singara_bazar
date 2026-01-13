@@ -11,9 +11,9 @@ export default function ProductModal({ product, onClose }) {
           className="w-full h-48 object-cover rounded"
         />
 
-        <h2 className="text-2xl font-bold mt-4">{product.name}</h2>
+        <h2 className="text-2xl font-bold text-black mt-4">{product.name}</h2>
         <p className="mt-2 text-gray-600">{product.description}</p>
-        <p className="mt-2 font-semibold">Price: ৳{product.price}</p>
+        <p className="mt-2 font-semibold text-gray-900">Price: ৳{product.price}</p>
 
         <button
           onClick={onClose}

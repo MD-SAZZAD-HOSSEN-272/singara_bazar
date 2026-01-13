@@ -9,7 +9,7 @@ export default function ProductCard({ product, onDetails, handlePurchasesButton 
         className="h-40 w-full object-cover rounded-lg"
       />
 
-      <h2 className="text-xl font-semibold mt-4">{product.name}</h2>
+      <h2 className="text-xl font-semibold mt-4 text-black">{product.name}</h2>
       <p className="text-gray-600">৳{product.price}</p>
 
       <div className="flex gap-3 mt-4">
