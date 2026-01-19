@@ -14,6 +14,8 @@ export default function Navbar({cart}) {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user); // user থাকুক বা null
+      console.log(user.accessToken)
+      cookieStore.se
     });
 
     return () => unsubscribe(); // cleanup

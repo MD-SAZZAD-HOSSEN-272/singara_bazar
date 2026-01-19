@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import UserCardSkeleton from "../../Components/Skeleton/UserCardSkeleton";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Components/firebase";
+import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
 
 const ADMIN_EMAIL = 'mdsazzadhosen472@gmail.com';
 
@@ -12,13 +13,13 @@ export default function UsersPage() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(null)
+    const axiosSecure = useAxiosSecure()
 
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const res = await fetch('/api/get_user');
-                const data = await res.json();
-                setUsers(data);
+                const res = await axiosSecure('/api/get_user');
+                setUsers(res.data);
             } catch (err) {
                 console.error(err);
             } finally {
@@ -33,6 +34,7 @@ export default function UsersPage() {
         // listener only after component mounts
         const unsubscribe = onAuthStateChanged(auth, (user) => {
           setCurrentUser(user); // safe now
+          
         });
     
         // cleanup when component unmounts

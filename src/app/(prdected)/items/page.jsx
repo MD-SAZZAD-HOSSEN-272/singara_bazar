@@ -5,6 +5,7 @@ import Cart from "../../Components/Cart";
 import ProductCard from "../../Components/ProductCard";
 import ProductModal from "../../Components/ProductModal";
 import CartPage from "../../Components/CartPage";
+import Swal from "sweetalert2";
 
 const products = [
     {
@@ -59,19 +60,19 @@ export default function Home() {
     const [cartData, setCartData] = useState([]);
 
 
-  const getPurchasesDataFromLocalStorage = () => {
- const storedItems = localStorage.getItem("items");
-    if (storedItems) {
-      setCartData(JSON.parse(storedItems));
+    const getPurchasesDataFromLocalStorage = () => {
+        const storedItems = localStorage.getItem("items");
+        if (storedItems) {
+            setCartData(JSON.parse(storedItems));
+        }
     }
-  }
 
-  // 💾 Update cart (state + localStorage)
-  const updateCart = (updatedCart) => {
-    setCartData(updatedCart);
-    localStorage.setItem("items", JSON.stringify(updatedCart));
-  };
-    
+    // 💾 Update cart (state + localStorage)
+    const updateCart = (updatedCart) => {
+        setCartData(updatedCart);
+        localStorage.setItem("items", JSON.stringify(updatedCart));
+    };
+
 
 
     const realtimeParchasesData = () => {
@@ -119,6 +120,14 @@ export default function Home() {
             // Save to localStorage
             localStorage.setItem("items", JSON.stringify(updated));
             getPurchasesDataFromLocalStorage()
+            
+            Swal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            });
             return updated;
         });
     };
@@ -138,7 +147,7 @@ export default function Home() {
 
             <Cart cart={cart} handleCardPage={handleCardPage}></Cart>
 
-            <CartPage cartData={cartData} updateCart={updateCart}  cardPageHaldeler={cardPage} realtimeParchasesData={realtimeParchasesData}></CartPage>
+            <CartPage cartData={cartData} updateCart={updateCart} cardPageHaldeler={cardPage} realtimeParchasesData={realtimeParchasesData} handleCardPage={handleCardPage}></CartPage>
             <h1 className="text-4xl z-20 font-bold text-white text-center mb-10">
                 Our Products
             </h1>

@@ -3,12 +3,15 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
-import { ClientPageRoot } from "next/dist/client/components/client-page";
 import { placeOrders } from "../api/purchases_items/route";
+import { IoMdClose } from "react-icons/io";
+import Swal from "sweetalert2";
+import { useRouter } from "next/navigation";
 
-export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cartData, updateCart }) {
+export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cartData, updateCart, handleCardPage }) {
 
   const [currentUser, setCurrentUser] = useState(null)
+  const route = useRouter()
 
 
   useEffect(() => {
@@ -73,15 +76,20 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
         icon: "success",
         draggable: true
       });
+      localStorage.removeItem('items');
+      route.push('order')
     }
   }
 
   return (
     <main className={` fixed  z-10 ${cardPageHaldeler ? 'right-0 opacity-100' : '-right-96 opacity-0'}
      bg-gradient-to-br from-[#a855f7] via-[#c084fc] to-[#ec4899] rounded-xl h-fit p-8 transition-all duration-500 ease-in-out`}>
-      <h1 className="text-4xl font-bold text-white text-center mb-10 ">
-        View Purchases
-      </h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold text-white text-center mb-10 ">
+          View Purchases
+        </h1>
+        <button onClick={() => handleCardPage()} className="px-4 cursor-pointer font-bold py-3 rounded-xl bg-white text-black"><IoMdClose /></button>
+      </div>
 
       {cartData.length === 0 ? (
         <p className="text-white text-center text-xl">
@@ -115,7 +123,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
               <div className="flex items-center gap-4">
                 <button
                   onClick={() => decreaseQuantity(item.id)}
-                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-300"
+                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
                 >
                   −
                 </button>
@@ -126,14 +134,14 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
 
                 <button
                   onClick={() => increaseQuantity(item.id)}
-                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-300"
+                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
                 >
                   +
                 </button>
 
                 <button
                   onClick={() => deleteItem(item.id)}
-                  className="text-red-500 hover:text-red-700 text-lg"
+                  className="text-red-500 hover:text-red-700 text-lg cursor-pointer"
                 >
                   ❌
                 </button>
@@ -149,7 +157,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
 
             <button
               onClick={() => handleOrderPlace()}
-              className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition"
+              className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition cursor-pointer"
             >
               Place Order
             </button>
