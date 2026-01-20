@@ -55,7 +55,10 @@ export default function Navbar({cart}) {
                 <Link href="order" className="hover:text-yellow-300 transition">
                   Orders
                 </Link>
-                <Link href="/users" className="hover:text-yellow-300 transition">
+                <Link href="personal_order" className="hover:text-yellow-300 transition">
+                  Personal Orders
+                </Link>
+                <Link href="#" className="hover:text-yellow-300 transition">
                   Employees
                 </Link>
                 <Link href="#" className="hover:text-yellow-300 transition">

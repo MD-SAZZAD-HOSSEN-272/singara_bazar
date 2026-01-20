@@ -61,13 +61,16 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
     0
   );
 
+  console.log(totalPrice)
+
 
   const handleOrderPlace = async () => {
     const orderDataStructure = {
-      name: currentUser.displayName,
-      email: currentUser.email,
-      orderData: cartData
-    }
+      name: currentUser?.displayName,
+      email: currentUser?.email,
+      orderData: cartData,   // array of items
+      totalPrice: totalPrice // separate field
+    };
 
     const res = await placeOrders(orderDataStructure)
     if (res.insertedId) {

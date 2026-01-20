@@ -1,15 +1,23 @@
 "use server";
-
 import dbConnect from "@/app/lib/dbConnect";
 
 export const placeOrders = async (payload) => {
-  const orderData = await dbConnect("purchasesItems");
-  const result = await orderData.insertOne(payload);
+  try {
+    const orderCollection = await dbConnect("purchasesItems");
 
-  console.log(result)
+    console.log(payload)
 
-  return {
-    acknowledged: result.acknowledged,
-    insertedId: result.insertedId.toString(), // ✅ convert to string
-  };
+    // ✅ add date properly
+    payload.date = new Date();
+
+    const result = await orderCollection.insertOne(payload);
+
+    return {
+      acknowledged: result.acknowledged,
+      insertedId: result.insertedId.toString(), // MongoDB ObjectId → string
+    };
+  } catch (error) {
+    console.error("Place order error:", error);
+    throw new Error("Failed to place order");
+  }
 };
