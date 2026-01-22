@@ -30,6 +30,8 @@ export default function UserDetails() {
         enabled: !!currentUser?.email,
     });
 
+    console.log(data)
+
     if (isLoading) return <p className="text-center mt-20">Loading...</p>;
 
     return (
