@@ -2,6 +2,7 @@
 "use client";
 
 import { auth } from "@/app/Components/firebase";
+import UserCardSkeleton from "@/app/Components/Skeleton/UserCardSkeleton";
 import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { onAuthStateChanged } from "firebase/auth";
@@ -32,7 +33,7 @@ export default function UserDetails() {
 
     console.log(data)
 
-    if (isLoading) return <p className="text-center mt-20">Loading...</p>;
+    if (isLoading) return <UserCardSkeleton></UserCardSkeleton>;
 
     return (
         <div className="py-28 min-h-screen w-full bg-gradient-to-b from-[#9b5cff] to-[#f062c0]">
