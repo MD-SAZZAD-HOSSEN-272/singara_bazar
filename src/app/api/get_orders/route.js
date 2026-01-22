@@ -4,8 +4,10 @@
 import dbConnect from "@/app/lib/dbConnect";
 import { NextResponse } from "next/server";
 
+const allowedOrigin = "https://singara-bazar.vercel.app";
+
 const corsHeaders = {
-  "Access-Control-Allow-Origin": "*", // or specific domain
+  "Access-Control-Allow-Origin": allowedOrigin, // or specific domain
   "Access-Control-Allow-Methods": "GET, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type, Authorization",
 };
