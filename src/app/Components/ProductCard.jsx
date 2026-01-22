@@ -2,7 +2,7 @@
 
 export default function ProductCard({ product, onDetails, handlePurchasesButton }) {
   return (
-    <div className="bg-white/90 rounded-xl shadow-lg p-5 hover:scale-105 transition">
+    <div className="bg-white/90 rounded-xl shadow-lg p-5 hover:scale-105 transition-all duration-300 ease-linear">
       <img
         src={product.image}
         alt={product.name}
@@ -22,7 +22,7 @@ export default function ProductCard({ product, onDetails, handlePurchasesButton 
 
         <button
           onClick={() => handlePurchasesButton(product)}
-          className="flex-1 bg-pink-500 text-white py-2 rounded hover:bg-pink-600"
+          className="flex-1 bg-pink-500 text-white py-2 rounded hover:bg-pink-600 cursor-pointer"
         >
           Purchase
         </button>

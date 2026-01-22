@@ -17,7 +17,7 @@ export default function ProductModal({ product, onClose }) {
 
         <button
           onClick={onClose}
-          className="mt-5 w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700"
+          className="mt-5 w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700 cursor-pointer"
         >
           Close
         </button>

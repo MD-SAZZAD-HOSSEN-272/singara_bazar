@@ -33,48 +33,47 @@ export default function UserDetails() {
     if (isLoading) return <p className="text-center mt-20">Loading...</p>;
 
     return (
-        <div className="py-20 min-h-screen w-full bg-gradient-to-b from-[#9b5cff] to-[#f062c0]">
+        <div className="py-28 min-h-screen w-full bg-gradient-to-b from-[#9b5cff] to-[#f062c0]">
             <div className="max-w-6xl mx-auto px-4 ">
-
-                <div className="flex justify-center items-center w-full min-h-96 mt-40">
                     {(!data || data.length === 0) && (
-                        <div className="text-center bg-white/70 backdrop-blur-md 
+                        <div className="flex justify-center items-center w-full min-h-96 mt-32">
+                            <div className="text-center bg-white/70 backdrop-blur-md 
                     border border-white/40 shadow-xl 
                     rounded-2xl px-10 py-12 max-w-md space-y-5">
 
-                            {/* Icon */}
-                            <div className="flex justify-center mb-6">
-                                <div className="w-16 h-16 rounded-full 
+                                {/* Icon */}
+                                <div className="flex justify-center mb-6">
+                                    <div className="w-16 h-16 rounded-full 
                         bg-gradient-to-br from-purple-500 to-pink-500 
                         flex items-center justify-center text-white text-2xl shadow-lg">
-                                    📦
+                                        📦
+                                    </div>
                                 </div>
-                            </div>
 
-                            {/* Text */}
-                            <h3 className="text-2xl font-bold text-gray-800 mb-2">
-                                No Orders Yet
-                            </h3>
+                                {/* Text */}
+                                <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                                    No Orders Yet
+                                </h3>
 
-                            <p className="text-gray-600 text-sm">
-                                You haven’t placed any orders yet.
-                                Once you do, they’ll appear here.
-                            </p>
+                                <p className="text-gray-600 text-sm">
+                                    You haven’t placed any orders yet.
+                                    Once you do, they’ll appear here.
+                                </p>
 
-                            {/* Button (optional) */}
-                            <Link href='items' className=" px-6 py-3 rounded-full 
+                                {/* Button (optional) */}
+                                <Link href='items' className=" px-6 py-3 rounded-full 
                          bg-gradient-to-r from-purple-500 to-pink-500 
                          text-white font-medium shadow-md 
                          hover:scale-105 transition-transform">
-                                Start Shopping
-                            </Link>
+                                    Start Shopping
+                                </Link>
+                            </div>
                         </div>
                     )}
-                </div>
 
                 {/* 🔝 USER INFO HEADER */}
                 {data?.length > 0 && (
-                    <div className="mb-12 p-8 rounded-2xl bg-white border shadow-lg">
+                    <div className="mb-12 p-8 rounded-2xl bg-white border shadow-lg w-fit">
                         <h2 className="text-4xl font-extrabold text-gray-900">
                             {data[0]?.name}
                         </h2>
