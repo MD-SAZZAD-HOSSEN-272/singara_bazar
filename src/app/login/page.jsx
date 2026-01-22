@@ -76,7 +76,7 @@ export default function SignInForm({ onLogin }) {
                         <div className="relative">
 
                             <input
-                                type="password"
+                                type={showPassword ? 'text' : 'password'}
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="w-full px-5 py-3 rounded-2xl bg-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-purple-400 backdrop-blur-sm"
@@ -96,7 +96,7 @@ export default function SignInForm({ onLogin }) {
                     {/* Submit */}
                     <button
                         type="submit"
-                        className="w-full py-3 mt-3 rounded-2xl bg-gradient-to-r from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform"
+                        className="w-full py-3 mt-3 rounded-2xl bg-gradient-to-r cursor-pointer from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform"
                     >
                         Login
                     </button>

@@ -80,7 +80,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
         draggable: true
       });
       localStorage.removeItem('items');
-      route.push('order')
+      route.push('personal_order')
     }
   }
 

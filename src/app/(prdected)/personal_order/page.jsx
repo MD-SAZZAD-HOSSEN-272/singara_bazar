@@ -96,8 +96,9 @@ export default function UserDetails() {
                                     Order #{orderIndex + 1}
                                 </h3>
                                 {items?.date && (
-                                    <span className="text-sm text-gray-500">
+                                    <span className="text-sm text-gray-500 flex gap-3">
                                         {new Date(items.date).toLocaleDateString()}
+                                        <span>{new Date(items.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
                                     </span>
                                 )}
                             </div>

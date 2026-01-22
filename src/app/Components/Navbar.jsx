@@ -58,15 +58,15 @@ export default function Navbar({cart}) {
                 <Link href="personal_order" className="hover:text-yellow-300 transition">
                   Personal Orders
                 </Link>
-                <Link href="#" className="hover:text-yellow-300 transition">
+                <Link href="users" className="hover:text-yellow-300 transition">
                   Employees
                 </Link>
                 <Link href="#" className="hover:text-yellow-300 transition">
                   Reports
                 </Link>
-                <Link onClick={handleLogout} href="#" className="hover:text-yellow-300 transition">
+                <button onClick={handleLogout} className="hover:text-yellow-300 transition cursor-pointer">
                   Logout
-                </Link>
+                </button>
 
               </div>
             ) : (
@@ -133,15 +133,21 @@ export default function Navbar({cart}) {
                 <Link href="/create_order" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Create A Order
                 </Link>
+                <Link href="/items" className="hover:text-yellow-300 transition">
+                  Items
+                </Link>
                 <Link href="/order" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Orders
+                </Link>
+                <Link href="personal_order" className="hover:text-yellow-300 transition">
+                  Personal Orders
                 </Link>
                 <Link href="/users" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Employees
                 </Link>
-                <Link href="#" onClick={handleLogout} className="block px-2 py-1 hover:text-yellow-300 transition">
+                <button onClick={handleLogout} className="block px-2 py-1 hover:text-yellow-300 transition">
                   Logout
-                </Link>
+                </button>
               </>
             ) : (
               <>
