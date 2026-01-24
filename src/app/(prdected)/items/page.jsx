@@ -5,7 +5,6 @@ import Cart from "../../Components/Cart";
 import ProductCard from "../../Components/ProductCard";
 import ProductModal from "../../Components/ProductModal";
 import CartPage from "../../Components/CartPage";
-import Swal from "sweetalert2";
 import { PurchaseModal } from "@/app/Components/PurchaseMdal";
 
 const products = [
