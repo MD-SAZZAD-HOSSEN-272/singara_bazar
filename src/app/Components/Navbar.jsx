@@ -13,18 +13,22 @@ export default function Navbar({cart}) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user); // user থাকুক বা null
-      console.log(user.accessToken)
-      cookieStore.se
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(null);
+      }
     });
 
-    return () => unsubscribe(); // cleanup
+    // cleanup listener when component unmounts
+    return () => unsubscribe();
   }, []);
 
   const handleLogout = () => {
+    route.push('/login')
     signOut(auth).then(() => {
       // Sign-out successful.
-      route.push('/login')
+      
     }).catch((error) => {
       // An error happened.
     });

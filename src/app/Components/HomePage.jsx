@@ -11,11 +11,7 @@ export default function HomePage() {
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
             setCurrentUser(user)
-            // ...
         } else {
             // User is signed out
             // ...
@@ -79,7 +75,7 @@ export default function HomePage() {
                 <h2 className="text-4xl font-extrabold mb-6">
                     Ready for your first bite? 😋
                 </h2>
-                <Link href='order' className="px-14 py-5 rounded-full bg-yellow-300 text-purple-700 font-bold
+                <Link href={`${currentUser ? '/order' : '/login'}`} className="px-14 py-5 rounded-full bg-yellow-300 text-purple-700 font-bold
           hover:bg-white hover:scale-110 transition-all duration-300 shadow-2xl">
                     Get Started
                 </Link>

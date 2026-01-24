@@ -111,7 +111,7 @@ export default function UsersPage() {
                         </div>
 
                         {/* 🔐 Admin Controls */}
-                        {currentUser.email === ADMIN_EMAIL && (
+                        {currentUser?.email === ADMIN_EMAIL && (
                             <div className="mt-6 flex gap-4">
                                 <button
                                     onClick={() => handleUpdate(user)}
