@@ -29,9 +29,10 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setUpdading(true)
+    
     try {
       if (quantity < 1 || quantity > 5) {
+        
         return Swal.fire({
           title: "Quantity must be between 1 and 5",
           showClass: {
@@ -50,6 +51,8 @@ export default function UpdateForm({ singleData, refetch, setModal }) {
           }
         });
       }
+
+      setUpdading(true)
       const res = await fetch(`/api/updatedOrder/${singleData._id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },

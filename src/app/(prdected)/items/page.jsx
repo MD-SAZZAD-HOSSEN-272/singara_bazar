@@ -6,6 +6,7 @@ import ProductCard from "../../Components/ProductCard";
 import ProductModal from "../../Components/ProductModal";
 import CartPage from "../../Components/CartPage";
 import Swal from "sweetalert2";
+import { PurchaseModal } from "@/app/Components/PurchaseMdal";
 
 const products = [
     {
@@ -58,7 +59,9 @@ export default function Home() {
 
     const [cart, setCart] = useState([]);
     const [cartData, setCartData] = useState([]);
+    const [purchaseModal, setPurchaseModal] = useState(null)
 
+    console.log(purchaseModal)
 
     const getPurchasesDataFromLocalStorage = () => {
         const storedItems = localStorage.getItem("items");
@@ -82,6 +85,8 @@ export default function Home() {
         }
     }
 
+    console.log(cart)
+
 
     // Restore on refresh
     useEffect(() => {
@@ -91,46 +96,9 @@ export default function Home() {
 
 
     // Purchase
-    const handlePurchasesButton = (item) => {
-        setCart((prev) => {
-            // Check if item already exists in cart
-            const exist = prev.find(i => i.id === item.id);
-
-            let updated;
-            if (exist) {
-                // If exists, just increase quantity and quantityPrice
-                updated = prev.map(i =>
-                    i.id === item.id
-                        ? {
-                            ...i,
-                            quantity: i.quantity + 1,
-                            quantityPrice: (i.quantity + 1) * i.price
-                        }
-                        : i
-                );
-            } else {
-                // If not exists, add new with quantity 1
-                updated = [...prev, {
-                    ...item,
-                    quantity: 1,
-                    quantityPrice: item.price
-                }];
-            }
-
-            // Save to localStorage
-            localStorage.setItem("items", JSON.stringify(updated));
-            getPurchasesDataFromLocalStorage()
-            
-            Swal.fire({
-                position: "top-center",
-                icon: "success",
-                title: "Your work has been saved",
-                showConfirmButton: false,
-                timer: 1500
-            });
-            return updated;
-        });
-    };
+    // const handlePurchasesButton = (item) => {
+        
+    // };
 
 
 
@@ -158,15 +126,24 @@ export default function Home() {
                         key={product.id}
                         product={product}
                         onDetails={setSelectedProduct}
-                        handlePurchasesButton={handlePurchasesButton}
+                        setPurchaseModal={setPurchaseModal}
+                    // handlePurchasesButton={handlePurchasesButton}
                     />
                 ))}
             </div>
 
-            <ProductModal
-                product={selectedProduct}
-                onClose={() => setSelectedProduct(null)}
-            />
+            {
+                selectedProduct && <ProductModal
+                    product={selectedProduct}
+                    onClose={() => setSelectedProduct(null)}
+                />
+            }
+            {
+                purchaseModal &&
+                <PurchaseModal product={purchaseModal} onAddToCart={setCart} getPurchasesDataFromLocalStorage={getPurchasesDataFromLocalStorage} onClose={() => setPurchaseModal(null)}></PurchaseModal>
+
+            }
+
         </main>
     );
 }

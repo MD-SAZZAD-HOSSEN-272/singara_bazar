@@ -1,6 +1,6 @@
 "use client";
 
-export default function ProductCard({ product, onDetails, handlePurchasesButton }) {
+export default function ProductCard({ product, onDetails, setPurchaseModal }) {
   return (
     <div className="bg-white/90 rounded-xl shadow-lg p-5 hover:scale-105 transition-all duration-300 ease-linear">
       <img
@@ -21,7 +21,7 @@ export default function ProductCard({ product, onDetails, handlePurchasesButton 
         </button>
 
         <button
-          onClick={() => handlePurchasesButton(product)}
+          onClick={() => {setPurchaseModal(product)}}
           className="flex-1 bg-pink-500 text-white py-2 rounded hover:bg-pink-600 cursor-pointer"
         >
           Purchase
