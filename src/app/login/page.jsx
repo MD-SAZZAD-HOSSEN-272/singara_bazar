@@ -8,7 +8,7 @@ import { auth } from "../Components/firebase";
 import { useRouter } from "next/navigation";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-export default function SignInForm({ onLogin }) {
+export default function SignInForm() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const route = useRouter()
