@@ -18,15 +18,17 @@ const fetchUserDataFromMongodb = async () => {
 
 
 
-export default function LoginForm({ onLogin }) {
+export default function LoginForm() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const route = useRouter()
     const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
 
         if (!name?.trim() || !email?.trim() || !password?.trim()) {
             return Swal.fire("Error", "Please fill in all fields", "error");
@@ -71,6 +73,7 @@ export default function LoginForm({ onLogin }) {
                 });
 
                 route.push("/");
+                setLoading(false)
 
             }
 
@@ -143,9 +146,11 @@ export default function LoginForm({ onLogin }) {
                     {/* Submit */}
                     <button
                         type="submit"
-                        className="w-full py-3 mt-3 cursor-pointer rounded-2xl bg-gradient-to-r from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform"
+                        className={`w-full py-3 mt-3 rounded-2xl bg-gradient-to-r from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform ${loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
                     >
-                        Sign up
+                        {
+                            loading ? 'Signing....' : 'Sign up'
+                        }
                     </button>
                 </form>
 

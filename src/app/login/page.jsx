@@ -13,9 +13,11 @@ export default function SignInForm({ onLogin }) {
     const [password, setPassword] = useState("");
     const route = useRouter()
     const [showPassword, setShowPassword] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true)
 
 
         if (!email || !password) {
@@ -35,6 +37,7 @@ export default function SignInForm({ onLogin }) {
                     timer: 1500
                 });
                 route.push('/')
+                setLoading(false)
                 // ...
             })
             .catch((error) => {
@@ -96,9 +99,11 @@ export default function SignInForm({ onLogin }) {
                     {/* Submit */}
                     <button
                         type="submit"
-                        className="w-full py-3 mt-3 rounded-2xl bg-gradient-to-r cursor-pointer from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform"
+                        className={`w-full py-3 mt-3 rounded-2xl bg-gradient-to-r cursor-pointer from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform ${loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
                     >
-                        Login
+                        {
+                            loading ? 'Loading....' : 'Login'
+                        }
                     </button>
                 </form>
 
