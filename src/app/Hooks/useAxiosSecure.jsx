@@ -21,14 +21,14 @@ export default function useAxiosSecure() {
 
   //       // send token to backend → backend sets HttpOnly cookie
   //       await axios.post(
-  //         "http://localhost:4000/set-token",
+  //         "http://localhost:3000/set-token",
   //         { token },
   //         { withCredentials: true }
   //       );
   //     } else {
   //       // clear cookie on logout
   //       await axios.post(
-  //         "http://localhost:4000/logout",
+  //         "http://localhost:3000/logout",
   //         {},
   //         { withCredentials: true }
   //       );

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
 import { auth } from "../Components/firebase";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -10,7 +10,7 @@ import { users } from "../api/auth/route";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
-const fetchUserDataFromMongodb = async () => {
+export const fetchUserDataFromMongodb = async () => {
     const res = await fetch('/api/get_user')
     const result = await res.json()
     return result
@@ -25,6 +25,8 @@ export default function LoginForm() {
     const route = useRouter()
     const [showPassword, setShowPassword] = useState(false)
     const [loading, setLoading] = useState(false)
+
+    const provider = new GoogleAuthProvider()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -89,6 +91,61 @@ export default function LoginForm() {
         }
     };
 
+    const handleGoogleLogIn = async () => {
+        try {
+            setLoading(true);
+
+            const result = await signInWithPopup(auth, provider);
+
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential?.accessToken;
+            const user = result.user;
+
+            console.log(user, credential);
+
+            if (!user?.email) return;
+
+            const fieldData = {
+                name: user?.displayName,
+                email: user?.email,
+                photo: user?.photoURL,
+                password: user?.providerId
+            }
+
+            // Get users from MongoDB
+            const userData = await fetchUserDataFromMongodb();
+
+            const existingUser = userData.find(
+                singleUser => singleUser.email === user.email
+            );
+
+            // If user does not exist, create new user
+            if (!existingUser) {
+                const res = await users(fieldData);
+                console.log(res);
+            }
+
+            // Success alert
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Registration successful!",
+                showConfirmButton: false,
+                timer: 1500,
+            });
+
+            route.push("/");
+
+        } catch (error) {
+            console.error(error.message);
+            console.log(
+                GoogleAuthProvider.credentialFromError(error)
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#f050b3] to-[#a05bfc]">
@@ -144,14 +201,41 @@ export default function LoginForm() {
                     </div>
 
                     {/* Submit */}
-                    <button
-                        type="submit"
-                        className={`w-full py-3 mt-3 rounded-2xl bg-gradient-to-r from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform ${loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'}`}
-                    >
-                        {
-                            loading ? 'Signing....' : 'Sign up'
-                        }
-                    </button>
+
+                    <div className="mt-4">
+                        {/* Sign Up Button (UNCHANGED) */}
+                        <button
+                            type="submit"
+                            className={`w-full py-3 mt-3 rounded-2xl bg-gradient-to-r from-[#f050b3] to-[#a05bfc] text-white font-bold shadow-lg hover:scale-105 transition transform ${loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                                }`}
+                            disabled={loading}
+                        >
+                            {loading ? 'Signing...' : 'Sign up'}
+                        </button>
+
+                        {/* Divider */}
+                        <div className="flex items-center my-4">
+                            <div className="flex-grow h-px bg-gray-300"></div>
+                            <span className="px-3 text-sm text-gray-500">OR</span>
+                            <div className="flex-grow h-px bg-gray-300"></div>
+                        </div>
+
+                        {/* Google Login Button (NEW DESIGN) */}
+                        <button
+                            type="button"
+                            onClick={handleGoogleLogIn}
+                            disabled={loading}
+                            className={`w-full py-3 rounded-2xl flex items-center justify-center gap-3 border border-gray-300 bg-white text-gray-700 font-semibold shadow-sm hover:bg-gray-50 hover:scale-105 transition transform ${loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                                }`}
+                        >
+                            <img
+                                src="https://www.svgrepo.com/show/475656/google-color.svg"
+                                alt="Google"
+                                className="w-5 h-5"
+                            />
+                            Continue with Google
+                        </button>
+                    </div>
                 </form>
 
                 <Link href='login' className="mt-8 text-white/70 text-center text-sm">
