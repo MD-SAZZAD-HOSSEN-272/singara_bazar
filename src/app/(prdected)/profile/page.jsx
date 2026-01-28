@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 export default function UserProfile() {
     const [currentUser, setCurrentUser] = useState(null);
     const router = useRouter();
+    const [loader, setLoader]= useState(false)
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -18,8 +19,10 @@ export default function UserProfile() {
     }, []);
 
     const handleLogout = async () => {
+        setLoader(true)
         await signOut(auth);
         router.push("/login");
+        setLoader(false)
     };
 
     if (!currentUser) return null;
@@ -89,7 +92,7 @@ export default function UserProfile() {
                             onClick={handleLogout}
                             className="w-full py-4 rounded-2xl bg-white border border-red-300 text-red-500 font-semibold hover:bg-red-50 transition"
                         >
-                            Logout
+                           {loader ? 'Loading....' : 'Logout'}
                         </button>
                     </div>
                 </div>

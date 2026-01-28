@@ -189,9 +189,11 @@ export default function SignInForm() {
                     </div>
                 </form>
 
-                <Link href='register' className="mt-6 text-white/70 text-center text-sm">
-                    Don't have an account? <span className="underline cursor-pointer">Sign up</span>
-                </Link>
+                <div className="mt-5 text-center">
+                    <Link href="/register" className="text-white/70 text-sm">
+                        Don't have an account? <span className="underline cursor-pointer">Sign up</span>
+                    </Link>
+                </div>
             </div>
         </div>
     );

@@ -237,10 +237,13 @@ export default function LoginForm() {
                         </button>
                     </div>
                 </form>
+                <div className="mt-8 text-center">
+                    <Link href='login' className="mt-8 text-white/70 text-center text-sm">
+                        Already have an account? <span className="underline cursor-pointer">Login</span>
+                    </Link>
+                </div>
 
-                <Link href='login' className="mt-8 text-white/70 text-center text-sm">
-                    Already have an account? <span className="underline cursor-pointer">Login</span>
-                </Link>
+
             </div>
         </div>
     );
