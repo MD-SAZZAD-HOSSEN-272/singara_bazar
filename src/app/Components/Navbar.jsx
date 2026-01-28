@@ -71,6 +71,9 @@ export default function Navbar({cart}) {
                 <button onClick={handleLogout} className="hover:text-yellow-300 transition cursor-pointer">
                   Logout
                 </button>
+                <Link href="profile" className="hover:text-yellow-300 transition">
+                  Profile
+                </Link>
 
               </div>
             ) : (

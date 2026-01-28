@@ -2,21 +2,26 @@
 
 import { onAuthStateChanged } from "firebase/auth";
 import Link from "next/link"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 
 export default function HomePage() {
 
     const [currentUser, setCurrentUser] = useState(null)
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            setCurrentUser(user)
-        } else {
-            // User is signed out
-            // ...
-        }
-    });
+
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setCurrentUser(user)
+            } else {
+                setCurrentUser(null)
+            }
+        });
+
+        return () => unsubscribe()
+    }, [])
 
 
     return (

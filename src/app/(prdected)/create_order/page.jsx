@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
@@ -21,19 +21,23 @@ export default function OrderForm() {
     const [orderTaking, setOrderTaking] = useState(false)
     const [currentUser, setCurrentUser] = useState(null)
 
+    useEffect(() => {
+        const unsubscibts = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, see docs for a list of available properties
+                // https://firebase.google.com/docs/reference/js/auth.user
+                const uid = user.uid;
+                setCurrentUser(user)
+                // ...
+            } else {
+                setCurrentUser(null)
+                // User is signed out
+                // ...
+            }
+        });
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
-            setCurrentUser(user)
-            // ...
-        } else {
-            // User is signed out
-            // ...
-        }
-    });
+        return () => unsubscibts()
+    }, [])
 
     const handleQuantityChange = (value) => {
         // Remove leading zeros
@@ -130,7 +134,7 @@ export default function OrderForm() {
                         animationDuration: `${5 + Math.random() * 5}s`,
                     }}
                 >
-                    <a href="https://imgbb.com/"><img src="https://i.ibb.co.com/SwrFTKVg/singara.png" alt="singara" border="0"/></a>
+                    <a href="https://imgbb.com/"><img src="https://i.ibb.co.com/SwrFTKVg/singara.png" alt="singara" border="0" /></a>
                 </div>
             ))}
 
