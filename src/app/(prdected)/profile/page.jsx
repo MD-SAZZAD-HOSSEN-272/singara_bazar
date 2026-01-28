@@ -5,6 +5,7 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import ProfileSkeleton from "@/app/Components/Skeleton/ProfileSkeleton";
 
 export default function UserProfile() {
     const [currentUser, setCurrentUser] = useState(null);
@@ -12,9 +13,11 @@ export default function UserProfile() {
     const [loader, setLoader]= useState(false)
 
     useEffect(() => {
+        setLoader(true)
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user || null);
         });
+        setLoader(false)
         return () => unsubscribe();
     }, []);
 
@@ -25,7 +28,7 @@ export default function UserProfile() {
         setLoader(false)
     };
 
-    if (!currentUser) return null;
+    if (loader) return <ProfileSkeleton></ProfileSkeleton>;
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#a855f7] via-[#c084fc] to-[#ec4899] px-4">
@@ -45,7 +48,7 @@ export default function UserProfile() {
                         <div className="w-32 h-32 rounded-full p-[3px] bg-gradient-to-tr from-[#a855f7] to-[#ec4899] shadow-xl">
                             <div className="w-full h-full rounded-full bg-white overflow-hidden">
                                 <Image
-                                    src={currentUser.photoURL || "/avatar.png"}
+                                    src={currentUser?.photoURL || "/avatar.png"}
                                     alt="Profile"
                                     width={128}
                                     height={128}
@@ -59,10 +62,10 @@ export default function UserProfile() {
                 {/* Content */}
                 <div className="pt-20 px-8 pb-10 text-center relative z-10">
                     <h2 className="text-3xl font-bold text-gray-900 tracking-tight">
-                        {currentUser.displayName || "Anonymous User"}
+                        {currentUser?.displayName || "Anonymous User"}
                     </h2>
                     <p className="mt-1 text-sm text-gray-600 break-all">
-                        {currentUser.email}
+                        {currentUser?.email}
                     </p>
 
                     {/* Info Cards */}
@@ -70,7 +73,7 @@ export default function UserProfile() {
                         <div className="flex justify-between items-center rounded-2xl bg-white/70 border border-gray-200 px-5 py-4">
                             <span className="text-sm text-gray-500">User ID</span>
                             <span className="text-sm font-medium text-gray-800 truncate max-w-[220px]">
-                                {currentUser.uid}
+                                {currentUser?.uid}
                             </span>
                         </div>
 

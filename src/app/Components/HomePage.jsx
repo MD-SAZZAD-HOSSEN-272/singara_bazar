@@ -25,12 +25,12 @@ export default function HomePage() {
 
 
     return (
-        <main className="min-h-screen w-full bg-gradient-to-br pt-16 from-[#8E2DE2] via-[#A855F7] to-[#EC4899] text-white overflow-hidden">
+        <main className="min-h-screen w-full text-white overflow-hidden">
 
 
 
             {/* Hero Section */}
-            <section className="flex flex-col items-center text-center px-6 py-32">
+            <section className="flex flex-col items-center text-center px-6 py-52">
                 <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
                     Taste That <span className="text-yellow-300">Clicks</span> ✨
                 </h2>
@@ -54,7 +54,7 @@ export default function HomePage() {
             </section>
 
             {/* Feature Cards */}
-            <section className="max-w-7xl mx-auto px-8 pb-32 grid md:grid-cols-3 gap-10">
+            <section className="max-w-7xl mx-auto px-8 pb-10 grid md:grid-cols-3 gap-10">
 
                 {[
                     { title: '🔥 Always Hot', desc: 'Freshly fried before delivery.' },
@@ -76,12 +76,15 @@ export default function HomePage() {
             </section>
 
             {/* CTA */}
-            <section className="text-center pb-24">
-                <h2 className="text-4xl font-extrabold mb-6">
+            <section className="text-center pb-24 space-y-6">
+                <h2 className="text-4xl font-extrabold">
                     Ready for your first bite? 😋
                 </h2>
-                <Link href={`${currentUser ? '/order' : '/login'}`} className="px-14 py-5 rounded-full bg-yellow-300 text-purple-700 font-bold
-          hover:bg-white hover:scale-110 transition-all duration-300 shadow-2xl">
+                <Link
+                    href={`${currentUser ? '/order' : '/login'}`}
+                    className="block px-14 py-5 rounded-full bg-yellow-300 text-purple-700 font-bold
+               hover:bg-white hover:scale-110 transition-all duration-300 shadow-2xl w-fit text-center mx-auto"
+                >
                     Get Started
                 </Link>
             </section>

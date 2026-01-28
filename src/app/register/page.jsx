@@ -124,17 +124,17 @@ export default function LoginForm() {
                 const res = await users(fieldData);
                 console.log(res);
             }
-
+            route.push("/");
             // Success alert
             Swal.fire({
-                position: "top-end",
+                position: "top-center",
                 icon: "success",
-                title: "Registration successful!",
+                title: existingUser ? "Login successful!" : "Registration successful!",
                 showConfirmButton: false,
                 timer: 1500,
             });
 
-            route.push("/");
+
 
         } catch (error) {
             console.error(error.message);

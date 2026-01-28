@@ -2,7 +2,7 @@
 "use client";
 
 import { auth } from "@/app/Components/firebase";
-import UserCardSkeleton from "@/app/Components/Skeleton/UserCardSkeleton";
+import OrderSkeleton from "@/app/Components/Skeleton/OrderSkeleton";
 import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
 import { useQuery } from "@tanstack/react-query";
 import { onAuthStateChanged } from "firebase/auth";
@@ -36,7 +36,7 @@ export default function UserDetails() {
     if (isLoading) return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
         <div className="max-w-7xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {Array.from({ length: 6 }).map((_, i) => (
-                <UserCardSkeleton key={i} />
+                <OrderSkeleton key={i} />
             ))}
         </div>
     </div>;

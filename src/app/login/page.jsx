@@ -21,41 +21,44 @@ export default function SignInForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true)
-
 
         if (!email || !password) {
             Swal.fire("Error", "Please fill in all fields", "error");
             return;
         }
 
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                // Signed in 
-                const user = userCredential.user;
-                Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "Your work has been saved",
-                    showConfirmButton: false,
-                    timer: 1500
-                });
-                route.push('/')
-                setLoading(false)
-                // ...
-            })
-            .catch((error) => {
-                console.log('wrong', error)
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Please register first",
-                    footer: '<a href="register">Register Now</a>'
-                });
-                const errorCode = error.code;
-                const errorMessage = error.message;
+        try {
+            setLoading(true); // 🔥 start loading immediately
+
+            const userCredential = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+
+            Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Login Successful!",
+                showConfirmButton: false,
+                timer: 1500,
             });
+
+            route.push("/");
+        } catch (error) {
+            console.error(error);
+
+            Swal.fire({
+                icon: "error",
+                title: "Oops!",
+                text: "Invalid email or password. Don’t have an account yet? Create one now.",
+                footer: '<a href="/register">Create Account</a>',
+            });
+        } finally {
+            setLoading(false); // 🔥 stop loading always
+        }
     };
+
 
     const handleGoogleLogIn = async () => {
         try {
@@ -93,9 +96,9 @@ export default function SignInForm() {
 
             // Success alert
             Swal.fire({
-                position: "top-end",
+                position: "top-center",
                 icon: "success",
-                title: "Registration successful!",
+                title: existingUser ? "Login Successful!" : "Registration successful!",
                 showConfirmButton: false,
                 timer: 1500,
             });
