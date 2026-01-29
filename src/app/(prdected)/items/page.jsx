@@ -10,10 +10,10 @@ import { PurchaseModal } from "@/app/Components/PurchaseMdal";
 const products = [
     {
         id: 1,
-        name: "Singara",
-        price: 10,
-        image: "/assets/1.jpg",
-        description: "Crispy fried singara with spicy filling",
+        name: "Honey Nuts",
+        price: 350,
+        image: "/assets/honeay.jpg",
+        description: "Crispy fried honey with nuts filling",
     },
     {
         id: 2,

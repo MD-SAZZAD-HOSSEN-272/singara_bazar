@@ -6,7 +6,7 @@ import { auth } from "./firebase";
 import { useRouter } from "next/navigation";
 import Cart from "./Cart";
 
-export default function Navbar({cart}) {
+export default function Navbar({ cart }) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null)
   const route = useRouter()
@@ -28,7 +28,7 @@ export default function Navbar({cart}) {
     route.push('/login')
     signOut(auth).then(() => {
       // Sign-out successful.
-      
+
     }).catch((error) => {
       // An error happened.
     });
@@ -68,12 +68,15 @@ export default function Navbar({cart}) {
                 <Link href="#" className="hover:text-yellow-300 transition">
                   Reports
                 </Link>
-                <button onClick={handleLogout} className="hover:text-yellow-300 transition cursor-pointer">
-                  Logout
-                </button>
+                <Link href='#'>
+                  Dashboard
+                </Link>
                 <Link href="profile" className="hover:text-yellow-300 transition">
                   Profile
                 </Link>
+                <button onClick={handleLogout} className="hover:text-yellow-300 transition cursor-pointer">
+                  Logout
+                </button>
 
               </div>
             ) : (
@@ -151,6 +154,9 @@ export default function Navbar({cart}) {
                 </Link>
                 <Link href="/users" className="block px-2 py-1 hover:text-yellow-300 transition">
                   Employees
+                </Link>
+                <Link href="profile" className="hover:text-yellow-300 transition">
+                  Profile
                 </Link>
                 <button onClick={handleLogout} className="block px-2 py-1 hover:text-yellow-300 transition">
                   Logout
