@@ -94,6 +94,8 @@ export default function SignInForm() {
                 console.log(res);
             }
 
+            
+
             // Success alert
             Swal.fire({
                 position: "top-center",
@@ -103,7 +105,7 @@ export default function SignInForm() {
                 timer: 1500,
             });
 
-            route.push("/");
+            
 
         } catch (error) {
             console.error(error.message);
@@ -111,6 +113,7 @@ export default function SignInForm() {
                 GoogleAuthProvider.credentialFromError(error)
             );
         } finally {
+            route.push("/");
             setLoading(false);
         }
     };
