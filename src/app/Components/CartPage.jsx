@@ -171,8 +171,8 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
                 className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 <option value="Cash">Cash on Delivery</option>
-                <option value="Bkash">Bkash</option>
-                <option value="Nagad">Nagad</option>
+                {/* <option value="Bkash">Bkash</option>
+                <option value="Nagad">Nagad</option> */}
               </select>
             </div>
             <button
