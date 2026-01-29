@@ -53,7 +53,7 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
             Swal.fire({
                 position: "top-center",
                 icon: "success",
-                title: "Your work has been saved",
+                title: "Your Order has been saved, please see the cart box",
                 showConfirmButton: false,
                 timer: 1500
             });
