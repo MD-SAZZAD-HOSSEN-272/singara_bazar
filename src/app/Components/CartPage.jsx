@@ -12,6 +12,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
 
   const [currentUser, setCurrentUser] = useState(null)
   const route = useRouter()
+  const [paymentMethod, setPaymentMethod] = useState("Cash");
 
 
   useEffect(() => {
@@ -69,7 +70,8 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
       name: currentUser?.displayName,
       email: currentUser?.email,
       orderData: cartData,   // array of items
-      totalPrice: totalPrice // separate field
+      totalPrice: totalPrice, // separate field
+      paymentMethod: paymentMethod
     };
 
     const res = await placeOrders(orderDataStructure)
@@ -153,18 +155,36 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
           ))}
 
           {/* Footer */}
-          <div className="flex justify-between text-black items-center mt-6">
+          <div className="flex gap-6 flex-col text-black mt-6">
             <h2 className="text-2xl font-bold">
               Total: ৳{totalPrice}
             </h2>
 
+            <div className="mt-4 flex flex-col gap-2">
+              <label className="font-semibold text-black">
+                Payment Method
+              </label>
+
+              <select
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="Cash">Cash on Delivery</option>
+                <option value="Bkash">Bkash</option>
+                <option value="Nagad">Nagad</option>
+              </select>
+            </div>
             <button
               onClick={() => handleOrderPlace()}
               className="bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition cursor-pointer"
             >
               Place Order
             </button>
+
+
           </div>
+
         </div>
       )}
     </main>
