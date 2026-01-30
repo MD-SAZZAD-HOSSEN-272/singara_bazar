@@ -30,7 +30,7 @@ export default function AdminOrders() {
         if (!confirm.isConfirmed) return;
 
         try {
-            await axiosSecure.delete(`/api/orders/delete/${id}`);
+            await axiosSecure.delete(`/api/purchases_orders/delete/${id}`);
             Swal.fire("Deleted!", "Order removed successfully", "success");
             refetch();
         } catch (error) {

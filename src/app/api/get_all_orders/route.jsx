@@ -10,7 +10,7 @@ export async function GET(request) {
         const collection = await dbConnect("purchasesItems");
 
         const orders = await collection
-            .find()
+            .find().sort({_id: -1})
             .toArray();
 
         return NextResponse.json(orders);
