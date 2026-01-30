@@ -68,7 +68,7 @@ export default function Navbar({ cart }) {
                 <Link href="#" className="hover:text-yellow-300 transition">
                   Reports
                 </Link>
-                <Link href='#'>
+                <Link href='/dashboard'>
                   Dashboard
                 </Link>
                 <Link href="profile" className="hover:text-yellow-300 transition">
