@@ -23,8 +23,8 @@ export default function AdminLayout({ children }) {
 
   const menu = [
     { name: "Dashboard", path: "/dashboard" },
-    { name: "Users", path: "/dashboard/admin/users" },
-    { name: "Settings", path: "/dashboard/admin/settings" },
+    { name: "Users", path: "/dashboard/users" },
+    { name: "Settings", path: "/dashboard/settings" },
   ];
 
   return (
@@ -53,7 +53,7 @@ export default function AdminLayout({ children }) {
             fixed lg:static top-0 left-0 h-full lg:h-auto
             w-64 p-6 rounded-r-2xl lg:rounded-2xl
             bg-white/10 backdrop-blur-xl border border-white/20 shadow-xl
-            transform transition-transform duration-300 z-50
+            transform transition-transform duration-300 z-40
             ${open ? "translate-x-0" : "-translate-x-full"}
             lg:translate-x-0
           `}
@@ -93,7 +93,7 @@ export default function AdminLayout({ children }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 bg-white text-gray-900 p-6 md:p-8 rounded-2xl shadow-xl w-full">
+        <main className="flex-1 bg-white text-gray-900 rounded-2xl shadow-xl w-full">
           {children}
         </main>
       </div>
