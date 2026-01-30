@@ -102,15 +102,15 @@ export default function AdminOrders() {
                                     <button
                                         onClick={() => handleDetails(order)}
                                         className="
-      px-6 py-2 text-sm font-semibold rounded-full
-      bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-700
-      text-white
-      shadow-lg
-      hover:brightness-110 hover:shadow-2xl
-      transition
-      w-full md:w-auto
-      focus:outline-none focus:ring-4 focus:ring-indigo-400
-    "
+                                            px-6 py-2 text-sm font-semibold rounded-full
+                                            bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-700
+                                            text-white
+                                            shadow-lg
+                                            hover:brightness-110 hover:shadow-2xl
+                                            transition
+                                            w-full md:w-auto
+                                            focus:outline-none focus:ring-4 focus:ring-indigo-400
+                                            "
                                     >
                                         Details
                                     </button>
@@ -119,15 +119,15 @@ export default function AdminOrders() {
                                     <button
                                         onClick={() => handleUpdate(order._id)}
                                         className="
-      px-6 py-2 text-sm font-semibold rounded-full
-      bg-gradient-to-r from-green-400 via-green-500 to-teal-600
-      text-white
-      shadow-lg
-      hover:brightness-110 hover:shadow-2xl
-      transition
-      w-full md:w-auto
-      focus:outline-none focus:ring-4 focus:ring-green-400
-    "
+                                                    px-6 py-2 text-sm font-semibold rounded-full
+                                                    bg-gradient-to-r from-green-400 via-green-500 to-teal-600
+                                                    text-white
+                                                    shadow-lg
+                                                    hover:brightness-110 hover:shadow-2xl
+                                                    transition
+                                                    w-full md:w-auto
+                                                    focus:outline-none focus:ring-4 focus:ring-green-400
+                                                    "
                                     >
                                         Update
                                     </button>
@@ -136,15 +136,15 @@ export default function AdminOrders() {
                                     <button
                                         onClick={() => handleDelete(order._id)}
                                         className="
-      px-6 py-2 text-sm font-semibold rounded-full
-      bg-gradient-to-r from-red-500 via-pink-600 to-red-600
-      text-white
-      shadow-lg
-      hover:brightness-110 hover:shadow-2xl
-      transition
-      w-full md:w-auto
-      focus:outline-none focus:ring-4 focus:ring-red-400
-    "
+                                                    px-6 py-2 text-sm font-semibold rounded-full
+                                                    bg-gradient-to-r from-red-500 via-pink-600 to-red-600
+                                                    text-white
+                                                    shadow-lg
+                                                    hover:brightness-110 hover:shadow-2xl
+                                                    transition
+                                                    w-full md:w-auto
+                                                    focus:outline-none focus:ring-4 focus:ring-red-400
+                                                    "
                                     >
                                         Delete
                                     </button>
