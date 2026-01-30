@@ -94,7 +94,7 @@ export default function SignInForm() {
                 console.log(res);
             }
 
-            
+            route.push("/");
 
             // Success alert
             Swal.fire({
@@ -105,15 +105,21 @@ export default function SignInForm() {
                 timer: 1500,
             });
 
-            
+
 
         } catch (error) {
             console.error(error.message);
+
+            if (error.code === "auth/popup-closed-by-user") {
+                console.log("Login cancelled by user");
+                return; // exit quietly
+            }
+            
             console.log(
                 GoogleAuthProvider.credentialFromError(error)
             );
+            setLoading(false)
         } finally {
-            route.push("/");
             setLoading(false);
         }
     };

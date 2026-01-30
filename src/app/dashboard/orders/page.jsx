@@ -88,12 +88,13 @@ export default function AdminOrders() {
                             className="bg-gradient-to-r from-purple-50/50 to-white/20 backdrop-blur-md border border-white/20 rounded-3xl p-6 shadow-xl"
                         >
                             {/* Header */}
-                            <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+                            <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
                                 <div>
                                     <h2 className="text-xl font-bold text-white">
                                         {order.name}
                                     </h2>
                                     <p className="text-sm text-purple-800">{order.email}</p>
+                                    <p className="text-sm text-purple-800">Order Id: {order._id}</p>
                                 </div>
 
                                 {/* Buttons */}
@@ -102,7 +103,7 @@ export default function AdminOrders() {
                                     <button
                                         onClick={() => handleDetails(order)}
                                         className="
-                                            px-6 py-2 text-sm font-semibold rounded-full
+                                            px-10 py-2 text-sm font-semibold rounded-full
                                             bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-700
                                             text-white
                                             shadow-lg
@@ -119,7 +120,7 @@ export default function AdminOrders() {
                                     <button
                                         onClick={() => handleUpdate(order._id)}
                                         className="
-                                                    px-6 py-2 text-sm font-semibold rounded-full
+                                                    px-10 py-2 text-sm font-semibold rounded-full
                                                     bg-gradient-to-r from-green-400 via-green-500 to-teal-600
                                                     text-white
                                                     shadow-lg
@@ -136,7 +137,7 @@ export default function AdminOrders() {
                                     <button
                                         onClick={() => handleDelete(order._id)}
                                         className="
-                                                    px-6 py-2 text-sm font-semibold rounded-full
+                                                    px-10 py-2 text-sm font-semibold rounded-full
                                                     bg-gradient-to-r from-red-500 via-pink-600 to-red-600
                                                     text-white
                                                     shadow-lg
@@ -148,6 +149,15 @@ export default function AdminOrders() {
                                     >
                                         Delete
                                     </button>
+                                </div>
+
+                                <div className="text-white">
+                                    {order?.date && (
+                                    <span className="text-sm  flex gap-3">
+                                        {new Date(order.date).toLocaleDateString()}
+                                        <span>{new Date(order.date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                                    </span>
+                                )}
                                 </div>
 
 

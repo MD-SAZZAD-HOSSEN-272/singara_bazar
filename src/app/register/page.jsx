@@ -42,6 +42,7 @@ export default function LoginForm() {
         const existingUser = userData.find(user => user.email === email);
 
         if (existingUser) {
+            setLoading(false)
             return Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -75,7 +76,6 @@ export default function LoginForm() {
                 });
 
                 route.push("/");
-                setLoading(false)
 
             }
 
@@ -83,11 +83,14 @@ export default function LoginForm() {
 
 
         } catch (error) {
+            setLoading(false)
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: error.message || "Something went wrong",
             });
+        } finally {
+            setLoading(false)
         }
     };
 

@@ -102,7 +102,7 @@ export default function UserDetails() {
                             {/* Order header */}
                             <div className="px-6 py-4 border-b bg-gray-50 rounded-t-2xl flex justify-between items-center">
                                 <h3 className="text-xl font-bold text-gray-800">
-                                    Order #{orderIndex + 1}
+                                    Order Id: {items._id}
                                 </h3>
                                 {items?.date && (
                                     <span className="text-sm text-gray-500 flex gap-3">
