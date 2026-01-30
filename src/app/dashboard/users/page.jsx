@@ -106,7 +106,7 @@ export default function UsersPage() {
                         {/* Avatar */}
                         <div className="w-16 h-16 rounded-full bg-yellow-300 text-purple-700
               flex items-center justify-center text-2xl font-bold mb-4">
-                            {user.name?.charAt(0).toUpperCase()}
+                            {user.name?.slice(0, 2).toUpperCase()}
                         </div>
 
                         <h2 className="text-2xl font-bold mb-1">{user.name}</h2>

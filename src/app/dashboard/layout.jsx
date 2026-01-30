@@ -24,6 +24,7 @@ export default function AdminLayout({ children }) {
   const menu = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Users", path: "/dashboard/users" },
+    { name: "orders", path: "/dashboard/orders" },
     { name: "Settings", path: "/dashboard/settings" },
   ];
 
@@ -93,7 +94,7 @@ export default function AdminLayout({ children }) {
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 bg-white text-gray-900 rounded-2xl shadow-xl w-full">
+        <main className="flex-1 text-gray-900 rounded-2xl shadow-xl w-full">
           {children}
         </main>
       </div>
