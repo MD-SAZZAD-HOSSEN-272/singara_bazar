@@ -1,42 +1,139 @@
 "use client";
 
-import {LineChart, Line, XAxis, YAxis} from "recharts";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from "recharts";
+
+// Add this utility function to format date strings
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
 
 export default function AdminDashboard() {
+  const axiosSecure = useAxiosSecure();
 
-    const data = [
-        { name: "Jan", users: 40 },
-        { name: "Feb", users: 60 },
-    ];
-    return (
-        <div className="p-6">
-            <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+  const { data: aggregateData, isLoading, error } = useQuery({
+    queryKey: ["dashboard"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/api/dashboard");
+      return res.data;
+    },
+  });
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-                <div className="bg-white p-4 rounded shadow">
-                    <h2 className="font-semibold">Total Users</h2>
-                    <p className="text-2xl">120</p>
-                </div>
+  if (isLoading) return <p className="p-6">Loading...</p>;
+  if (error) return <p className="p-6 text-red-600">Error loading data</p>;
 
-                <div className="bg-white p-4 rounded shadow">
-                    <h2 className="font-semibold">Orders</h2>
-                    <p className="text-2xl">45</p>
-                </div>
+  // Debug: Remove this after confirming data shape
+  // console.log("aggregateData", aggregateData);
 
-                <div className="bg-white p-4 rounded shadow">
-                    <h2 className="font-semibold">Revenue</h2>
-                    <p className="text-2xl">$3,200</p>
-                </div>
-            </div>
-            
+  return (
+    <div className="p-6 bg-gray-50 min-h-screen">
+      <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
 
-
-
-            <LineChart width={300} height={200} data={data}>
-                <Line type="monotone" dataKey="users" stroke="#8884d8" />
-                <XAxis dataKey="name" />
-                <YAxis />
-            </LineChart>;
+      {/* SUMMARY CARDS */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+        <div className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-[#8884d8]">
+          <p className="text-gray-500 text-sm">Total Users</p>
+          <h2 className="text-3xl font-bold text-gray-800 mt-2">
+            {aggregateData?.totalUsers ?? 0}
+          </h2>
         </div>
-    );
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-[#8884d8]">
+          <p className="text-gray-500 text-sm">Total Orders</p>
+          <h2 className="text-3xl font-bold text-gray-800 mt-2">
+            {aggregateData?.totalOrders ?? 0}
+          </h2>
+        </div>
+
+        <div className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-[#8884d8]">
+          <p className="text-gray-500 text-sm">Revenue</p>
+          <h2 className="text-3xl font-bold text-gray-800 mt-2">$3,200</h2>
+        </div>
+      </div>
+
+      {/* CHARTS */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
+        {/* USERS CHART */}
+        <div className="bg-white rounded-xl p-5 shadow-sm">
+          <h3 className="font-semibold text-gray-700 mb-4">New Users (Last 7 Days)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={aggregateData?.usersChart ?? []} margin={{ top: 10, right: 30, left: 0, bottom: 50 }}>
+              <CartesianGrid stroke="#f0f0f0" strokeDasharray="3 3" />
+              <XAxis
+                dataKey="_id"
+                tickFormatter={formatDate}
+                tick={{ fontSize: 12, fill: "#666" }}
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                height={50}
+              />
+              <YAxis tick={{ fontSize: 12, fill: "#666" }} />
+              <Tooltip
+                formatter={(value) => [value, "Users"]}
+                labelFormatter={(label) => `Date: ${formatDate(label)}`}
+              />
+              <Line
+                type="monotone"
+                dataKey="total"
+                stroke="#8884d8"
+                strokeWidth={3}
+                dot={{ r: 5, strokeWidth: 2, fill: "#fff" }}
+                activeDot={{ r: 7 }}
+                isAnimationActive={true}
+                animationDuration={1000}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* ORDERS CHART */}
+        <div className="bg-white rounded-xl p-5 shadow-sm">
+          <h3 className="font-semibold text-gray-700 mb-4">Orders (Last 7 Days)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={aggregateData?.ordersChart ?? []} margin={{ top: 10, right: 30, left: 0, bottom: 50 }}>
+              <CartesianGrid stroke="#f0f0f0" strokeDasharray="3 3" />
+              <XAxis
+                dataKey="_id"
+                tickFormatter={formatDate}
+                tick={{ fontSize: 12, fill: "#666" }}
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                height={50}
+              />
+              <YAxis tick={{ fontSize: 12, fill: "#666" }} />
+              <Tooltip
+                formatter={(value) => [value, "Orders"]}
+                labelFormatter={(label) => `Date: ${formatDate(label)}`}
+              />
+              <Line
+                type="monotone"
+                dataKey="total"
+                stroke="#82ca9d"
+                strokeWidth={3}
+                dot={{ r: 5, strokeWidth: 2, fill: "#fff" }}
+                activeDot={{ r: 7 }}
+                isAnimationActive={true}
+                animationDuration={1000}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
+    </div>
+  );
 }
