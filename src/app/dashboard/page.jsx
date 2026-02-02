@@ -35,8 +35,13 @@ export default function AdminDashboard() {
   if (isLoading) return <p className="p-6">Loading...</p>;
   if (error) return <p className="p-6 text-red-600">Error loading data</p>;
 
+  const sortedOrdersChart = [...(aggregateData?.orderChart ?? [])].sort(
+  (a, b) => new Date(a._id) - new Date(b._id)
+);
+
   // Debug: Remove this after confirming data shape
-  // console.log("aggregateData", aggregateData);
+  console.log(aggregateData)
+  console.log("aggregateData", sortedOrdersChart);
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
@@ -68,6 +73,40 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         {/* USERS CHART */}
         <div className="bg-white rounded-xl p-5 shadow-sm">
+          <h3 className="font-semibold text-gray-700 mb-4">New Order (Last 7 Days)</h3>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={aggregateData.orderChart ?? []} margin={{ top: 10, right: 30, left: 0, bottom: 50 }}>
+              <CartesianGrid stroke="#f0f0f0" strokeDasharray="3 3" />
+              <XAxis
+                dataKey="_id"
+                tickFormatter={formatDate}
+                tick={{ fontSize: 12, fill: "#666" }}
+                interval={0}
+                angle={-45}
+                textAnchor="end"
+                height={50}
+              />
+              <YAxis tick={{ fontSize: 12, fill: "#666" }} />
+              <Tooltip
+                formatter={(value) => [value, "Orders"]}
+                labelFormatter={(label) => `Date: ${formatDate(label)}`}
+              />
+              <Line
+                type="monotone"
+                dataKey="totalOrders"
+                stroke="#8884d8"
+                strokeWidth={3}
+                dot={{ r: 5, strokeWidth: 2, fill: "#fff" }}
+                activeDot={{ r: 7 }}
+                isAnimationActive={true}
+                animationDuration={1000}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+
+        {/* ORDERS CHART */}
+        <div className="bg-white rounded-xl p-5 shadow-sm">
           <h3 className="font-semibold text-gray-700 mb-4">New Users (Last 7 Days)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={aggregateData?.usersChart ?? []} margin={{ top: 10, right: 30, left: 0, bottom: 50 }}>
@@ -84,40 +123,6 @@ export default function AdminDashboard() {
               <YAxis tick={{ fontSize: 12, fill: "#666" }} />
               <Tooltip
                 formatter={(value) => [value, "Users"]}
-                labelFormatter={(label) => `Date: ${formatDate(label)}`}
-              />
-              <Line
-                type="monotone"
-                dataKey="total"
-                stroke="#8884d8"
-                strokeWidth={3}
-                dot={{ r: 5, strokeWidth: 2, fill: "#fff" }}
-                activeDot={{ r: 7 }}
-                isAnimationActive={true}
-                animationDuration={1000}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
-
-        {/* ORDERS CHART */}
-        <div className="bg-white rounded-xl p-5 shadow-sm">
-          <h3 className="font-semibold text-gray-700 mb-4">Orders (Last 7 Days)</h3>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={aggregateData?.ordersChart ?? []} margin={{ top: 10, right: 30, left: 0, bottom: 50 }}>
-              <CartesianGrid stroke="#f0f0f0" strokeDasharray="3 3" />
-              <XAxis
-                dataKey="_id"
-                tickFormatter={formatDate}
-                tick={{ fontSize: 12, fill: "#666" }}
-                interval={0}
-                angle={-45}
-                textAnchor="end"
-                height={50}
-              />
-              <YAxis tick={{ fontSize: 12, fill: "#666" }} />
-              <Tooltip
-                formatter={(value) => [value, "Orders"]}
                 labelFormatter={(label) => `Date: ${formatDate(label)}`}
               />
               <Line

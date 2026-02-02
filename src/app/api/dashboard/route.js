@@ -60,7 +60,7 @@ export async function GET() {
         {
             $group: {
                 _id: {
-                    $dateToString: { format: "%Y-%m-%d", date: "$createdAt" }
+                    $dateToString: { format: "%Y-%m-%d", date: "$date" }
                 },
                 total: { $sum: 1 }
             }
