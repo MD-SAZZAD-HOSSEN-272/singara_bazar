@@ -1,6 +1,9 @@
 "use client";
+import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
+import { useCurrentUser } from "@/app/Hooks/useCurrentUser";
 import useImgbb from "@/app/Hooks/useImgBB";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 
 export default function AddProduct() {
     const [product, setProduct] = useState({
@@ -11,9 +14,12 @@ export default function AddProduct() {
 
     const [imageFile, setImageFile] = useState(null);
     const [preview, setPreview] = useState(null);
-
+    const fileInputRef = useRef(null);
     const { uploadImage, loading } = useImgbb();
     const [isDragging, setIsDragging] = useState(false);
+    const axiosSecure = useAxiosSecure()
+    const currentUser = useCurrentUser()
+
 
 
     /* ---------------- Preview handling ---------------- */
@@ -59,18 +65,27 @@ export default function AddProduct() {
         if (!imageUrl) return;
 
         const newProduct = {
-            id: Date.now(),
             name: product.name,
             price: Number(product.price),
             image: imageUrl,
             description: product.description,
+            addedBy: currentUser?.currentUser?.email
         };
 
         console.log("Product added:", newProduct);
-
+        const res = await axiosSecure.post('/api/Products/post_products', newProduct)
+        console.log(res);
+        if (res.data.insertedId) {
+            Swal.fire({
+                title: "Successfuly added the product",
+                icon: "success",
+                draggable: true
+            });
+            setProduct({ name: "", price: "", description: "" });
+            setImageFile(null);
+        }
         // reset
-        setProduct({ name: "", price: "", description: "" });
-        setImageFile(null);
+
     };
 
     return (
@@ -124,11 +139,10 @@ export default function AddProduct() {
                             onDragOver={handleDragOver}
                             onDragEnter={handleDragEnter}
                             onDragLeave={handleDragLeave}
-                            className={`flex flex-col items-center justify-center w-full h-44 
-    border-2 border-dashed rounded-2xl cursor-pointer transition
-    ${isDragging
-                                    ? "border-indigo-600 bg-indigo-100"
-                                    : "border-indigo-300 bg-indigo-50"
+                            onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                            className={`flex flex-col items-center justify-center w-full h-44 border-2 border-dashed rounded-2xl cursor-pointer transition ${isDragging
+                                ? "border-indigo-600 bg-indigo-100"
+                                : "border-indigo-300 bg-indigo-50"
                                 }`}
                         >
                             <span className="text-4xl">📸</span>
@@ -138,6 +152,7 @@ export default function AddProduct() {
                             </p>
 
                             <input
+                                ref={fileInputRef}
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => setImageFile(e.target.files[0])}

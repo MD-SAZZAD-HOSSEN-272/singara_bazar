@@ -6,55 +6,61 @@ import ProductCard from "../../Components/ProductCard";
 import ProductModal from "../../Components/ProductModal";
 import CartPage from "../../Components/CartPage";
 import { PurchaseModal } from "@/app/Components/PurchaseMdal";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
+import OrderSkeleton from "@/app/Components/Skeleton/OrderSkeleton";
 
-const products = [
-    {
-        id: 1,
-        name: "Honey Nuts",
-        price: 350,
-        image: "/assets/honeay.jpg",
-        description: "Crispy fried honey with nuts filling",
-    },
-    {
-        id: 2,
-        name: "Paratha",
-        price: 15,
-        image: "/assets/2.jpg",
-        description: "Soft layered paratha",
-    },
-    {
-        id: 3,
-        name: "Piyaju",
-        price: 10,
-        image: "/assets/6.jpg",
-        description: "Lentil fritters with onion",
-    },
-    {
-        id: 4,
-        name: "Puri",
-        price: 12,
-        image: "/assets/4.jpg",
-        description: "Deep fried fluffy puri",
-    },
-    {
-        id: 5,
-        name: "Gilapi",
-        price: 20,
-        image: "/assets/5.jpg",
-        description: "Sweet syrup soaked jilapi",
-    },
-    {
-        id: 6,
-        name: "Nan Roti",
-        price: 30,
-        image: "/assets/3.jpg",
-        description: "Soft tandoori naan",
-    },
-];
+// const products = [
+//     {
+//         id: 1,
+//         name: "Honey Nuts",
+//         price: 350,
+//         image: "/assets/honeay.jpg",
+//         description: "Crispy fried honey with nuts filling",
+//     },
+//     {
+//         id: 2,
+//         name: "Paratha",
+//         price: 15,
+//         image: "/assets/2.jpg",
+//         description: "Soft layered paratha",
+//     },
+//     {
+//         id: 3,
+//         name: "Piyaju",
+//         price: 10,
+//         image: "/assets/6.jpg",
+//         description: "Lentil fritters with onion",
+//     },
+//     {
+//         id: 4,
+//         name: "Puri",
+//         price: 12,
+//         image: "/assets/4.jpg",
+//         description: "Deep fried fluffy puri",
+//     },
+//     {
+//         id: 5,
+//         name: "Gilapi",
+//         price: 20,
+//         image: "/assets/5.jpg",
+//         description: "Sweet syrup soaked jilapi",
+//     },
+//     {
+//         id: 6,
+//         name: "Nan Roti",
+//         price: 30,
+//         image: "/assets/3.jpg",
+//         description: "Soft tandoori naan",
+//     },
+// ];
 
 export default function Home() {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [cardPage, setCardPage] = useState(false)
+    const axiosSecure = useAxiosSecure()
+
+
 
     const [cart, setCart] = useState([]);
     const [cartData, setCartData] = useState([]);
@@ -96,7 +102,7 @@ export default function Home() {
 
     // Purchase
     // const handlePurchasesButton = (item) => {
-        
+
     // };
 
 
@@ -104,6 +110,16 @@ export default function Home() {
     const handleCardPage = () => {
         setCardPage(!cardPage)
     }
+
+    const { data: products = [], isLoading, error } = useQuery({
+        queryKey: ['products'],
+        queryFn: async () => {
+            const res = await axiosSecure('/api/Products/get_products')
+            return res.data
+        },
+    })
+
+    if (isLoading) return <OrderSkeleton />
 
     console.log(cardPage)
 
@@ -122,7 +138,7 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
                 {products.map((product) => (
                     <ProductCard
-                        key={product.id}
+                        key={product._id}
                         product={product}
                         onDetails={setSelectedProduct}
                         setPurchaseModal={setPurchaseModal}
