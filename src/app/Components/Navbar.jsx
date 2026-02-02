@@ -4,12 +4,15 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
 import { useRouter } from "next/navigation";
-import Cart from "./Cart";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
-export default function Navbar({ cart }) {
+export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null)
   const route = useRouter()
+  const axiosSecure = useAxiosSecure()
+  const [user, setUser] = useState(null)
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -23,6 +26,25 @@ export default function Navbar({ cart }) {
     // cleanup listener when component unmounts
     return () => unsubscribe();
   }, []);
+
+
+  useEffect(() => {
+    if (!currentUser?.email) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axiosSecure(
+          `/api/users/single_user_by_email?email=${currentUser.email}`
+        );
+        setUser(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, [currentUser]);
+
 
   const handleLogout = () => {
     route.push('/login')
@@ -68,9 +90,11 @@ export default function Navbar({ cart }) {
                 <Link href="#" className="hover:text-yellow-300 transition">
                   Reports
                 </Link>
-                <Link href='/dashboard'>
-                  Dashboard
-                </Link>
+                {
+                  user?.role === 'admin' && <Link href='/dashboard'>
+                    Dashboard
+                  </Link>
+                }
                 <Link href="profile" className="hover:text-yellow-300 transition">
                   Profile
                 </Link>

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function UpdateUserModal({ user, onSubmit, onClose }) {
+export default function UpdateUserModal({ user, handleUpdateDataFrom, onClose }) {
   const [formData, setFormData] = useState({
     name: user?.name || "",
     email: user?.email || "",
@@ -14,9 +14,11 @@ export default function UpdateUserModal({ user, onSubmit, onClose }) {
     });
   };
 
+  console.log(formData);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ role: formData.role }); // only send role
+    handleUpdateDataFrom({ role: formData.role }, user._id); // only send role
     onClose();
   };
 

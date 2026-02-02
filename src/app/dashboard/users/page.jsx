@@ -75,6 +75,12 @@ export default function UsersPage() {
         setUser(user);
     };
 
+    const handleUpdateDataFrom = async (role, id) => {
+        // console.log(role, id);
+        const res = await axiosSecure.patch(`/api/users/update/${id}`, role)
+        console.log(res.data);
+    }
+
     if (loading) {
         return (
             <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
@@ -117,24 +123,23 @@ export default function UsersPage() {
                         </div>
 
                         {/* 🔐 Admin Controls */}
-                        {currentUser?.email === ADMIN_EMAIL && (
-                            <div className="mt-6 flex gap-4">
-                                <button
-                                    onClick={() => handleUpdate(user)}
-                                    className="flex-1 py-2 rounded-lg bg-yellow-300 text-purple-700 font-bold
-                  hover:bg-white transition"
-                                >
-                                    Update
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(user._id)}
-                                    className="flex-1 py-2 rounded-lg bg-rose-600 font-bold
-                  hover:bg-rose-700 transition"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        )}
+
+                        <div className="mt-6 flex gap-4">
+                            <button
+                                onClick={() => handleUpdate(user)}
+                                className="flex-1 py-2 rounded-lg bg-yellow-300 text-purple-700 font-bold
+                  hover:bg-white transition cursor-pointer"
+                            >
+                                Update
+                            </button>
+                            <button
+                                onClick={() => handleDelete(user._id)}
+                                className="flex-1 py-2 rounded-lg bg-rose-600 font-bold
+                  hover:bg-rose-700 transition cursor-pointer"
+                            >
+                                Delete
+                            </button>
+                        </div>
 
                     </div>
                 ))}
@@ -145,6 +150,7 @@ export default function UsersPage() {
                 <UpdateUserModal
                     user={user}
                     onClose={() => setOpen(false)}
+                    handleUpdateDataFrom={handleUpdateDataFrom}
                 />
             )}
 

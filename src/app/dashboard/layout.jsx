@@ -1,33 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCurrentUser } from "../Hooks/useCurrentUser";
 import UnauthorizedPage from "../Components/UnauthorizedPage";
+import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const {currentUser, loading} = useCurrentUser()
-  const route = useRouter()
-
-  if(loading) return null
-
-  console.log(currentUser)
-  if(!currentUser){
-    return route.push('login')
-  }
-
-  if(currentUser.email !== 'mdsazzadhosen472@gmail.com')return <UnauthorizedPage/>
+  const { currentUser, loading } = useCurrentUser();
+  const router = useRouter();
+  const axiosSecure = useAxiosSecure();
+  const [user, setUser] = useState(null);
 
   const menu = [
     { name: "Dashboard", path: "/dashboard" },
     { name: "Users", path: "/dashboard/users" },
-    { name: "orders", path: "/dashboard/orders" },
+    { name: "Orders", path: "/dashboard/orders" },
     { name: "Add Product", path: "/dashboard/add_product" },
     { name: "Settings", path: "/dashboard/settings" },
   ];
+
+  // ✅ ALWAYS runs
+  useEffect(() => {
+    if (!currentUser?.email) return;
+
+    const fetchUser = async () => {
+      try {
+        const res = await axiosSecure(
+          `/api/users/single_user_by_email?email=${currentUser.email}`
+        );
+        setUser(res.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUser();
+  }, [currentUser, axiosSecure]);
+
+  // ✅ CONDITIONAL RENDERING (after hooks)
+
+  if (loading) {
+    return <div className="text-white p-10">Loading...</div>;
+  }
+
+  if (!currentUser) {
+    router.push("/login");
+    return null;
+  }
+
+  if (user && user.role !== "admin") {
+    return <UnauthorizedPage />;
+  }
 
   return (
     <div className="bg-gradient-to-br pt-16 from-[#8E2DE2] via-[#A855F7] to-[#EC4899] text-white font-sans min-h-screen">
@@ -81,10 +108,9 @@ export default function AdminLayout({ children }) {
                   href={item.path}
                   onClick={() => setOpen(false)}
                   className={`block px-4 py-3 rounded-xl transition-all duration-300
-                    ${
-                      active
-                        ? "bg-gradient-to-r from-[#8E2DE2] to-[#EC4899] shadow-lg"
-                        : "hover:bg-white/20"
+                    ${active
+                      ? "bg-gradient-to-r from-[#8E2DE2] to-[#EC4899] shadow-lg"
+                      : "hover:bg-white/20"
                     }`}
                 >
                   {item.name}
