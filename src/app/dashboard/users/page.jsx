@@ -6,6 +6,7 @@ import UserCardSkeleton from "../../Components/Skeleton/UserCardSkeleton";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Components/firebase";
 import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
+import UpdateUserModal from "@/app/Components/UpdateUserModal";
 
 const ADMIN_EMAIL = 'mdsazzadhosen472@gmail.com';
 
@@ -14,6 +15,8 @@ export default function UsersPage() {
     const [loading, setLoading] = useState(true);
     const [currentUser, setCurrentUser] = useState(null)
     const axiosSecure = useAxiosSecure()
+    const [open, setOpen] = useState(false);
+    const [user, setUser] = useState(null)
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -68,11 +71,8 @@ export default function UsersPage() {
     };
 
     const handleUpdate = (user) => {
-        Swal.fire({
-            title: "Update User",
-            text: `Update user: ${user.name}`,
-            icon: "info",
-        });
+        setOpen(true)
+        setUser(user);
     };
 
     if (loading) {
@@ -140,6 +140,14 @@ export default function UsersPage() {
                 ))}
 
             </div>
+
+            {open && (
+                <UpdateUserModal
+                    user={user}
+                    onClose={() => setOpen(false)}
+                />
+            )}
+
         </div>
     );
 }

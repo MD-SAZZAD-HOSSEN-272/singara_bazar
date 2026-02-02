@@ -79,7 +79,8 @@ export default function SignInForm() {
                 email: user?.email,
                 photo: user?.photoURL,
                 password: user?.providerId,
-                date: new Date()
+                date: new Date(),
+                role: 'user'
             }
 
             // Get users from MongoDB

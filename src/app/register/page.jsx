@@ -50,7 +50,7 @@ export default function LoginForm() {
             });
         }
 
-        const fieldData = { name, email, password, date: new Date() };
+        const fieldData = { name, email, password, date: new Date(), role: 'user' };
 
         try {
             // 1️⃣ Call your backend API
@@ -113,7 +113,8 @@ export default function LoginForm() {
                 email: user?.email,
                 photo: user?.photoURL,
                 password: user?.providerId,
-                date: new Date()
+                date: new Date(),
+                role: 'user'
             }
 
             // Get users from MongoDB
