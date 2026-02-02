@@ -39,7 +39,7 @@ export async function GET() {
         .toArray();
 
     // CHART DATA
-    const orderChart = await ordersCollection
+    const orderChart = await purchasesCollection
         .aggregate([
             {
                 $group: {

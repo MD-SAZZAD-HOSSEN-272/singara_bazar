@@ -72,7 +72,7 @@ export default function AdminOrders() {
     }
 
     return (
-        <div className="min-h-screen p-6 bg-gradient-to-r from-purple-900 via-indigo-900 to-blue-900">
+        <div className="min-h-screen p-6 bg-gradient-to-r from-purple-900 via-indigo-900 to-blue-900 rounded-2xl">
             <h1 className="text-3xl font-bold text-white mb-6">🧾 All Orders</h1>
 
             <div className="flex flex-col gap-5">

@@ -44,7 +44,7 @@ export default function AdminDashboard() {
   console.log("aggregateData", sortedOrdersChart);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="p-6 bg-gray-50 rounded-2xl">
       <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
 
       {/* SUMMARY CARDS */}
@@ -57,9 +57,9 @@ export default function AdminDashboard() {
         </div>
 
         <div className="bg-white rounded-xl p-5 shadow-sm border-l-4 border-[#8884d8]">
-          <p className="text-gray-500 text-sm">Total Orders</p>
+          <p className="text-gray-500 text-sm">Total Personal Orders</p>
           <h2 className="text-3xl font-bold text-gray-800 mt-2">
-            {aggregateData?.totalOrders ?? 0}
+            {aggregateData?.totalPurchases ?? 0}
           </h2>
         </div>
 
@@ -73,7 +73,7 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10">
         {/* USERS CHART */}
         <div className="bg-white rounded-xl p-5 shadow-sm">
-          <h3 className="font-semibold text-gray-700 mb-4">New Order (Last 7 Days)</h3>
+          <h3 className="font-semibold text-gray-700 mb-4">New Personal Order (Last 7 Days)</h3>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={aggregateData.orderChart ?? []} margin={{ top: 10, right: 30, left: 0, bottom: 50 }}>
               <CartesianGrid stroke="#f0f0f0" strokeDasharray="3 3" />
