@@ -128,7 +128,7 @@ export default function Home() {
 
 
     return (
-        <main className="min-h-screen bg-gradient-to-br pt-40 from-[#a855f7] via-[#c084fc] to-[#ec4899] py-10">
+        <main className="min-h-screen bg-gradient-to-br pt-28 px-10 lg:pt-40 from-[#a855f7] via-[#c084fc] to-[#ec4899] py-10">
 
             <Cart cart={cart} handleCardPage={handleCardPage}></Cart>
 

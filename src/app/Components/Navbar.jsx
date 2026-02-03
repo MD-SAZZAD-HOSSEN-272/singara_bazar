@@ -1,207 +1,143 @@
 "use client";
+
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { auth } from "./firebase";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null)
-  const route = useRouter()
-  const axiosSecure = useAxiosSecure()
-  const [user, setUser] = useState(null)
+  const [currentUser, setCurrentUser] = useState(null);
+  const [user, setUser] = useState(null);
 
+  const router = useRouter();
+  const pathname = usePathname();
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    // cleanup listener when component unmounts
-    return () => unsubscribe();
+    const unsub = onAuthStateChanged(auth, (u) => setCurrentUser(u || null));
+    return () => unsub();
   }, []);
-
 
   useEffect(() => {
     if (!currentUser?.email) return;
 
-    const fetchUser = async () => {
-      try {
-        const res = await axiosSecure(
-          `/api/users/single_user_by_email?email=${currentUser.email}`
-        );
-        setUser(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    axiosSecure(`/api/users/single_user_by_email?email=${currentUser.email}`)
+      .then(res => setUser(res.data))
+      .catch(console.error);
+  }, [currentUser, axiosSecure]);
 
-    fetchUser();
-  }, [currentUser]);
+  const handleLogout = async () => {
+    await signOut(auth);
+    setMenuOpen(false);
+    router.push("/login");
+  };
 
-
-  const handleLogout = () => {
-    route.push('/login')
-    signOut(auth).then(() => {
-      // Sign-out successful.
-
-    }).catch((error) => {
-      // An error happened.
-    });
-  }
-
+  const navItem = (path) =>
+    `block px-4 py-2 rounded-md transition text-sm font-medium
+     ${pathname === path
+      ? "bg-slate-800 text-white"
+      : "text-slate-300 hover:bg-slate-800 hover:text-white"
+    }`;
 
   return (
-    <nav className="w-full fixed top-0 left-0 bg-black/50 backdrop-blur-lg border-b border-white/50 z-50">
-      <div className="max-w-7xl mx-auto ">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur border-b border-white/10">
+      <div className="max-w-7xl mx-auto px-5">
+        <div className="flex h-16 items-center justify-between">
+
           {/* Logo */}
-          <Link href='/' className="flex-shrink-0 text-white font-bold text-2xl">
-            SingaraOrder
+          <Link href="/" className="text-lg font-semibold text-white">
+            Singara<span className="text-indigo-400">Order</span>
           </Link>
+
           {/* Desktop Menu */}
-          {
-            currentUser ? (
-              <div className="hidden md:flex space-x-6 text-white font-semibold">
-                <Link href="/" className="hover:text-yellow-300 transition">
-                  Home
-                </Link>
-                <Link href="/create_order" className="hover:text-yellow-300 transition">
-                  Create A Order
-                </Link>
-                <Link href="/items" className="hover:text-yellow-300 transition">
-                  Items
-                </Link>
-                <Link href="order" className="hover:text-yellow-300 transition">
-                  Orders
-                </Link>
-                <Link href="personal_order" className="hover:text-yellow-300 transition">
-                  Personal Orders
-                </Link>
-                <Link href="users" className="hover:text-yellow-300 transition">
-                  Employees
-                </Link>
-                <Link href="#" className="hover:text-yellow-300 transition">
-                  Reports
-                </Link>
-                {
-                  user?.role === 'admin' && <Link href='/dashboard'>
+          <div className="hidden lg:flex items-center gap-1">
+            {currentUser && (
+              <>
+                <Link href="/" className={navItem("/")}>Home</Link>
+                <Link href="/items" className={navItem("/items")}>Items</Link>
+                <Link href="/order" className={navItem("/order")}>Orders</Link>
+                <Link href="/personal_order" className={navItem("/personal_order")}>Personal</Link>
+                <Link href="/users" className={navItem("/users")}>Employees</Link>
+
+                {user?.role === "admin" && (
+                  <Link href="/dashboard" className={navItem("/dashboard")}>
                     Dashboard
                   </Link>
-                }
-                <Link href="profile" className="hover:text-yellow-300 transition">
-                  Profile
-                </Link>
-                <button onClick={handleLogout} className="hover:text-yellow-300 transition cursor-pointer">
-                  Logout
-                </button>
+                )}
 
-              </div>
-            ) : (
-              <div className="hidden md:flex space-x-6 text-white font-semibold">
-                <Link href="/" className="hover:text-yellow-300 transition">
-                  Home
-                </Link>
-                <Link href="login" className="hover:text-yellow-300 transition">Login</Link>
-                <Link href="register" className="hover:text-yellow-300 transition">Register</Link>
-              </div>
-            )
-          }
+                <Link href="/profile" className={navItem("/profile")}>Profile</Link>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="text-white focus:outline-none"
-            >
-              {menuOpen ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
+                <button
+                  onClick={handleLogout}
+                  className="ml-3 px-4 py-2 text-sm rounded-md bg-red-500/90 hover:bg-red-600 text-white"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              ) : (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                </svg>
-              )}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {/* Mobile Menu */}
-        {menuOpen && (
-          <div className="md:hidden mt-2 space-y-2 px-2 pb-4 text-white font-semibold">
-            {currentUser ? (
-              <>
-                <Link href="/" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Home
-                </Link>
-                <Link href="/create_order" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Create A Order
-                </Link>
-                <Link href="/items" className="hover:text-yellow-300 transition">
-                  Items
-                </Link>
-                <Link href="/order" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Orders
-                </Link>
-                <Link href="personal_order" className="hover:text-yellow-300 transition">
-                  Personal Orders
-                </Link>
-                <Link href="/users" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Employees
-                </Link>
-                <Link href="profile" className="hover:text-yellow-300 transition">
-                  Profile
-                </Link>
-                <button onClick={handleLogout} className="block px-2 py-1 hover:text-yellow-300 transition">
                   Logout
                 </button>
               </>
-            ) : (
+            )}
+
+            {!currentUser && (
               <>
-                <Link href="/" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Home
-                </Link>
-                <Link href="/login" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Login
-                </Link>
-                <Link href="/register" className="block px-2 py-1 hover:text-yellow-300 transition">
-                  Register
-                </Link>
+                <Link href="/login" className={navItem("/login")}>Login</Link>
+                <Link href="/register" className={navItem("/register")}>Register</Link>
               </>
             )}
           </div>
-        )}
 
+          {/* Mobile Toggle */}
+          <button
+            onClick={() => setMenuOpen(true)}
+            className="lg:hidden text-slate-200 p-2"
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      <div
+        className={`lg:hidden fixed inset-x-0 top-16 bg-slate-900 border-t border-white/10
+        transition-all duration-300 ease-in-out
+        ${menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}
+      >
+        <div className="px-5 py-4 space-y-1">
+
+          {currentUser ? (
+            <>
+              <Link onClick={() => setMenuOpen(false)} href="/" className={navItem("/")}>Home</Link>
+              <Link onClick={() => setMenuOpen(false)} href="/items" className={navItem("/items")}>Items</Link>
+              <Link onClick={() => setMenuOpen(false)} href="/order" className={navItem("/order")}>Orders</Link>
+              <Link onClick={() => setMenuOpen(false)} href="/personal_order" className={navItem("/personal_order")}>Personal</Link>
+              <Link onClick={() => setMenuOpen(false)} href="/users" className={navItem("/users")}>Employees</Link>
+
+              {user?.role === "admin" && (
+                <Link onClick={() => setMenuOpen(false)} href="/dashboard" className={navItem("/dashboard")}>
+                  Dashboard
+                </Link>
+              )}
+
+              <Link onClick={() => setMenuOpen(false)} href="/profile" className={navItem("/profile")}>
+                Profile
+              </Link>
+
+              <button
+                onClick={handleLogout}
+                className="w-full mt-2 px-4 py-2 text-left rounded-md bg-red-500/90 hover:bg-red-600 text-white"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link onClick={() => setMenuOpen(false)} href="/login" className={navItem("/login")}>Login</Link>
+              <Link onClick={() => setMenuOpen(false)} href="/register" className={navItem("/register")}>Register</Link>
+            </>
+          )}
+
+        </div>
       </div>
     </nav>
   );
