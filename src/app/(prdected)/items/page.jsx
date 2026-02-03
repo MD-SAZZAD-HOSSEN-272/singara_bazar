@@ -9,6 +9,8 @@ import { PurchaseModal } from "@/app/Components/PurchaseMdal";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "@/app/Hooks/useAxiosSecure";
 import OrderSkeleton from "@/app/Components/Skeleton/OrderSkeleton";
+import UserCardSkeleton from "@/app/Components/Skeleton/UserCardSkeleton";
+import ProductCardSkeleton from "@/app/Components/Skeleton/ProductCardSkeleton";
 
 // const products = [
 //     {
@@ -116,9 +118,9 @@ export default function Home() {
     })
 
     if (isLoading) return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
-        <div className="max-w-7xl mx-auto gap-10 space-y-5">
-            {Array.from({ length: 3 }).map((_, i) => (
-                <OrderSkeleton key={i} />
+        <div className="max-w-7xl mx-auto gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+                <ProductCardSkeleton key={i} />
             ))}
         </div>
     </div>;
