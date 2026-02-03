@@ -89,10 +89,11 @@ export default function Navbar() {
 
           {/* Mobile Toggle */}
           <button
-            onClick={() => setMenuOpen(true)}
-            className="lg:hidden text-slate-200 p-2"
+            onClick={() => setMenuOpen(prev => !prev)}
+            className="lg:hidden text-slate-200 p-2 text-2xl"
+            aria-label="Toggle menu"
           >
-            ☰
+            {menuOpen ? "✕" : "☰"}
           </button>
         </div>
       </div>
