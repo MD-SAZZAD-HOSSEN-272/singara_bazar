@@ -12,7 +12,6 @@ export default function useImgbb() {
     setLoading(true);
     setError(null);
 
-    console.log(imageFile);
 
     const formData = new FormData();
     formData.append("image", imageFile);

@@ -39,9 +39,6 @@ export default function OrdersPage() {
   const [admin, setAdmin] = useState(null)
 
 
-  console.log(admin)
-
-
 
   const { data, isLoading, error, refetch } = useQuery({
     queryKey: ["orders"],
@@ -68,8 +65,6 @@ export default function OrdersPage() {
     refetchInterval: 5000, // প্রতি 5 সেকেন্ডে fetch করবে
   });
 
-  console.log(adminControlData)
-
   useEffect(() => {
     if (Array.isArray(adminControlData) && adminControlData.length > 0) {
       if (adminControlData[0]?.isAdmin !== undefined) {
@@ -78,16 +73,12 @@ export default function OrdersPage() {
     }
   }, [adminControlData]);
 
-  console.log(adminControlData)
-
   // State for date filtering
   const [selectedDate, setSelectedDate] = useState(
     new Date().toISOString().split("T")[0] // yyyy-mm-dd
   );
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [currentUser, setCurrentUser] = useState(null)
-
-  console.log(selectedDate)
   useEffect(() => {
     // listener only after component mounts
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -104,8 +95,6 @@ export default function OrdersPage() {
     queryFn: () => fetchSummary(selectedDate),
     enabled: !!selectedDate, // 👈 important
   });
-
-  console.log(summary)
 
 
   useEffect(() => {

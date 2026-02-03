@@ -5,8 +5,6 @@ export const placeOrders = async (payload) => {
   try {
     const orderCollection = await dbConnect("purchasesItems");
 
-    console.log(payload)
-
     // ✅ add date properly
     payload.date = new Date();
 

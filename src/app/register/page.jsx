@@ -59,11 +59,8 @@ export default function LoginForm() {
             // 2️⃣ Firebase Signup
             const userCredential = await createUserWithEmailAndPassword(auth, email, password);
             const user = userCredential.user;
-
-            console.log(user)
             if (user.email) {
                 const res = await users(fieldData);
-                console.log(res);
                 await updateProfile(user, { displayName: name });
 
                 // 4️⃣ Success
@@ -104,8 +101,6 @@ export default function LoginForm() {
             const token = credential?.accessToken;
             const user = result.user;
 
-            console.log(user, credential);
-
             if (!user?.email) return;
 
             const fieldData = {
@@ -127,7 +122,6 @@ export default function LoginForm() {
             // If user does not exist, create new user
             if (!existingUser) {
                 const res = await users(fieldData);
-                console.log(res);
             }
             route.push("/");
             // Success alert
@@ -143,9 +137,6 @@ export default function LoginForm() {
 
         } catch (error) {
             console.error(error.message);
-            console.log(
-                GoogleAuthProvider.credentialFromError(error)
-            );
         } finally {
             setLoading(false);
         }

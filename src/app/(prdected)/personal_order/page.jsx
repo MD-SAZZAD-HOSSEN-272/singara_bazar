@@ -31,8 +31,6 @@ export default function UserDetails() {
         enabled: !!currentUser?.email,
     });
 
-    console.log(data)
-
     if (isLoading) return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
         <div className="max-w-7xl mx-auto gap-10 space-y-5">
             {Array.from({ length: 3 }).map((_, i) => (

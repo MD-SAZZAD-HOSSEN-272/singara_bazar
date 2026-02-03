@@ -14,8 +14,6 @@ export default function UpdateUserModal({ user, handleUpdateDataFrom, onClose })
     });
   };
 
-  console.log(formData);
-
   const handleSubmit = (e) => {
     e.preventDefault();
     handleUpdateDataFrom({ role: formData.role }, user._id); // only send role

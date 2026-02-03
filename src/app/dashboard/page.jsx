@@ -39,9 +39,6 @@ export default function AdminDashboard() {
   (a, b) => new Date(a._id) - new Date(b._id)
 );
 
-  // Debug: Remove this after confirming data shape
-  console.log(aggregateData)
-  console.log("aggregateData", sortedOrdersChart);
 
   return (
     <div className="p-6 bg-gray-50 rounded-2xl">

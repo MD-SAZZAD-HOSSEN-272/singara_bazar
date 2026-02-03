@@ -24,9 +24,6 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
   }, []);
 
 
-  console.log(currentUser)
-
-
   // ➕ Increase quantity
   const increaseQuantity = (id) => {
     const updated = cartData.map((item) =>
@@ -61,8 +58,6 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
     (total, item) => total + item.price * item.quantity,
     0
   );
-
-  console.log(totalPrice)
 
 
   const handleOrderPlace = async () => {

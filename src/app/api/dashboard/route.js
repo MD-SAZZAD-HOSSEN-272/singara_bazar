@@ -14,7 +14,7 @@ export async function GET() {
     const users = await usersCollection
         .aggregate([{ $count: "totalUsers" }])
         .toArray();
-    console.log(users)
+        
     const orders = await ordersCollection
         .aggregate([{ $count: "totalOrders" }])
         .toArray();

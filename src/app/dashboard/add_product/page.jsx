@@ -72,9 +72,8 @@ export default function AddProduct() {
             addedBy: currentUser?.currentUser?.email
         };
 
-        console.log("Product added:", newProduct);
         const res = await axiosSecure.post('/api/Products/post_products', newProduct)
-        console.log(res);
+
         if (res.data.insertedId) {
             Swal.fire({
                 title: "Successfuly added the product",

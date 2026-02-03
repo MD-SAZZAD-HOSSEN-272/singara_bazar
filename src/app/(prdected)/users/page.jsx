@@ -41,34 +41,6 @@ export default function UsersPage() {
         return () => unsubscribe();
       }, []);
 
-    const handleDelete = async (id) => {
-        const confirm = await Swal.fire({
-            title: "Are you sure?",
-            text: "This user will be deleted permanently!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#e11d48",
-            confirmButtonText: "Yes, delete it!",
-        });
-
-        if (!confirm.isConfirmed) return;
-
-        // 🔥 example delete call
-        // await fetch('/api/delete_user', { method: 'DELETE', body: JSON.stringify({ id }) })
-
-        setUsers(prev => prev.filter(user => user._id !== id));
-
-        Swal.fire("Deleted!", "User has been removed.", "success");
-    };
-
-    const handleUpdate = (user) => {
-        Swal.fire({
-            title: "Update User",
-            text: `Update user: ${user.name}`,
-            icon: "info",
-        });
-    };
-
     if (loading) {
         return (
             <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
@@ -109,26 +81,6 @@ export default function UsersPage() {
                         <div className="mt-4 text-xs opacity-70">
                             User ID: {user._id}
                         </div>
-
-                        {/* 🔐 Admin Controls */}
-                        {currentUser?.email === ADMIN_EMAIL && (
-                            <div className="mt-6 flex gap-4">
-                                <button
-                                    onClick={() => handleUpdate(user)}
-                                    className="flex-1 py-2 rounded-lg bg-yellow-300 text-purple-700 font-bold
-                  hover:bg-white transition"
-                                >
-                                    Update
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(user._id)}
-                                    className="flex-1 py-2 rounded-lg bg-rose-600 font-bold
-                  hover:bg-rose-700 transition"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        )}
 
                     </div>
                 ))}

@@ -70,8 +70,6 @@ export default function SignInForm() {
             const token = credential?.accessToken;
             const user = result.user;
 
-            console.log(user, credential);
-
             if (!user?.email) return;
 
             const fieldData = {
@@ -93,7 +91,6 @@ export default function SignInForm() {
             // If user does not exist, create new user
             if (!existingUser) {
                 const res = await users(fieldData);
-                console.log(res);
             }
 
             route.push("/");
@@ -113,13 +110,8 @@ export default function SignInForm() {
             console.error(error.message);
 
             if (error.code === "auth/popup-closed-by-user") {
-                console.log("Login cancelled by user");
                 return; // exit quietly
             }
-            
-            console.log(
-                GoogleAuthProvider.credentialFromError(error)
-            );
             setLoading(false)
         } finally {
             setLoading(false);

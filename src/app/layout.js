@@ -9,7 +9,9 @@ import Script from "next/script";
 export default function RootLayout({ children }) {
   return (
     <html lang="en" data-theme="light">
-      <body className="antialiased">
+      <body className="antialiased"
+        suppressHydrationWarning
+        >
         
         {/* Tawk.to Chatbot */}
         <Script

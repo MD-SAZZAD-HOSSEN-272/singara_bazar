@@ -61,7 +61,6 @@ export default function UsersPage() {
         })
 
         const result = await res.json()
-        console.log()
 
         if (result.result.deletedCount) {
             setUsers(prev => prev.filter(user => user._id !== id));
@@ -76,9 +75,7 @@ export default function UsersPage() {
     };
 
     const handleUpdateDataFrom = async (role, id) => {
-        // console.log(role, id);
         const res = await axiosSecure.patch(`/api/users/update/${id}`, role)
-        console.log(res.data);
     }
 
     if (loading) {

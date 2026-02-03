@@ -14,14 +14,10 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
 
     const handleAddToCart = () => {
 
-        console.log(quantityIncress)
-
 
         onAddToCart((prev) => {
             // Check if item already exists in cart
             const exist = prev.find(i => i.id === product.id);
-
-            console.log(quantityIncress)
 
             let updated;
             if (exist) {
@@ -43,8 +39,6 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
                     quantityPrice: product.price * quantityIncress
                 }];
             }
-
-            console.log(updated)
 
             // Save to localStorage
             localStorage.setItem("items", JSON.stringify(updated));

@@ -16,8 +16,6 @@ export async function POST(req) {
     // Insert product
     const result = await productsCollection.insertOne(payload);
 
-    console.log(result);
-
     return new Response(JSON.stringify({
       success: true,
       insertedId: result.insertedId

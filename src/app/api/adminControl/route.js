@@ -9,7 +9,6 @@ import { ObjectId } from "mongodb";
  * @returns {Promise<object>} result of update
  */
 export const adminControl = async (isAdmin) => {
-    console.log(isAdmin)
   try {
     const collection = await dbConnect('adminControl');
 

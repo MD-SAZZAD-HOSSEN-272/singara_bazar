@@ -7,15 +7,12 @@ import { NextResponse } from "next/server";
 export async function DELETE(req, {params}) {
     try {
         const { id } = await params;
-        console.log(id)
         if (!id) {
           return NextResponse.json({ message: "Order ID is required" }, { status: 400 });
         }
     
         const usersCollection = await dbConnect("purchasesItems");
         const result = await usersCollection.deleteOne({ _id: new ObjectId(id) });
-
-        console.log(result)
 
         if (result.deletedCount === 0) {
           return NextResponse.json({ message: "Order not found" }, { status: 404 });
