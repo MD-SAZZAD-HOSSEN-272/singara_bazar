@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCurrentUser } from "../Hooks/useCurrentUser";
 import UnauthorizedPage from "../Components/UnauthorizedPage";
 import useAxiosSecure from "../Hooks/useAxiosSecure";
+import AdminDashboardSkeleton from "../Components/Skeleton/AdminDashboardSkeleton";
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
@@ -44,7 +45,13 @@ export default function AdminLayout({ children }) {
   // ✅ CONDITIONAL RENDERING (after hooks)
 
   if (loading) {
-    return <div className="text-white p-10">Loading...</div>;
+    return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8">
+      <div className="max-w-7xl mx-auto">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <AdminDashboardSkeleton key={i} />
+        ))}
+      </div>
+    </div>;
   }
 
   if (!currentUser) {

@@ -19,7 +19,7 @@ export default function OrderForm() {
     const [quantity, setQuantity] = useState(""); // string
     const [amount, setAmount] = useState(0);
     const [orderTaking, setOrderTaking] = useState(false)
-    const [currentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState({})
 
     useEffect(() => {
         const unsubscibts = onAuthStateChanged(auth, (user) => {

@@ -88,7 +88,7 @@ export default function AddProduct() {
     };
 
     return (
-        <div className="flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 py-20 px-4 rounded-2xl">
+        <div className="flex items-center justify-center bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 py-10 px-4 rounded-2xl">
             <div className="w-full max-w-4xl bg-white/90 backdrop-blur-xl rounded-3xl shadow-2xl p-10">
                 <h2 className="text-3xl font-bold text-gray-800 mb-10 text-center">
                     🛒 Add New Product

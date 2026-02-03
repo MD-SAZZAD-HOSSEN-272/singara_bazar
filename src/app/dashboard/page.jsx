@@ -13,6 +13,7 @@ import {
   BarChart,
   Bar,
 } from "recharts";
+import DashboardSkeleton from "../Components/Skeleton/DashboardSkeleton";
 
 // Add this utility function to format date strings
 function formatDate(dateStr) {
@@ -32,7 +33,7 @@ export default function AdminDashboard() {
     },
   });
 
-  if (isLoading) return <p className="p-6">Loading...</p>;
+  if (isLoading) return <div><DashboardSkeleton></DashboardSkeleton></div>;
   if (error) return <p className="p-6 text-red-600">Error loading data</p>;
 
   const sortedOrdersChart = [...(aggregateData?.orderChart ?? [])].sort(
