@@ -44,8 +44,8 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-5">
-        <div className="flex h-16 items-center justify-between">
+      <div className="max-w-7xl mx-auto px-5 lg:px-0">
+        <div className="flex h-16 items-center justify-between px-5 lg:px-0">
 
           {/* Logo */}
           <Link href="/" className="text-lg font-semibold text-white">
@@ -101,7 +101,7 @@ export default function Navbar() {
       <div
         className={`lg:hidden fixed inset-x-0 top-16 bg-slate-900 border-t border-white/10
         transition-all duration-300 ease-in-out
-        ${menuOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}
+        ${menuOpen ? "opacity-100 translate-y-0 z-50" : "opacity-0 -translate-y-4 pointer-events-none z-50"}`}
       >
         <div className="px-5 py-4 space-y-1">
 

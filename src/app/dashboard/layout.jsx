@@ -64,13 +64,13 @@ export default function AdminLayout({ children }) {
   }
 
   return (
-    <div className="bg-gradient-to-br pt-16 from-[#8E2DE2] via-[#A855F7] to-[#EC4899] text-white font-sans min-h-screen">
+    <div className="bg-gradient-to-br pt-16 from-[#8E2DE2] via-[#A855F7] to-[#EC4899] text-white font-sans min-h-screen px-10">
       <div className="flex max-w-7xl mx-auto py-10 gap-6 relative">
 
         {/* Mobile Menu Button */}
         <button
           onClick={() => setOpen(true)}
-          className="lg:hidden fixed top-20 left-4 z-50 bg-white/20 backdrop-blur px-3 py-2 rounded-lg"
+          className="lg:hidden fixed top-20 left-4 z-20 bg-white/20 backdrop-blur px-3 py-2 rounded-lg"
         >
           ☰
         </button>
