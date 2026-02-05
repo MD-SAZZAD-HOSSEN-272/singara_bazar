@@ -26,7 +26,7 @@ export default function HomePage() {
 
 
     return (
-        <main className="min-h-screen w-full text-white ">
+        <main className="min-h-screen w-full text-white overflow-hidden md:overflow-auto">
 
 
 

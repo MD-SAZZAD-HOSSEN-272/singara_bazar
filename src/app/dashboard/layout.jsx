@@ -21,6 +21,7 @@ export default function AdminLayout({ children }) {
     { name: "Users", path: "/dashboard/users" },
     { name: "Orders", path: "/dashboard/orders" },
     { name: "Add Product", path: "/dashboard/add_product" },
+    { name: "Products", path: "/dashboard/products" },
     { name: "Settings", path: "/dashboard/settings" },
   ];
 
