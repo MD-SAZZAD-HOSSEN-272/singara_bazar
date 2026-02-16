@@ -30,11 +30,13 @@ export default function SignInForm() {
         try {
             setLoading(true); // 🔥 start loading immediately
 
-            const userCredential = await signInWithEmailAndPassword(
+            const userCredential =await signInWithEmailAndPassword(
                 auth,
                 email,
                 password
             );
+
+            console.log(userCredential);
 
             Swal.fire({
                 position: "top-end",

@@ -9,30 +9,26 @@ import { NextResponse } from "next/server";
  */
 export async function PATCH(req, { params }) {
     try {
-        const { id } =await params;
+        const { id } = await params;
         const body = await req.json();
 
-        // if (!ObjectId.isValid(id)) {
-        //     return NextResponse.json(
-        //         { message: "Invalid product ID" },
-        //         { status: 400 }
-        //     );
-        // }
-
-        console.log(body, id);
+        if (!ObjectId.isValid(id)) {
+            return NextResponse.json(
+                { message: "Invalid product ID" },
+                { status: 400 }
+            );
+        }
 
         // ✅ We no longer delete addedBy or date
         // Add updatedBy & updatedAt automatically
         body.updatedAt = new Date().toISOString();
 
-        const db = dbConnect();
+        const productsCollection = await dbConnect("products");
 
-        // const result = await db("products").updateOne(
-        //     { _id: new ObjectId(id) },
-        //     { $set: body }  // will update everything sent, including addedBy/date
-        // );
-
-        // console.log(result);
+        const result = await productsCollection.updateOne(
+            { _id: new ObjectId(id) },
+            { $set: body }  // will update everything sent, including addedBy/date
+        );
 
         if (result.matchedCount === 0) {
             return NextResponse.json(
@@ -42,8 +38,8 @@ export async function PATCH(req, { params }) {
         }
 
         return NextResponse.json(
-            { message: "Product updated successfully" },
-            { status: 200 }
+            { message: "Product updated successfully", result},
+            { status: 200 },
         );
     } catch (error) {
         return NextResponse.json(

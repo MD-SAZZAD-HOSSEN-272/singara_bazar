@@ -19,7 +19,8 @@ export default function OrderForm() {
     const [quantity, setQuantity] = useState(""); // string
     const [amount, setAmount] = useState(0);
     const [orderTaking, setOrderTaking] = useState(false)
-    const [currentUser, setCurrentUser] = useState({})
+    const [currentUser, setCurrentUser] = useState(null)
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         const unsubscibts = onAuthStateChanged(auth, (user) => {
@@ -36,8 +37,12 @@ export default function OrderForm() {
             }
         });
 
+        setLoading(false)
+
         return () => unsubscibts()
     }, [])
+
+    if(loading) return <p>Loaidng........</p>
 
     const handleQuantityChange = (value) => {
         // Remove leading zeros
@@ -158,7 +163,7 @@ export default function OrderForm() {
                             type="text"
                             placeholder="Enter employee name"
                             className="w-full rounded-2xl px-4 py-3 bg-white/90 text-gray-900 font-medium placeholder-gray-400 focus:ring-2 focus:ring-indigo-400 outline-none transition"
-                            value={currentUser?.displayName}
+                            value={currentUser?.displayName || ''}
                             readOnly
                         />
                     </div>

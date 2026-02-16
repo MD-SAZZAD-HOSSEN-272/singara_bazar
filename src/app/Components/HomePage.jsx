@@ -26,20 +26,20 @@ export default function HomePage() {
 
 
     return (
-        <main className="min-h-screen w-full text-white overflow-hidden md:overflow-auto">
+        <main className="min-h-screen w-full text-white overflow-hidden">
 
 
 
             {/* Hero Section */}
-            <div className="flex flex-col md:flex-row gap-5 items-center md:justify-between pb-20">
-                <section className="flex flex-col items-center text-center px-6 pb-20 pt-20 md:pt-52">
-                    <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight">
+            <div className="flex flex-col md:flex-row gap-5 items-center md:justify-around pb-20">
+                <section className="flex flex-col px-6 pb-20 pt-20 md:pt-52">
+                    <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight ">
                         Taste That <span className="text-yellow-300">Clicks</span> ✨
                     </h2>
 
-                    <p className="max-w-2xl text-lg opacity-90 mb-10">
-                        Order fresh & hot singara online.
-                        Fast delivery. Premium taste. Zero hassle.
+                    <p className="max-w-2xl text-lg opacity-90 mb-10 ">
+                        Order fresh & hot singara online. 
+                        Fast delivery. <br /> Premium taste. Zero hassle.
                     </p>
 
                     <div className="flex gap-6">
