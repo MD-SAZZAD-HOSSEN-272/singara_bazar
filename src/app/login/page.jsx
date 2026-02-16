@@ -36,8 +36,6 @@ export default function SignInForm() {
                 password
             );
 
-            console.log(userCredential);
-
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -48,7 +46,6 @@ export default function SignInForm() {
 
             route.push("/");
         } catch (error) {
-            console.error(error);
 
             Swal.fire({
                 icon: "error",
@@ -109,7 +106,6 @@ export default function SignInForm() {
 
 
         } catch (error) {
-            console.error(error.message);
 
             if (error.code === "auth/popup-closed-by-user") {
                 return; // exit quietly

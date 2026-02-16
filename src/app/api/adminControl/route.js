@@ -20,7 +20,6 @@ export const adminControl = async (isAdmin) => {
 
     return result;                 // contains matchedCount, modifiedCount, upsertedId
   } catch (error) {
-    console.error("Failed to update admin:", error);
     throw new Error("Admin update failed");
   }
 };

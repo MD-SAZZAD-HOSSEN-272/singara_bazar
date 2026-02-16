@@ -26,7 +26,6 @@ export default function Navbar() {
 
     axiosSecure(`/api/users/single_user_by_email?email=${currentUser.email}`)
       .then(res => setUser(res.data))
-      .catch(console.error);
   }, [currentUser, axiosSecure]);
 
   const handleLogout = async () => {

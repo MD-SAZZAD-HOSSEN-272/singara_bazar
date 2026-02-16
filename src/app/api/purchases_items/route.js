@@ -15,7 +15,6 @@ export const placeOrders = async (payload) => {
       insertedId: result.insertedId.toString(), // MongoDB ObjectId → string
     };
   } catch (error) {
-    console.error("Place order error:", error);
     throw new Error("Failed to place order");
   }
 };

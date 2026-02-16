@@ -45,6 +45,10 @@ export default function AllProducts() {
         }
     }
 
+    const handleDelete = async (id) => {
+        console.log(id);
+    }
+
     if (isLoading && loading) return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
         <div className="max-w-7xl mx-auto gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
             {Array.from({ length: 6 }).map((_, i) => (
@@ -55,7 +59,7 @@ export default function AllProducts() {
 
     return (
         <>
-            <main className="min-h-screen bg-gradient-to-br px-10 from-[#a855f7] via-[#c084fc] to-[#ec4899] py-10">
+            <main className="min-h-screen rounded-2xl bg-gradient-to-br px-10 from-[#a855f7] via-[#c084fc] to-[#ec4899] py-10">
 
 
                 <h1 className="text-4xl z-20 font-bold text-white text-center mb-10">
@@ -119,6 +123,7 @@ export default function AllProducts() {
                                     </button>
 
                                     <button
+                                    onClick={() => handleDelete(product._id)}
                                         className="flex-1 rounded-lg cursor-pointer bg-[#e459ae] py-2 text-sm font-medium text-white hover:opacity-90 transition"
                                     >
                                         Delete

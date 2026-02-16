@@ -21,7 +21,6 @@ export async function POST(req) {
       insertedId: result.insertedId
     }), { status: 201 });
   } catch (error) {
-    console.error(error);
     return new Response(JSON.stringify({ success: false, error: error.message }), { status: 500 });
   }
 }

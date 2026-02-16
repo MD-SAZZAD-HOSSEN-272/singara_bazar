@@ -136,7 +136,6 @@ export default function LoginForm() {
 
 
         } catch (error) {
-            console.error(error.message);
         } finally {
             setLoading(false);
         }
