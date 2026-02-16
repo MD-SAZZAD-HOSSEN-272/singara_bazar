@@ -17,7 +17,11 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
 
         onAddToCart((prev) => {
             // Check if item already exists in cart
-            const exist = prev.find(i => i.id === product.id);
+            const exist = prev.find(i => i._id === product._id);
+
+            console.log(product, prev);
+
+            console.log(exist);
 
             let updated;
             if (exist) {
