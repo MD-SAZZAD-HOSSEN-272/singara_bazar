@@ -77,7 +77,7 @@ export default function AdminOrders() {
 
             <div className="flex flex-col gap-5">
                 {orders.map((order) => {
-                    const total = order.orderData.reduce(
+                    const total = order?.orderData.reduce(
                         (sum, item) => sum + item.quantityPrice,
                         0
                     );

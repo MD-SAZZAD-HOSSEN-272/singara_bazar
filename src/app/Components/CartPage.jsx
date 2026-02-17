@@ -27,7 +27,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
   // ➕ Increase quantity
   const increaseQuantity = (id) => {
     const updated = cartData.map((item) =>
-      item.id === id
+      item._id === id
         ? { ...item, quantity: item.quantity + 1, quantityPrice: (item.quantity + 1) * item.price }
         : item
     );
@@ -38,7 +38,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
   // ➖ Decrease quantity (min 1)
   const decreaseQuantity = (id) => {
     const updated = cartData.map((item) =>
-      item.id === id && item.quantity > 1
+      item._id === id && item.quantity > 1
         ? { ...item, quantity: item.quantity - 1, quantityPrice: (item.quantity - 1) * item.price }
         : item
     );
@@ -48,7 +48,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
 
   // ❌ Delete item
   const deleteItem = (id) => {
-    const updated = cartData.filter((item) => item.id !== id);
+    const updated = cartData.filter((item) => item._id !== id);
     updateCart(updated);
     realtimeParchasesData()
   };
@@ -122,7 +122,7 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
               {/* Quantity + Delete */}
               <div className="flex items-center gap-4">
                 <button
-                  onClick={() => decreaseQuantity(item.id)}
+                  onClick={() => decreaseQuantity(item._id)}
                   className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
                 >
                   −
@@ -133,14 +133,14 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
                 </span>
 
                 <button
-                  onClick={() => increaseQuantity(item.id)}
+                  onClick={() => increaseQuantity(item._id)}
                   className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
                 >
                   +
                 </button>
 
                 <button
-                  onClick={() => deleteItem(item.id)}
+                  onClick={() => deleteItem(item._id)}
                   className="text-red-500 hover:text-red-700 text-lg cursor-pointer"
                 >
                   ❌
