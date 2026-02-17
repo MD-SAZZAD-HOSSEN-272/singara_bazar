@@ -46,8 +46,35 @@ export default function AllProducts() {
     }
 
     const handleDelete = async (id) => {
-        console.log(id);
-    }
+        const confirm = await Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        });
+
+        if (!confirm.isConfirmed) return;
+
+        try {
+            const result = await axiosSecure.delete(
+                `/api/Products/delete_products/${id}`
+            );
+
+            console.log(result);
+
+            if (result.data?.result?.deletedCount > 0) {
+                refetch();
+                Swal.fire("Deleted!", "Product has been removed.", "success");
+            }
+        } catch (err) {
+            console.error(err);
+            Swal.fire("Error!", "Something went wrong. Please try again.", "error");
+        }
+    };
+
 
     if (isLoading && loading) return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
         <div className="max-w-7xl mx-auto gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -105,7 +132,7 @@ export default function AllProducts() {
                                     </p>
                                 )}
 
-                               
+
                                 {/* Actions */}
                                 <div className="pt-3 flex gap-2">
                                     <button
@@ -123,7 +150,7 @@ export default function AllProducts() {
                                     </button>
 
                                     <button
-                                    onClick={() => handleDelete(product._id)}
+                                        onClick={() => handleDelete(product._id)}
                                         className="flex-1 rounded-lg cursor-pointer bg-[#e459ae] py-2 text-sm font-medium text-white hover:opacity-90 transition"
                                     >
                                         Delete
