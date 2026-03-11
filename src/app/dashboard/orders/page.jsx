@@ -66,9 +66,6 @@ export default function AdminOrders() {
     if (isLoading) {
         return <p className="text-white p-6">Loading orders...</p>;
     }
-
-    console.log(orders);
-
     if (!orders.length) {
         return <p className="text-white p-6">No orders found.</p>;
     }

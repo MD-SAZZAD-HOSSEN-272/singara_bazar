@@ -7,14 +7,15 @@ import { placeOrders } from "../api/purchases_items/route";
 import { IoMdClose } from "react-icons/io";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
+import useGetProducts from "../Hooks/useGetProducts";
 
 export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cartData, updateCart, handleCardPage }) {
 
   const [currentUser, setCurrentUser] = useState(null)
   const route = useRouter()
   const [paymentMethod, setPaymentMethod] = useState("Cash");
-
-
+  const products = useGetProducts()
+  console.log(products, cartData );
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user); // user থাকুক বা null
@@ -119,33 +120,45 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
                 </div>
               </div>
 
-              {/* Quantity + Delete */}
-              <div className="flex items-center gap-4">
-                <button
-                  onClick={() => decreaseQuantity(item._id)}
-                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
-                >
-                  −
-                </button>
+              {/* Quantity Controls */}
+              <div>
 
-                <span className="font-semibold text-black">
-                  {item.quantity}
-                </span>
+                {
+                  item.quantity === 0 ? (
+                    <div className="text-red-500 font-semibold">
+                      Out of Stock
+                    </div>
+                  ) : (
 
-                <button
-                  onClick={() => increaseQuantity(item._id)}
-                  className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
-                >
-                  +
-                </button>
+                    < div className="flex items-center gap-4">
+                      <button
+                        onClick={() => decreaseQuantity(item._id)}
+                        className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
+                      >
+                        −
+                      </button>
 
-                <button
-                  onClick={() => deleteItem(item._id)}
-                  className="text-red-500 hover:text-red-700 text-lg cursor-pointer"
-                >
-                  ❌
-                </button>
+                      <span className="font-semibold text-black">
+                        {item.quantity}
+                      </span>
+
+                      <button
+                        onClick={() => increaseQuantity(item._id)}
+                        className="px-3 py-1 bg-gray-500 rounded hover:bg-gray-600 cursor-pointer"
+                      >
+                        +
+                      </button>
+                    </div>
+                  )
+                }
               </div>
+
+              <button
+                onClick={() => deleteItem(item._id)}
+                className="text-red-500 hover:text-red-700 text-lg cursor-pointer"
+              >
+                ❌
+              </button>
             </div>
           ))}
 
@@ -181,7 +194,8 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
           </div>
 
         </div>
-      )}
-    </main>
+      )
+      }
+    </main >
   );
 }
