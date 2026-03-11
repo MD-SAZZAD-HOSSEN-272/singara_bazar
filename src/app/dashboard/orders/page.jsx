@@ -67,6 +67,8 @@ export default function AdminOrders() {
         return <p className="text-white p-6">Loading orders...</p>;
     }
 
+    console.log(orders);
+
     if (!orders.length) {
         return <p className="text-white p-6">No orders found.</p>;
     }
@@ -76,7 +78,7 @@ export default function AdminOrders() {
             <h1 className="text-3xl font-bold text-white mb-6">🧾 All Orders</h1>
 
             <div className="flex flex-col gap-5">
-                {orders.map((order) => {
+                {orders?.map((order) => {
                     const total = (order?.orderData || []).reduce(
                         (sum, item) => sum + item.quantityPrice,
                         0

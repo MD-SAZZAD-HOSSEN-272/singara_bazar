@@ -75,6 +75,8 @@ export default function AllProducts() {
         }
     };
 
+    console.log(products);
+
 
     if (isLoading && loading) return <div className=" min-h-screen bg-gradient-to-br from-[#8E2DE2] via-[#A855F7] to-[#EC4899] p-8 pt-36">
         <div className="max-w-7xl mx-auto gap-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -120,9 +122,12 @@ export default function AllProducts() {
                             <div className="p-5 space-y-3">
                                 {/* Name */}
                                 {product.name && (
-                                    <h2 className="text-lg font-semibold text-gray-900">
-                                        {product.name}
-                                    </h2>
+                                    <div className="flex justify-between items-center">
+                                        <h2 className="text-lg font-semibold text-gray-900">
+                                            {product.name}
+                                        </h2>
+                                        <h2>QTY: {product.quantity}</h2>
+                                    </div>
                                 )}
 
                                 {/* Description */}
