@@ -55,7 +55,6 @@ export default function OrdersPage() {
       const res = await adminControl(newAdmin); // ✅ send NEW value
       refetch(); // refetch orders or adminControl
     } catch (error) {
-      console.error("Admin toggle failed:", error);
     }
   };
 

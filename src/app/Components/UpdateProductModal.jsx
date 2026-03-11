@@ -14,6 +14,7 @@ export default function UpdateProductModal({
     price: "",
     image: "",
     description: "",
+    quantity: "",
   });
 
   // Load existing data
@@ -24,13 +25,14 @@ export default function UpdateProductModal({
         price: product.price || "",
         image: product.image || "",
         description: product.description || "",
+        quantity: product.quantity || "",
       });
     }
   }, [product]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: name === 'price' || name || "quantity" ? Number(value): value }));
   };
 
   const handleSubmit = () => {
@@ -82,6 +84,15 @@ export default function UpdateProductModal({
             value={formData.price}
             onChange={handleChange}
             placeholder="Price"
+            className="w-full rounded-2xl border border-gray-300 px-4 py-3 focus:border-[#b657e4] focus:ring-1 focus:ring-[#e459ae] focus:outline-none transition"
+          />
+
+          <input
+            name="quantity"
+            type="number"
+            value={formData?.quantity || 0}
+            onChange={handleChange}
+            placeholder="qunatity"
             className="w-full rounded-2xl border border-gray-300 px-4 py-3 focus:border-[#b657e4] focus:ring-1 focus:ring-[#e459ae] focus:outline-none transition"
           />
 

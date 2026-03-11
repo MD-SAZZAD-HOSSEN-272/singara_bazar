@@ -63,7 +63,7 @@ export default function AllProducts() {
                 `/api/Products/delete_products/${id}`
             );
 
-            console.log(result);
+            // console.log(result);
 
             if (result.data?.result?.deletedCount > 0) {
                 refetch();

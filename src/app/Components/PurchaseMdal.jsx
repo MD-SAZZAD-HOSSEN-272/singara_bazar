@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 
 export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataFromLocalStorage }) {
     const [quantityIncress, setQuantityIncress] = useState(1);
+    const stock = product.quantity
 
     // Reset quantity when modal opens
     useEffect(() => {
@@ -67,27 +68,41 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
             <div className="relative w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-2xl animate-scaleIn">
 
                 {/* Image Section */}
-                <div className="relative h-56">
+                <div className="relative h-56 overflow-hidden rounded-t-3xl">
+                    {/* Product Image */}
                     <img
                         src={product.image}
                         alt={product.name}
-                        className="h-full w-full object-cover"
+                        className="h-full w-full object-cover scale-105"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
 
                     {/* Close Button */}
                     <button
                         onClick={onClose}
-                        className="absolute right-4 top-4 cursor-pointer rounded-full bg-white/90 p-2 text-gray-800 hover:bg-white active:scale-95 transition"
+                        className="absolute right-4 top-4 z-10 rounded-full bg-white/90 p-2 text-gray-800 hover:bg-white active:scale-95 transition shadow-lg cursor-pointer"
                     >
                         ✕
                     </button>
 
-                    <h2 className="absolute bottom-4 left-4 text-2xl font-bold text-white">
+                    {/* Product Name */}
+                    <h2 className="absolute bottom-5 left-5 z-10 text-2xl font-semibold text-white tracking-wide">
                         {product.name}
                     </h2>
+
+                    {/* Quantity Badge */}
+                    <div className="absolute bottom-5 right-5 z-10 flex items-center gap-2 rounded-full bg-white/20 backdrop-blur-md px-4 py-2 text-white shadow-lg border border-white/20">
+                        <span className="text-sm uppercase tracking-wider opacity-80">
+                            Qty
+                        </span>
+                        <span className="text-lg font-bold">
+                            {stock}
+                        </span>
+                    </div>
                 </div>
+
 
                 {/* Content */}
                 <div className="p-6">
@@ -95,6 +110,8 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
                     <p className="text-sm text-gray-600 leading-relaxed">
                         {product.description}
                     </p>
+
+
 
                     {/* Price */}
                     <div className="mt-4 flex items-center justify-between">
@@ -112,9 +129,11 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
 
                             {/* Decrease */}
                             <button
-                                onClick={() =>
-                                    quantityIncress > 1 && setQuantityIncress(quantityIncress - 1)
-                                }
+                                onClick={() => {
+                                    setQuantityIncress((prev) =>
+                                        prev > 1 ? prev - 1 : prev
+                                    );
+                                }}
                                 className="cursor-pointer h-9 w-9 rounded-full border border-gray-300 bg-white text-xl font-bold text-gray-800 shadow-sm hover:bg-gray-200 active:scale-95 transition"
                             >
                                 −
@@ -126,7 +145,11 @@ export function PurchaseModal({ onClose, product, onAddToCart, getPurchasesDataF
 
                             {/* Increase */}
                             <button
-                                onClick={() => setQuantityIncress(quantityIncress + 1)}
+                                onClick={() => {
+                                    setQuantityIncress((prev) =>
+                                        prev < stock ? prev + 1 : prev
+                                    );
+                                }}
                                 className="cursor-pointer h-9 w-9 rounded-full border border-gray-300 bg-white text-xl font-bold text-gray-800 shadow-sm hover:bg-gray-200 active:scale-95 transition"
                             >
                                 +

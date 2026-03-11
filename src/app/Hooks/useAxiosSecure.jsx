@@ -4,7 +4,7 @@ import axios from "axios";
 // import { auth } from "../Components/firebase";
 
 const axiosSecure = axios.create({
-  baseURL: "https://singara-bazar.vercel.app/",
+  baseURL: "http://localhost:3000/",
 });
 
 

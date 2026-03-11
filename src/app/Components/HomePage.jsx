@@ -33,17 +33,17 @@ export default function HomePage() {
             {/* Hero Section */}
             <div className="flex flex-col md:flex-row gap-5 items-center md:justify-around pb-20">
                 <section className="flex flex-col px-6 pb-20 pt-20 md:pt-52">
-                    <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight ">
+                    <h2 className="text-5xl md:text-6xl font-black mb-6 leading-tight text-center md:text-left ">
                         Taste That <span className="text-yellow-300">Clicks</span> ✨
                     </h2>
 
-                    <p className="max-w-2xl text-lg opacity-90 mb-10 ">
+                    <p className="max-w-2xl text-lg opacity-90 mb-10 text-center md:text-left">
                         Order fresh & hot singara online. 
                         Fast delivery. <br /> Premium taste. Zero hassle.
                     </p>
 
-                    <div className="flex gap-6">
-                        <Link href={`${currentUser ? '/create_order' : '/login'}`} className="px-10 py-4 rounded-full bg-white text-purple-600 font-bold 
+                    <div className="flex gap-6 justify-center md:justify-start">
+                        <Link href={`${currentUser ? '/items' : '/login'}`} className="px-10 py-4 rounded-full bg-white text-purple-600 font-bold 
             hover:scale-110 hover:bg-yellow-300 transition-all duration-300 shadow-xl">
                             Order Now
                         </Link>

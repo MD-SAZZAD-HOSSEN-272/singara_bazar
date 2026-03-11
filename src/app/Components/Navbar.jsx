@@ -57,8 +57,13 @@ export default function Navbar() {
               <>
                 <Link href="/" className={navItem("/")}>Home</Link>
                 <Link href="/items" className={navItem("/items")}>Items</Link>
-                <Link href="/order" className={navItem("/order")}>Orders</Link>
-                <Link href="/personal_order" className={navItem("/personal_order")}>Personal</Link>
+                {
+                  currentUser?.email === "developer2@gmail.com" && (
+                    <Link href="/order" className={navItem("/order")}>Order</Link>
+                  )
+
+                }
+                <Link href="/personal_order" className={navItem("/personal_order")}>Orders</Link>
                 <Link href="/users" className={navItem("/users")}>Employees</Link>
 
                 {user?.role === "admin" && (
@@ -109,8 +114,12 @@ export default function Navbar() {
             <>
               <Link onClick={() => setMenuOpen(false)} href="/" className={navItem("/")}>Home</Link>
               <Link onClick={() => setMenuOpen(false)} href="/items" className={navItem("/items")}>Items</Link>
-              <Link onClick={() => setMenuOpen(false)} href="/order" className={navItem("/order")}>Orders</Link>
-              <Link onClick={() => setMenuOpen(false)} href="/personal_order" className={navItem("/personal_order")}>Personal</Link>
+              {
+                currentUser?.email === "developer2@gmail.com" && (
+                  <Link onClick={() => setMenuOpen(false)} href="/order" className={navItem("/order")}>Order</Link>
+                )
+              }
+              <Link onClick={() => setMenuOpen(false)} href="/personal_order" className={navItem("/personal_order")}>Orders</Link>
               <Link onClick={() => setMenuOpen(false)} href="/users" className={navItem("/users")}>Employees</Link>
 
               {user?.role === "admin" && (

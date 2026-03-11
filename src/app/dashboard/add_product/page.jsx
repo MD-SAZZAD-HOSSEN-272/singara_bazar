@@ -10,6 +10,7 @@ export default function AddProduct() {
         name: "",
         price: "",
         description: "",
+        quantity: "",
     });
 
     const [imageFile, setImageFile] = useState(null);
@@ -37,7 +38,7 @@ export default function AddProduct() {
     /* ---------------- Handlers ---------------- */
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProduct((prev) => ({ ...prev, [name]: value }));
+        setProduct((prev) => ({ ...prev, [name]: name === "price" || name === "quantity" ? Number(value) : value }));
     };
 
     const handleDrop = (e) => {
@@ -69,7 +70,8 @@ export default function AddProduct() {
             price: Number(product.price),
             image: imageUrl,
             description: product.description,
-            addedBy: currentUser?.currentUser?.email
+            addedBy: currentUser?.currentUser?.email,
+            quantity: product.quantity,
         };
 
         const res = await axiosSecure.post('/api/Products/post_products', newProduct)
@@ -80,7 +82,7 @@ export default function AddProduct() {
                 icon: "success",
                 draggable: true
             });
-            setProduct({ name: "", price: "", description: "" });
+            setProduct({ name: "", price: "", description: "", quantity: "" });
             setImageFile(null);
         }
         // reset
@@ -121,6 +123,21 @@ export default function AddProduct() {
                             name="price"
                             placeholder="350"
                             value={product.price}
+                            onChange={handleChange}
+                            className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none transition"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="text-sm font-semibold text-gray-600 mb-1 block">
+                            Quantity 
+                        </label>
+                        <input
+                            type="number"
+                            name="quantity"
+                            placeholder="3"
+                            value={product.quantity}
                             onChange={handleChange}
                             className="w-full rounded-xl border border-gray-300 px-4 py-3 focus:ring-2 focus:ring-indigo-500 outline-none transition"
                             required

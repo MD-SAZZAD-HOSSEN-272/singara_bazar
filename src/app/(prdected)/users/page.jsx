@@ -21,7 +21,7 @@ export default function UsersPage() {
                 const res = await axiosSecure('/api/get_user');
                 setUsers(res.data);
             } catch (err) {
-                console.error(err);
+                console.log(err);
             } finally {
                 setLoading(false);
             }
