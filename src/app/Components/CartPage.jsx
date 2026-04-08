@@ -67,8 +67,10 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
       email: currentUser?.email,
       orderData: cartData,   // array of items
       totalPrice: totalPrice, // separate field
-      paymentMethod: paymentMethod
+      paymentMethod: paymentMethod,
+      status: "pending"
     };
+
 
     const res = await placeOrders(orderDataStructure)
     if (res.insertedId) {
@@ -77,8 +79,10 @@ export default function CartPage({ cardPageHaldeler, realtimeParchasesData, cart
         icon: "success",
         draggable: true
       });
-      localStorage.removeItem('items');
-      route.push('personal_order')
+
+      console.log(res);
+      // localStorage.removeItem('items');
+      window.location.replace(res.paymentURL)
     }
   }
 
